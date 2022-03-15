@@ -6,15 +6,26 @@ const cors = require("cors");
 const bodyParser = require('body-parser');
 
 //routes
-const router = require('./routes/router');
-
+const doctorRoute = require('./routes/doctors.router')
 // listing to server
-const app=  express();
+const app = express();
 
-app.listen(process.env.PORT || 8080, () => {
-  console.log(`listening to port 8080 `)
-});
 
+
+mongoose.connect("mongodb://localhost:27017/ClinicMS")
+  .then(() => {
+    console.log("DB connected ....");
+
+    // listen on port Number
+    app.listen(process.env.PORT || 8080, () => {
+      console.log(`listening to port 8080 `)
+    });
+
+
+  })
+  .catch(error => {
+    console.log(" DB Problem" + error)
+  })
 
 
 
@@ -24,17 +35,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 
 
-//main Page Routes
-app.use('/', router);
+
+app.use('/doctors',doctorRoute);
 
 //unknown paths
 app.use((req, res, next) => {
-  res.status(404).json({message :" unknown url paths"});
+  res.status(404).json({ message: " unknown url paths" });
 
 });
 //error
 app.use((error, req, res, next) => {
-  res.status(500).json({error});
+  res.status(500).json({ error });
 
 })
 
