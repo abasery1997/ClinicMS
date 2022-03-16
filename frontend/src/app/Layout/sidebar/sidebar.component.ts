@@ -11,8 +11,10 @@ export class SidebarComponent implements OnInit {
   }
   isToggle: boolean = false;
   ngOnInit(): void {
+    //active navbar buttons
     let path = location.pathname.slice(1);
     this.active(document.getElementById((path == '') ? 'Home' : path)!);
+
     //toggler
     // let toggler = document.getElementById("toggler")!;
     // toggler.addEventListener("click", function () {
@@ -31,10 +33,11 @@ export class SidebarComponent implements OnInit {
     console.log(this.isToggle);
   }
   active(element: HTMLElement) {
-    element.classList.add('active');
-    if (this.activeElement != undefined)
-      this.activeElement.classList.remove('active');
-    this.activeElement = element;
+    if (this.activeElement?.id != element.id) {
+      element.classList.add('active');
+      if (this.activeElement != undefined) { this.activeElement.classList.remove('active'); }
+      this.activeElement = element;
+    }
   }
   logout() {
 
