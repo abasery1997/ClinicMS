@@ -1,0 +1,5 @@
+.homeBg {
+  background: url("../../../assets/Images/doctors.jpg");
+  background-size: cover;
+  height: 100%;
+}

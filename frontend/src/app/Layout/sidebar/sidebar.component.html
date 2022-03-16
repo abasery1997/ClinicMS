@@ -1,0 +1,109 @@
+<div
+  class="d-flex flex-column flex-shrink-0 p-1 text-white bg-dark"
+  style="height: 100vh"
+  id="sideBar"
+>
+  <a
+    class="ms-auto m-2 fs-5 text-decoration-none text-light"
+    id="toggler"
+    (click)="toggle()"
+  >
+    <i class="fa-solid fa-bars"></i>
+  </a>
+  <a
+    routerLink="Home"
+    class="text-primary text-center"
+    (click)="active(Home)"
+    style="font-size: xx-large"
+  >
+    <i class="fa-regular fa-hospital"></i>
+  </a>
+  <hr />
+  <ul class="nav nav-pills flex-column mb-auto">
+    <li class="nav-item">
+      <a
+        routerLink="Home"
+        class="nav-link text-white"
+        (click)="active(Home)"
+        id="Home"
+        #Home
+      >
+        <i class="fa-solid fa-house m-1"></i>
+        <span>Home</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
+        routerLink="Doctors"
+        class="nav-link text-white"
+        (click)="active(Doctors)"
+        id="Doctors"
+        #Doctors
+      >
+        <i class="fa-solid fa-user-doctor m-1"></i>
+        <span>Doctors</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
+        routerLink="Appointments"
+        class="nav-link text-white"
+        (click)="active(Appointments)"
+        id="Appointments"
+        #Appointments
+      >
+        <i class="fa-regular fa-calendar-plus m-1"></i>
+        <span>Appointments</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
+        routerLink="Services"
+        class="nav-link text-white"
+        (click)="active(Services)"
+        id="Services"
+        #Services
+      >
+        <i class="fa-solid fa-puzzle-piece m-1"></i>
+        <span>Services</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
+        routerLink="Prescriptions"
+        class="nav-link text-white"
+        (click)="active(Prescriptions)"
+        id="Prescriptions"
+        #Prescriptions
+      >
+        <i class="fa-solid fa-prescription-bottle-medical m-1"></i>
+        <span>Prescriptions</span>
+      </a>
+    </li>
+  </ul>
+  <div class="dropdown p-3" id="userInfo">
+    <a
+      href="#"
+      class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+      id="dropdownUser1"
+      data-bs-toggle="dropdown"
+      aria-expanded="false"
+    >
+      <img
+        src="../../../assets/Images/anonymous-user.png"
+        alt=""
+        width="32"
+        height="32"
+        class="rounded-circle me-2"
+        id="userImage"
+      />
+      <strong id="userName">User Email</strong>
+    </a>
+    <ul
+      class="dropdown-menu dropdown-menu-dark text-small shadow"
+      aria-labelledby="dropdownUser1"
+    >
+      <li><a class="dropdown-item" (click)="logout()">Sign out</a></li>
+    </ul>
+  </div>
+</div>
