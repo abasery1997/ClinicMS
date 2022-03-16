@@ -1,12 +1,12 @@
 <div
   class="d-flex flex-column flex-shrink-0 p-1 text-white bg-dark"
   style="height: 100vh"
-  id="sideBar"
+  [ngClass]="{ 'min-sidebar': isToggle }"
 >
   <a
-    class="ms-auto m-2 fs-5 text-decoration-none text-light"
-    id="toggler"
+    class="m-2 fs-5 text-decoration-none text-light"
     (click)="toggle()"
+    [ngClass]="{ 'text-center': isToggle, 'ms-auto': !isToggle }"
   >
     <i class="fa-solid fa-bars"></i>
   </a>
@@ -27,9 +27,10 @@
         (click)="active(Home)"
         id="Home"
         #Home
+        [ngClass]="{ 'fs-5': isToggle, 'text-center': isToggle }"
       >
         <i class="fa-solid fa-house m-1"></i>
-        <span>Home</span>
+        <span [ngClass]="{ 'd-none': isToggle }">Home</span>
       </a>
     </li>
     <li class="nav-item">
@@ -39,9 +40,10 @@
         (click)="active(Doctors)"
         id="Doctors"
         #Doctors
+        [ngClass]="{ 'fs-5': isToggle, 'text-center': isToggle }"
       >
         <i class="fa-solid fa-user-doctor m-1"></i>
-        <span>Doctors</span>
+        <span [ngClass]="{ 'd-none': isToggle }">Doctors</span>
       </a>
     </li>
     <li class="nav-item">
@@ -51,9 +53,10 @@
         (click)="active(Appointments)"
         id="Appointments"
         #Appointments
+        [ngClass]="{ 'fs-5': isToggle, 'text-center': isToggle }"
       >
         <i class="fa-regular fa-calendar-plus m-1"></i>
-        <span>Appointments</span>
+        <span [ngClass]="{ 'd-none': isToggle }">Appointments</span>
       </a>
     </li>
     <li class="nav-item">
@@ -63,9 +66,10 @@
         (click)="active(Services)"
         id="Services"
         #Services
+        [ngClass]="{ 'fs-5': isToggle, 'text-center': isToggle }"
       >
         <i class="fa-solid fa-puzzle-piece m-1"></i>
-        <span>Services</span>
+        <span [ngClass]="{ 'd-none': isToggle }">Services</span>
       </a>
     </li>
     <li class="nav-item">
@@ -75,13 +79,14 @@
         (click)="active(Prescriptions)"
         id="Prescriptions"
         #Prescriptions
+        [ngClass]="{ 'fs-5': isToggle, 'text-center': isToggle }"
       >
         <i class="fa-solid fa-prescription-bottle-medical m-1"></i>
-        <span>Prescriptions</span>
+        <span [ngClass]="{ 'd-none': isToggle }">Prescriptions</span>
       </a>
     </li>
   </ul>
-  <div class="dropdown p-3" id="userInfo">
+  <div class="dropdown p-3" [ngClass]="{ 'd-none': isToggle }">
     <a
       href="#"
       class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
