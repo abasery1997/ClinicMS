@@ -3,6 +3,12 @@ const express = require("express");
 const body_parser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const corsOptions ={
+  origin:'*',
+  credentials:true,            //access-control-allow-credentials:true
+  optionSuccessStatus:200,
+}
+
 const bodyParser = require('body-parser');
 
 //routes
@@ -29,6 +35,7 @@ mongoose.connect("mongodb://localhost:27017/ClinicMS")
 
 
 
+app.use(cors(corsOptions));
 // parse application/json
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

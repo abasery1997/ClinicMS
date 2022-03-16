@@ -63,7 +63,7 @@ exports.addDoctor = (req, res, next) => {
     });
     doctor.save()
         .then(data => {
-            res.status(201).json({ message: "added", data })
+            res.status(201).json({ id: data._id })
         })
         .catch(error => {
             error.status = 500;
@@ -99,7 +99,7 @@ exports.updateDoctor = (req, res, next) => {
                 throw new Error("Doctor not Found!")
             } else {
 
-                res.status(200).json({ message: "updated", data })
+                res.status(200).json({ message: "updated" })
             }
 
         })
