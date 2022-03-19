@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const Doctor = new mongoose.Schema({
     name: { type: String, required: true },
+    image:{type:String},
     birthDate: { type: Date, required: "birthDate is required" },
     email: { type: String, required: "email is required" ,unique: true },
     password: { type: String, required: "password is required" },

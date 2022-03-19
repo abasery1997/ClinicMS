@@ -53,6 +53,7 @@ exports.addDoctor = (req, res, next) => {
     let doctor = new Doctor({
         name: req.body.name,
         email: req.body.email,
+        image:req.file.filename,
         password: req.body.password,
         gender: req.body.gender,
         birthDate: birthDate,

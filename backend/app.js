@@ -3,16 +3,40 @@ const express = require("express");
 const body_parser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const multer=require("multer");
+const bodyParser = require('body-parser');
+const  path=require("path");
+
+
+
+//routes
+const doctorRoute = require('./routes/doctors.router')
+
 const corsOptions ={
   origin:'*',
   credentials:true,            //access-control-allow-credentials:true
   optionSuccessStatus:200,
 }
+//image variables
+const storage=multer.diskStorage({
+  destination:(req,file,cb)=>{
+      console.log(path.join(__dirname,"images"));
+      cb(null,path.join(__dirname,"images"))
+  },
+  filename:(req,file,cb)=>{
+      cb(null,new Date().toLocaleDateString().replace(/\//g,"-")+"-"+file.originalname)
+  }
+})
+const fileFilter=(req,file,cb)=>{
+  if(file.mimetype=="image/jpeg"||
+     file.mimetype=="image/jpg"||
+     file.mimetype=="image/png")
+     cb(null,true)
+  else
+  cb(null,false)
+}
 
-const bodyParser = require('body-parser');
 
-//routes
-const doctorRoute = require('./routes/doctors.router')
 // listing to server
 const app = express();
 
@@ -40,6 +64,9 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
+app.use("/images",express.static(path.join(__dirname,"images")));
+app.use(multer({storage,fileFilter}).single("image"))
+
 
 
 
