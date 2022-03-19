@@ -1,46 +1,285 @@
-<!DOCTYPE html>
-<html lang="en">
-<body>
-    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css"> -->
-    <!-- Table Start -->
-    <div class="container mt-5 border border-solid card">
-        <div class="row p-1 d-flex justify-content-around">
-            
-            <div class="col-6 col-md-6 my-5">
-                <h2 class="offset-lg-1">Doctor Manage</h2>
-            </div>
-            <div class="col-6 my-5">
-                <button class="btn btn-success col-lg-3 offset-md-6 offset-2 offset-sm-4 offset-lg-8 ">Add Doctor</button>
-            </div>
+<!-- Start Table -->
+<div class="row">
+    <div class="card col-11 p-0 my-5 mx-auto">
+        <div class="card-header d-flex justify-content-between">
+            <h1 class="col-lg-3 mx-auto p-3">Doctor Manage</h1>
+            <button data-bs-toggle="modal" data-bs-target="#addForm" class="btn btn-success my-auto h-50 col-lg-1">Add
+                Doctor</button>
         </div>
-        <div class="p-3">
-            <table #dataTable  id="table_id" class="table table-responsive table-bordered display">
-                <thead>
-                    <tr >
-                        <th>Column 1</th>
-                        <th>Column 2</th>
-                        <th>Column 2</th>
-                        <th>Column 2</th>
+        <div class="card-body">
+            <table #dataTable class="table table-bordered">
+                <thead class="bg-dark text-white  ">
+                    <tr>
+                        <th>Image</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Phone</th>
+                        <th>Speciality</th>
+                        <th>Gender</th>
+                        <th>Age</th>
+                        <th>Email</th>
+                        <th>Days</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>ali</td>
-                        <td>ss</td>
-                        <td>ss</td>
-                        <td>ss</td>
+                        <td><a target="_blank" href="../../../assets/Images/doctor.jpg"><img src="../../../assets/Images/doctor.jpg" class="mx-auto" width="75px" height="60px" alt=""></a></td>
+                        <td>Zeyad </td>
+                        <td>Ahmed</td>
+                        <td>+20123654789</td>
+                        <td>Dermatology</td>
+                        <td>Male</td>
+                        <td>35</td>
+                        <td>someome@something.com</td>
+                        <td class="text-capitalize">sun , tue , thu</td>
+                        <td>5:30 PM</td>
+                        <td>9:00 PM</td>
+                        <td>
+                            <button data-bs-toggle="modal" data-bs-target="#addForm"
+                                class="btn btn-success mx-1 my-auto">Edit</button>
+                            <button data-bs-toggle="modal" data-bs-target="#deleteForm"
+                                class="btn btn-danger mx-1 my-auto">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a target="_blank" href="../../../assets/Images/doctor.jpg"><img src="../../../assets/Images/doctor.jpg" class="mx-auto" width="75px" height="60px" alt=""></a></td>
+                        <td>Rami </td>
+                        <td>Ahmed</td>
+                        <td>+20123654789</td>
+                        <td>Dermatology</td>
+                        <td>Male</td>
+                        <td>35</td>
+                        <td>someome@something.com</td>
+                        <td class="text-capitalize">sun , tue , thu</td>
+                        <td>5:30 PM</td>
+                        <td>9:00 PM</td>
+                        <td>
+                            <button data-bs-toggle="modal" data-bs-target="#addForm"
+                                class="btn btn-success mx-1 my-auto">Edit</button>
+                            <button data-bs-toggle="modal" data-bs-target="#deleteForm"
+                                class="btn btn-danger mx-1 my-auto">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a target="_blank" href="../../../assets/Images/doctor.jpg"><img src="../../../assets/Images/doctor.jpg" class="mx-auto" width="75px" height="60px" alt=""></a></td>
+                        <td>Nasir </td>
+                        <td>Ahmed</td>
+                        <td>+20123654789</td>
+                        <td>Dermatology</td>
+                        <td>Male</td>
+                        <td>35</td>
+                        <td>someome@something.com</td>
+                        <td class="text-capitalize">sun , tue , thu</td>
+                        <td>5:30 PM</td>
+                        <td>9:00 PM</td>
+                        <td>
+                            <button data-bs-toggle="modal" data-bs-target="#addForm"
+                                class="btn btn-success mx-1 my-auto">Edit</button>
+                            <button data-bs-toggle="modal" data-bs-target="#deleteForm"
+                                class="btn btn-danger mx-1 my-auto">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a target="_blank" href="../../../assets/Images/doctor.jpg"><img src="../../../assets/Images/doctor.jpg" class="mx-auto" width="75px" height="60px" alt=""></a></td>
+                        <td>Kareem </td>
+                        <td>Ahmed</td>
+                        <td>+20123654789</td>
+                        <td>Dermatology</td>
+                        <td>Male</td>
+                        <td>35</td>
+                        <td>someome@something.com</td>
+                        <td class="text-capitalize">sun , tue , thu</td>
+                        <td>5:30 PM</td>
+                        <td>9:00 PM</td>
+                        <td>
+                            <button data-bs-toggle="modal" data-bs-target="#addForm"
+                                class="btn btn-success mx-1 my-auto">Edit</button>
+                            <button data-bs-toggle="modal" data-bs-target="#deleteForm"
+                                class="btn btn-danger mx-1 my-auto">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a target="_blank" href="../../../assets/Images/doctor.jpg"><img src="../../../assets/Images/doctor.jpg" class="mx-auto" width="75px" height="60px" alt=""></a></td>
+                        <td>Ali </td>
+                        <td>Ahmed</td>
+                        <td>+20123654789</td>
+                        <td>Dermatology</td>
+                        <td>Male</td>
+                        <td>35</td>
+                        <td>someome@something.com</td>
+                        <td class="text-capitalize">sun , tue , thu</td>
+                        <td>5:30 PM</td>
+                        <td>9:00 PM</td>
+                        <td>
+                            <button data-bs-toggle="modal" data-bs-target="#addForm"
+                                class="btn btn-success mx-1 my-auto">Edit</button>
+                            <button data-bs-toggle="modal" data-bs-target="#deleteForm"
+                                class="btn btn-danger mx-1 my-auto">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><a target="_blank" href="../../../assets/Images/doctor.jpg"><img src="../../../assets/Images/doctor.jpg" class="mx-auto" width="75px" height="60px" alt=""></a></td>
+                        <td>Diaa </td>
+                        <td>Ahmed</td>
+                        <td>+20123654789</td>
+                        <td>Dermatology</td>
+                        <td>Male</td>
+                        <td>35</td>
+                        <td>someome@something.com</td>
+                        <td class="text-capitalize">sun , tue , thu</td>
+                        <td>5:30 PM</td>
+                        <td>9:00 PM</td>
+                        <td>
+                            <button data-bs-toggle="modal" data-bs-target="#addForm"
+                                class="btn btn-success mx-1 my-auto">Edit</button>
+                            <button data-bs-toggle="modal" data-bs-target="#deleteForm"
+                                class="btn btn-danger mx-1 my-auto">Delete</button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
-    <!-- Table End -->
-    <!-- <script type="text/javascript" charset="utf8"
-        src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#table_id').DataTable();
-        });
-    </script> -->
-</body>
-</html>
+</div>
+<!-- End Table -->
+<!-- Start Form Modal -->
+<div class="modal fade" id="addForm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="addModalTitle" aria-hidden="true">
+    <div class="modal-dialog  modal-xl">
+        <div class="modal-content">
+            <div class="modal-header px-5 bg-black text-white">
+                <h2 class="modal-title" id="addModalTitle">Add Doctor</h2>
+                <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="" method="get">
+            <div class="modal-body px-5">
+                    <div class="row">
+                        <div class="my-3 col-lg-4 col-md-6 col-12">
+                            <label for="fname" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="fname"
+                                placeholder="Ex : Ahmed" required>
+                        </div>
+                        <div class="my-3 col-lg-4 col-md-6 col-12">
+                            <label for="lname" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="lname"
+                                placeholder="Ex : Mohamed" required>
+                        </div>
+                        <div class="my-3 col-lg-4 col-md-6 col-12">
+                            <label for="phone" class="form-label">Phone</label>
+                            <input type="tel" class="form-control" id="phone" required>
+                        </div>
+                        <div class="my-3 col-lg-4 col-md-6 col-12">
+                            <label for="Speciality" class="form-label">Speciality</label>
+                            <select class="form-select " id="Speciality"  required>
+                                <option selected></option>
+                                <option value="1">GP</option>
+                                <option value="2">Family medicine</option>
+                                <option value="3">Anesthesiology</option>
+                            </select>
+                        </div>
+                        <div class="my-3 col-lg-4 col-md-6 col-12">
+                            <label for="gender" class="form-label">Gender</label>
+                            <select class="form-select" id="gender"  required>
+                                <option selected value="1">Male</option>
+                                <option value="2">Female</option>
+                            </select>
+                        </div>
+                        <div class="my-3 col-lg-4 col-md-6 col-12">
+                            <label for="age" class="form-label">Age</label>
+                            <input type="number" class="form-control" id="age" required>
+                        </div>
+                        <div class="my-3 col-lg-4 col-md-6 col-12">
+                            <label for="email" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="email"
+                                placeholder="name@example.com" required>
+                        </div>
+                        <div class="my-3 col-lg-4 col-md-6 col-12">
+                            <label for="password" class="form-label">Login Password</label>
+                            <input type="password" class="form-control" id="password" required>
+                        </div>
+                        
+                       
+                        <div class="my-3 col-lg-4 col-md-6 col-12">
+                            <label for="image" class="form-label">Image</label>
+                            <input class="form-control" type="file" id="image" multiple required>
+                        </div>
+                        <div class="my-3 col-lg-4 col-md-6 col-12">
+                            <label for="Speciality" class="form-label">Available Days</label>
+                           <div class="form-group">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="sat" value="sat">
+                                <label class="form-check-label" for="sat">Sat</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="sun" value="sun">
+                                <label class="form-check-label" for="sun">Sun</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="mon" value="mon">
+                                <label class="form-check-label" for="mon">Mon</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="tue" value="tue">
+                                <label class="form-check-label" for="tue">Tue</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="wed" value="wed">
+                                <label class="form-check-label" for="wed">Wed</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="thu" value="thu">
+                                <label class="form-check-label" for="thu">Thu</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="fri" value="fri">
+                                <label class="form-check-label" for="fri">Fri</label>
+                            </div>
+                           </div>
+                        </div>
+                        <div class="my-3 col-lg-4 col-md-6 col-12">
+                            <label for="startTime" class="form-label">Start Time</label>
+                            <input type="time" class="form-control" id="startTime" required>
+                        </div>
+                        <div class="my-3 col-lg-4 col-md-6 col-12">
+                            <label for="endTime" class="form-label">Ende Time</label>
+                            <input type="time" class="form-control" id="endTime" required>
+                        </div>
+                       
+    
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success">Add</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- End Form Modal -->
+<!-- Start Delete Modal -->
+<div class="modal fade" id="deleteForm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Delete Doctor</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="" method="get">
+                <div class="modal-body">
+                    <h4>Are You Sure You Want to Delete Doctor Mohamed Ahmed ?</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- End Delete Modal -->
