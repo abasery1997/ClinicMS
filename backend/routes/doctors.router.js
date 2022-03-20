@@ -13,7 +13,8 @@ router.get("/one", getADoctor);
 
 //add new doctor route
 router.post("", [
-    body("name").isAlpha().withMessage("Doctor Name should be String"),
+    body("firstname").isAlpha().withMessage("Doctor Name should be String"),
+    body("lastname").isAlpha().withMessage("Doctor Name should be String"),
     body("email").isEmail().withMessage("email format not correct"),
     body("gender").isIn(['m', 'f']).withMessage("Doctor Name should be String"),
     // body("birthDate").isDate().withMessage("birthDate should be date"),
