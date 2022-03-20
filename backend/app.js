@@ -11,6 +11,7 @@ const  path=require("path");
 
 //routes
 const doctorRoute = require('./routes/doctors.router')
+const employeeRoute = require('./routes/employee.router')
 
 const corsOptions ={
   origin:'*',
@@ -71,6 +72,7 @@ app.use(multer({storage,fileFilter}).single("image"))
 
 
 app.use('/doctors',doctorRoute);
+app.use('/employees',employeeRoute);
 
 //unknown paths
 app.use((req, res, next) => {
