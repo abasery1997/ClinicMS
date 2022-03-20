@@ -7,6 +7,7 @@ import { SidebarComponent } from './Layout/sidebar/sidebar.component';
 import { HomeComponent } from './Components/home/home.component';
 import { NotFoundComponent } from './Components/not-found/not-found.component';
 import { DoctorsComponent } from './Components/doctors/doctors.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { DoctorsComponent } from './Components/doctors/doctors.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

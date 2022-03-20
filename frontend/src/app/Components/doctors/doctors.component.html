@@ -25,113 +25,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr *ngFor="let doctor of doctors">
                         <td><a target="_blank" href="../../../assets/Images/doctor.jpg"><img src="../../../assets/Images/doctor.jpg" class="mx-auto" width="75px" height="60px" alt=""></a></td>
-                        <td>Zeyad </td>
+                        <td>{{doctor.name}}</td>
                         <td>Ahmed</td>
                         <td>+20123654789</td>
                         <td>Dermatology</td>
-                        <td>Male</td>
+                        <td>{{doctor.gender}}</td>
                         <td>35</td>
-                        <td>someome@something.com</td>
-                        <td class="text-capitalize">sun , tue , thu</td>
-                        <td>5:30 PM</td>
-                        <td>9:00 PM</td>
-                        <td>
-                            <button data-bs-toggle="modal" data-bs-target="#addForm"
-                                class="btn btn-success mx-1 my-auto">Edit</button>
-                            <button data-bs-toggle="modal" data-bs-target="#deleteForm"
-                                class="btn btn-danger mx-1 my-auto">Delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><a target="_blank" href="../../../assets/Images/doctor.jpg"><img src="../../../assets/Images/doctor.jpg" class="mx-auto" width="75px" height="60px" alt=""></a></td>
-                        <td>Rami </td>
-                        <td>Ahmed</td>
-                        <td>+20123654789</td>
-                        <td>Dermatology</td>
-                        <td>Male</td>
-                        <td>35</td>
-                        <td>someome@something.com</td>
-                        <td class="text-capitalize">sun , tue , thu</td>
-                        <td>5:30 PM</td>
-                        <td>9:00 PM</td>
-                        <td>
-                            <button data-bs-toggle="modal" data-bs-target="#addForm"
-                                class="btn btn-success mx-1 my-auto">Edit</button>
-                            <button data-bs-toggle="modal" data-bs-target="#deleteForm"
-                                class="btn btn-danger mx-1 my-auto">Delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><a target="_blank" href="../../../assets/Images/doctor.jpg"><img src="../../../assets/Images/doctor.jpg" class="mx-auto" width="75px" height="60px" alt=""></a></td>
-                        <td>Nasir </td>
-                        <td>Ahmed</td>
-                        <td>+20123654789</td>
-                        <td>Dermatology</td>
-                        <td>Male</td>
-                        <td>35</td>
-                        <td>someome@something.com</td>
-                        <td class="text-capitalize">sun , tue , thu</td>
-                        <td>5:30 PM</td>
-                        <td>9:00 PM</td>
-                        <td>
-                            <button data-bs-toggle="modal" data-bs-target="#addForm"
-                                class="btn btn-success mx-1 my-auto">Edit</button>
-                            <button data-bs-toggle="modal" data-bs-target="#deleteForm"
-                                class="btn btn-danger mx-1 my-auto">Delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><a target="_blank" href="../../../assets/Images/doctor.jpg"><img src="../../../assets/Images/doctor.jpg" class="mx-auto" width="75px" height="60px" alt=""></a></td>
-                        <td>Kareem </td>
-                        <td>Ahmed</td>
-                        <td>+20123654789</td>
-                        <td>Dermatology</td>
-                        <td>Male</td>
-                        <td>35</td>
-                        <td>someome@something.com</td>
-                        <td class="text-capitalize">sun , tue , thu</td>
-                        <td>5:30 PM</td>
-                        <td>9:00 PM</td>
-                        <td>
-                            <button data-bs-toggle="modal" data-bs-target="#addForm"
-                                class="btn btn-success mx-1 my-auto">Edit</button>
-                            <button data-bs-toggle="modal" data-bs-target="#deleteForm"
-                                class="btn btn-danger mx-1 my-auto">Delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><a target="_blank" href="../../../assets/Images/doctor.jpg"><img src="../../../assets/Images/doctor.jpg" class="mx-auto" width="75px" height="60px" alt=""></a></td>
-                        <td>Ali </td>
-                        <td>Ahmed</td>
-                        <td>+20123654789</td>
-                        <td>Dermatology</td>
-                        <td>Male</td>
-                        <td>35</td>
-                        <td>someome@something.com</td>
-                        <td class="text-capitalize">sun , tue , thu</td>
-                        <td>5:30 PM</td>
-                        <td>9:00 PM</td>
-                        <td>
-                            <button data-bs-toggle="modal" data-bs-target="#addForm"
-                                class="btn btn-success mx-1 my-auto">Edit</button>
-                            <button data-bs-toggle="modal" data-bs-target="#deleteForm"
-                                class="btn btn-danger mx-1 my-auto">Delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><a target="_blank" href="../../../assets/Images/doctor.jpg"><img src="../../../assets/Images/doctor.jpg" class="mx-auto" width="75px" height="60px" alt=""></a></td>
-                        <td>Diaa </td>
-                        <td>Ahmed</td>
-                        <td>+20123654789</td>
-                        <td>Dermatology</td>
-                        <td>Male</td>
-                        <td>35</td>
-                        <td>someome@something.com</td>
-                        <td class="text-capitalize">sun , tue , thu</td>
-                        <td>5:30 PM</td>
-                        <td>9:00 PM</td>
+                        <td>{{doctor.email}}</td>
+                        <td class="text-capitalize">{{doctor.attendingDays}}</td>
+                        <td>{{doctor.startTime}}</td>
+                        <td>{{doctor.endTime}}</td>
                         <td>
                             <button data-bs-toggle="modal" data-bs-target="#addForm"
                                 class="btn btn-success mx-1 my-auto">Edit</button>
