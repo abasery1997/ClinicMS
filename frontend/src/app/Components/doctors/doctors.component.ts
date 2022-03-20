@@ -1,4 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { DoctorService } from 'src/app/doctor.service';
+import { Doctor } from './doctor';
 
 declare var $:any;
 
@@ -11,10 +13,13 @@ export class DoctorsComponent implements OnInit , AfterViewInit{
 
   @ViewChild('dataTable' , {static: false})  table:any; 
   dataTable:any;
-  constructor() { }
+  constructor(private dataService:DoctorService) { }
 
+  doctors:Doctor[]=[];
   ngOnInit(): void {
-  
+     this.dataService.getAllDoctors().subscribe((res)=>{
+     this.doctors=res;
+    });
   }
 
   ngAfterViewInit(): void {
