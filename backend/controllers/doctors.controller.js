@@ -51,7 +51,8 @@ exports.addDoctor = (req, res, next) => {
     }
     let birthDate = new Date(req.body.birthDate);
     let doctor = new Doctor({
-        name: req.body.name,
+        firstname: req.body.firstname,
+        lastname:req.body.lastname,
         email: req.body.email,
         image:req.file.filename,
         password: req.body.password,
