@@ -10,6 +10,7 @@ const Doctor = new mongoose.Schema({
     gender: { type: String, enum: ['m', 'f'], required: "gender is required" },
     clinicServiceID: { type: Number, required: "clinicService id is required" },
     attendingDays:{ type:String, required: "attendingDays is required" },
+    phone:{type:String, required: "phone is required", unique: true},
     startTime:{
         h:Number,
         m:Number

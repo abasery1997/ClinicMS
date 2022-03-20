@@ -57,7 +57,8 @@ exports.addEmployee = (req, res, next) => {
         image:req.file.filename,
         password: req.body.password,
         gender: req.body.gender,
-        birthDate: birthDate
+        birthDate: birthDate,
+        phone:req.body.phone,
     });
     employee.save()
         .then(data => {
@@ -86,6 +87,7 @@ exports.updateEmployee = (req, res, next) => {
             password: req.body.password,
             gender: req.body.gender,
             birthDate: birthDate,
+            phone:req.body.phone,
             
         }
     })

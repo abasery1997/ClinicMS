@@ -17,7 +17,7 @@ router.post("", [
     body("lastname").isAlpha().withMessage("Employee Name should be String"),
     body("email").isEmail().withMessage("email format not correct"),
     body("gender").isIn(['m', 'f']).withMessage("Employee Name should be String"),
-    
+    body("phone").isNumeric().withMessage("phone contains numbers only")
 ], addEmployee);
 
 //update Employee route
@@ -25,6 +25,7 @@ router.put("", [
     body("name").isAlpha().withMessage("Employee Name should be String"),
     body("email").isEmail().withMessage("email format not correct"),
     body("gender").isIn(['m', 'f']).withMessage("Employee Name should be String"),
+    body("phone").isNumeric().withMessage("phone contains numbers only")
   
 ], updateEmployee);
 
