@@ -52,7 +52,7 @@ export class DoctorsComponent implements OnInit , AfterViewInit{
       "attendingDays":this.getDays(),
       "startTime":st,
       "endTime":et,
-      "image":this.formData
+      "image":image
   };
     this.dataService.addDoctor(doctor).subscribe((docID)=>{
       doctor._id=docID;
@@ -77,6 +77,8 @@ export class DoctorsComponent implements OnInit , AfterViewInit{
     }
     return days;
   }
+
+
   fileName = '';
   formData = new FormData();
   onFileSelected(event:any) {
