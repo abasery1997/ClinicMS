@@ -1,4 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+
+
 import { DoctorService } from 'src/app/doctor.service';
 import { Doctor, Time } from './doctor';
 
@@ -11,6 +13,7 @@ declare var $:any;
 })
 export class DoctorsComponent implements OnInit , AfterViewInit{
 
+
   @ViewChild('dataTable' , {static: false})  table:any; 
   dataTable:any;
   constructor(private dataService:DoctorService) { }
@@ -19,6 +22,7 @@ export class DoctorsComponent implements OnInit , AfterViewInit{
   ngOnInit(): void {
      this.dataService.getAllDoctors().subscribe((res)=>{
      this.doctors=res;
+     
     });
   }
 
@@ -26,16 +30,15 @@ export class DoctorsComponent implements OnInit , AfterViewInit{
     this.dataTable = $(this.table.nativeElement);
     this.dataTable.DataTable();
   }
-
-   public name:string="";
   
   addDoctor(clinicServiceID:number,password:string,email:string,age:string,
-    firstname:string,lastname:string,phone:string,image:string,startTime:string,endTime:any){
+    firstname:string,lastname:string,phone:string,image:any,startTime:string,endTime:any){
+      console.log(image);
     let startTimeA:string[]= startTime.split(':');
-    let endTimeA:string[]= startTime.split(':');
+    let endTimeA:string[]= endTime.split(':');
     let st:Time=new Time(Number(startTimeA[0]),Number(startTimeA[1]));
     let et:Time=new Time(Number(endTimeA[0]),Number(endTimeA[1]));
-    
+
     let doctor:Doctor={
       "_id":"0",
       "firstname":firstname,
@@ -47,14 +50,12 @@ export class DoctorsComponent implements OnInit , AfterViewInit{
       "birthDate":new Date("2013-04-23T18:25:43.511Z"),
       "clinicServiceID":3,
       "attendingDays":this.getDays(),
-      "startTime":new Time(2,15),
-      "endTime":new Time(2,15),
-      "image":image
+      "startTime":st,
+      "endTime":et,
+      "image":this.formData
   };
-  console.log(doctor.firstname)
     this.dataService.addDoctor(doctor).subscribe((docID)=>{
       doctor._id=docID;
-      console.log(doctor);
       this.doctors.push(doctor);
     })
   }
@@ -76,5 +77,18 @@ export class DoctorsComponent implements OnInit , AfterViewInit{
     }
     return days;
   }
+  fileName = '';
+  formData = new FormData();
+  onFileSelected(event:any) {
 
+    const file:File = event.target.files[0];
+
+    if (file) {
+
+        this.fileName = file.name;
+        this.formData.append("thumbnail", file);
+        console.log(this.formData.getAll("thumbnail"));
+        console.log(this.fileName);
+    }
+}
 }

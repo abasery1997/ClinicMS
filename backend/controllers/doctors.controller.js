@@ -54,7 +54,7 @@ exports.addDoctor = (req, res, next) => {
         firstname: req.body.firstname,
         lastname:req.body.lastname,
         email: req.body.email,
-        image:req.file.filename,
+        //image:req.file.filename,
         password: req.body.password,
         gender: req.body.gender,
         phone:req.body.phone,
@@ -70,7 +70,8 @@ exports.addDoctor = (req, res, next) => {
         })
         .catch(error => {
             error.status = 500;
-            next(error);
+            console.log("error.message"+error.msg)
+            next(error.message);
         })
 
 }
