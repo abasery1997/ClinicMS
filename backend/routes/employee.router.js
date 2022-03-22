@@ -13,8 +13,8 @@ router.get("/one", getAnEmployee);
 
 //add new employee route
 router.post("", [
-    body("firstname").isAlpha().withMessage("Employee Name should be String"),
-    body("lastname").isAlpha().withMessage("Employee Name should be String"),
+    body("firstname").isString().withMessage("Employee Name should be String"),
+    body("lastname").isString().withMessage("Employee Name should be String"),
     body("email").isEmail().withMessage("email format not correct"),
     body("gender").isIn(['m', 'f']).withMessage("Employee Name should be String"),
     body("phone").isNumeric().withMessage("phone contains numbers only")
@@ -22,7 +22,7 @@ router.post("", [
 
 //update Employee route
 router.put("", [
-    body("name").isAlpha().withMessage("Employee Name should be String"),
+    body("name").isString().withMessage("Employee Name should be String"),
     body("email").isEmail().withMessage("email format not correct"),
     body("gender").isIn(['m', 'f']).withMessage("Employee Name should be String"),
     body("phone").isNumeric().withMessage("phone contains numbers only")

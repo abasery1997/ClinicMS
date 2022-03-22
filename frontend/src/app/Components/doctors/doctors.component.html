@@ -11,7 +11,7 @@
     </button>
   </div>
   <div class="card-body">
-    <table #dataTable class="table table-bordered">
+    <table #dataTable class="table table-bordered border-dark">
       <thead class="bg-dark text-white">
         <tr>
           <th>Image</th>
@@ -100,7 +100,7 @@
         action=""
         (submit)="
           addDoctor(
-            3,
+            '3',
             password.value,
             email.value,
             age.value,
@@ -150,9 +150,9 @@
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="Speciality" class="form-label">Speciality</label>
-              <select class="form-select" id="Speciality" required>
+              <select class="form-select" id="Speciality" name="Speciality" (blur)="setClinicServiceID(Speciality.value)" #Speciality required>
                 <option selected></option>
-                <option value="1">GP</option>
+                <option value="1">GP</option> 
                 <option value="2">Family medicine</option>
                 <option value="3">Anesthesiology</option>
               </select>
