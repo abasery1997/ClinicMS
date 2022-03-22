@@ -13,14 +13,14 @@ router.get("/one", getAClinicService);
 
 //add new Clinic Service route
 router.post("", [
-    body("name").isString().withMessage("Patient Name should be String"),
+    body("name").isString().withMessage("Service Name should be String"),
     body("invoiceAmount").isNumeric().withMessage("InvoiceAmount contains numbers only"),
    
 ], addClinicService);
 
 //update Clinic Service route
 router.put("", [
-    body("name").isString().withMessage("Patient Name should be String"),
+    body("name").isString().withMessage("Service Name should be String"),
     body("invoiceAmount").isNumeric().withMessage("InvoiceAmount contains numbers only"),
   
 ], updateClinicService);

@@ -1,13 +1,13 @@
 const { validationResult } = require("express-validator");
 const Doctor = require("./../Models/doctors");
-
+///don't remove comments
+//const ClinicService = require("./../Models/ClinicService");
 
 //get all doctors
 exports.getDoctors = (req, res, next) => {
     Doctor.find({})
         .then(data => {
             res.status(200).json(data)
-
         })
         .catch(error => {
             error.status = 500;
@@ -49,15 +49,21 @@ exports.addDoctor = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
+    ///don't remove comments
+    //  ClinicService.findById(req.body.clinicServiceID)
+    //     .then(data => {
+    //         if (data == null) {
+    //             throw new Error("Clinic Service not Found!")
+    //          } else {
     let birthDate = new Date(req.body.birthDate);
     let doctor = new Doctor({
         firstname: req.body.firstname,
-        lastname:req.body.lastname,
+        lastname: req.body.lastname,
         email: req.body.email,
-        image:req.file.filename,
+        image: req.file.filename,
         password: req.body.password,
         gender: req.body.gender,
-        phone:req.body.phone,
+        phone: req.body.phone,
         birthDate: birthDate,
         clinicServiceID: req.body.clinicServiceID,
         attendingDays: req.body.attendingDays,
@@ -68,10 +74,18 @@ exports.addDoctor = (req, res, next) => {
         .then(data => {
             res.status(201).json({ id: data._id })
         })
+        ///don't remove comments
+        //       }
+        //    })
         .catch(error => {
             error.status = 500;
             next(error.message);
         })
+
+
+
+
+
 
 }
 //update doctor
@@ -90,7 +104,7 @@ exports.updateDoctor = (req, res, next) => {
             email: req.body.email,
             password: req.body.password,
             gender: req.body.gender,
-            phone:req.body.phone,
+            phone: req.body.phone,
             birthDate: birthDate,
             clinicServiceID: req.body.clinicServiceID,
             attendingDays: req.body.attendingDays,
@@ -131,7 +145,7 @@ exports.deleteDoctor = (req, res, next) => {
                 res.status(200).json({ message: "deleted" })
             }
         })
-         .catch(error => {
+        .catch(error => {
             error.status = 500;
             next(error.message);
         })
