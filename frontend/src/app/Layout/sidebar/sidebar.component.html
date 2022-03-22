@@ -48,6 +48,19 @@
     </li>
     <li class="nav-item">
       <a
+        routerLink="Employees"
+        class="nav-link text-white"
+        (click)="active(Employees)"
+        id="Employees"
+        #Employees
+        [ngClass]="{ 'fs-5': isToggle, 'text-center': isToggle }"
+      >
+        <i class="fa-solid fa-user-gear m1"></i>
+        <span [ngClass]="{ 'd-none': isToggle }">Employees</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
         routerLink="Appointments"
         class="nav-link text-white"
         (click)="active(Appointments)"
