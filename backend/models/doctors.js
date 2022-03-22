@@ -10,7 +10,7 @@ const Doctor = new mongoose.Schema({
     gender: { type: String, enum: ['m', 'f'], required: "gender is required" },
     ///don't remove comments
     // clinicServiceID: {type: mongoose.Schema.Types.ObjectId,required: "clinicService id is required" ,ref: "clinicservices"},
-    clinicServiceID: { type: Number, required: "clinicService id is required" },
+    clinicServiceID: {type: mongoose.Schema.Types.ObjectId, required: "clinicService id is required" },
     attendingDays: { type: String, required: "attendingDays is required" },
     phone: { type: String, required: "phone is required", unique: true },
     startTime: {
