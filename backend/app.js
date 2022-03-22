@@ -10,11 +10,12 @@ const  path=require("path");
 
 
 //routes
+const authRouter = require('./routes/auth.router')
 const doctorRoute = require('./routes/doctors.router')
 const employeeRoute = require('./routes/employee.router')
 const patientRoute = require('./routes/patient.router')
 const ClinicService = require('./routes/ClinicService.router')
-
+const appointmentRouter = require('./routes/appointment.router')
 
 const corsOptions ={
   origin:'*',
@@ -73,11 +74,12 @@ app.use(multer({storage,fileFilter}).single("image"))
 
 
 
-
+app.use('/login',authRouter);
 app.use('/doctors',doctorRoute);
 app.use('/employees',employeeRoute);
 app.use('/patients',patientRoute);
 app.use('/clinicservice',ClinicService);
+app.use('/appointments',appointmentRouter);
 //unknown paths
 app.use((req, res, next) => {
   res.status(404).json({ message: " unknown url paths" });

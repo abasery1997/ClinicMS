@@ -1,5 +1,5 @@
 const { validationResult } = require("express-validator");
-const Employee = require("./../Models/employee");
+const Employee = require("../models/employee");
 
 
 //get all Employees
