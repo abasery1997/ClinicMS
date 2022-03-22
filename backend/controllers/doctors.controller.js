@@ -1,13 +1,13 @@
 const { validationResult } = require("express-validator");
 const Doctor = require("./../Models/doctors");
-const ClinicService = require("./../Models/ClinicService");
+///don't remove comments
+//const ClinicService = require("./../Models/ClinicService");
 
 //get all doctors
 exports.getDoctors = (req, res, next) => {
     Doctor.find({})
         .then(data => {
             res.status(200).json(data)
-
         })
         .catch(error => {
             error.status = 500;
@@ -49,32 +49,34 @@ exports.addDoctor = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    ClinicService.findById(req.body.clinicServiceID)
+    ///don't remove comments
+    //  ClinicService.findById(req.body.clinicServiceID)
+    //     .then(data => {
+    //         if (data == null) {
+    //             throw new Error("Clinic Service not Found!")
+    //          } else {
+    let birthDate = new Date(req.body.birthDate);
+    let doctor = new Doctor({
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        email: req.body.email,
+        image: req.file.filename,
+        password: req.body.password,
+        gender: req.body.gender,
+        phone: req.body.phone,
+        birthDate: birthDate,
+        clinicServiceID: req.body.clinicServiceID,
+        attendingDays: req.body.attendingDays,
+        startTime: req.body.startTime,
+        endTime: req.body.endTime
+    });
+    doctor.save()
         .then(data => {
-            if (data == null) {
-                throw new Error("Clinic Service not Found!")
-            } else {
-                let birthDate = new Date(req.body.birthDate);
-                let doctor = new Doctor({
-                    firstname: req.body.firstname,
-                    lastname: req.body.lastname,
-                    email: req.body.email,
-                    image: req.file.filename,
-                    password: req.body.password,
-                    gender: req.body.gender,
-                    phone: req.body.phone,
-                    birthDate: birthDate,
-                    clinicServiceID: req.body.clinicServiceID,
-                    attendingDays: req.body.attendingDays,
-                    startTime: req.body.startTime,
-                    endTime: req.body.endTime
-                });
-                doctor.save()
-                    .then(data => {
-                        res.status(201).json({ id: data._id })
-                    })
-            }
+            res.status(201).json({ id: data._id })
         })
+        ///don't remove comments
+        //       }
+        //    })
         .catch(error => {
             error.status = 500;
             next(error.message);
