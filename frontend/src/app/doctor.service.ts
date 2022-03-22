@@ -14,7 +14,7 @@ export class DoctorService {
     return this.http.get<Doctor[]>(this.doctorsUrl)
       .pipe(catchError(this.handleError));
   }
-  addDoctor(doc:Doctor){
+  addDoctor(doc:any){
     return this.http.post<any>(this.doctorsUrl, doc)
     .pipe(catchError(this.handleError));
   }
