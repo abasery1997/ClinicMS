@@ -10,8 +10,8 @@ exports.getAllEmployees = (req, res, next) => {
 
         })
         .catch(error => {
-
-            next(error);
+            error.status = 500;
+            next(error.message);
         })
 }
 
@@ -36,8 +36,8 @@ exports.getAnEmployee = (req, res, next) => {
             }
         })
         .catch(error => {
-
-            next(error);
+            error.status = 500;
+            next(error.message);
         })
 }
 //add new Employee
@@ -66,7 +66,7 @@ exports.addEmployee = (req, res, next) => {
         })
         .catch(error => {
             error.status = 500;
-            next(error);
+            next(error.message);
         })
 
 }
@@ -100,7 +100,10 @@ exports.updateEmployee = (req, res, next) => {
             }
 
         })
-        .catch(error => next(error))
+        .catch(error => {
+            error.status = 500;
+            next(error.message);
+        })
 }
 
 //delete Employee
@@ -123,6 +126,6 @@ exports.deleteEmployee = (req, res, next) => {
         })
         .catch(error => {
             error.status = 500;
-            next(error);
+            next(error.message);
         })
 }

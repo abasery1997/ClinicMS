@@ -13,25 +13,23 @@ router.get("/one", getADoctor);
 
 //add new doctor route
 router.post("", [
-    body("firstname").isAlpha().withMessage("Doctor Name should be String"),
-    body("lastname").isAlpha().withMessage("Doctor Name should be String"),
+    body("firstname").isString().withMessage("Doctor Name should be String"),
+    body("lastname").isString().withMessage("Doctor Name should be String"),
     body("email").isEmail().withMessage("email format not correct"),
     body("gender").isIn(['m', 'f']).withMessage("Doctor Name should be String"),
     body("phone").isNumeric().withMessage("phone contains numbers only"),
-    body("clinicServiceID").isInt().withMessage("clinicServiceID should be integer"),
-    body("attendingDays").isAlpha().withMessage("attendingDays should be String"),
+    body("attendingDays").isString().withMessage("attendingDays should be String"),
     body("startTime").isObject().withMessage("startTime should be object"),
     body("endTime").isObject().withMessage("endTime should be object")
 ], addDoctor);
 
 //update doctor route
 router.put("", [
-    body("name").isAlpha().withMessage("Doctor Name should be String"),
+    body("name").isString().withMessage("Doctor Name should be String"),
     body("email").isEmail().withMessage("email format not correct"),
     body("gender").isIn(['m', 'f']).withMessage("Doctor Name should be String"),
     body("phone").isNumeric().withMessage("phone contains numbers only"),
-    body("clinicServiceID").isInt().withMessage("clinicServiceID should be integer"),
-    body("attendingDays").isAlpha().withMessage("attendingDays should be String"),
+    body("attendingDays").isString().withMessage("attendingDays should be String"),
     body("startTime").isObject().withMessage("startTime should be object"),
     body("endTime").isObject().withMessage("endTime should be object")
 ], updateDoctor);

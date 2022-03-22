@@ -10,8 +10,8 @@ exports.getDoctors = (req, res, next) => {
 
         })
         .catch(error => {
-
-            next(error);
+            error.status = 500;
+            next(error.message);
         })
 }
 
@@ -36,8 +36,8 @@ exports.getADoctor = (req, res, next) => {
             }
         })
         .catch(error => {
-
-            next(error);
+            error.status = 500;
+            next(error.message);
         })
 }
 //add new doctor
@@ -70,7 +70,6 @@ exports.addDoctor = (req, res, next) => {
         })
         .catch(error => {
             error.status = 500;
-            console.log("error.message"+error.msg)
             next(error.message);
         })
 
@@ -108,7 +107,10 @@ exports.updateDoctor = (req, res, next) => {
             }
 
         })
-        .catch(error => next(error))
+        .catch(error => {
+            error.status = 500;
+            next(error.message);
+        })
 }
 
 //delete doctor
@@ -129,8 +131,8 @@ exports.deleteDoctor = (req, res, next) => {
                 res.status(200).json({ message: "deleted" })
             }
         })
-        .catch(error => {
+         .catch(error => {
             error.status = 500;
-            next(error);
+            next(error.message);
         })
 }

@@ -8,7 +8,7 @@ const Doctor = new mongoose.Schema({
     email: { type: String, required: "email is required" ,unique: true },
     password: { type: String, required: "password is required" },
     gender: { type: String, enum: ['m', 'f'], required: "gender is required" },
-    clinicServiceID: { type: Number, required: "clinicService id is required" },
+    clinicServiceID: {type: mongoose.Schema.Types.ObjectId,required: "clinicService id is required" ,ref: "clinicservices"},
     attendingDays:{ type:String, required: "attendingDays is required" },
     phone:{type:String, required: "phone is required", unique: true},
     startTime:{
