@@ -1,13 +1,16 @@
 import { AfterViewInit, Component, OnInit, ViewChild  } from '@angular/core';
 
+
 declare var $:any;
 
+
 @Component({
-  selector: 'app-appointments',
-  templateUrl: './appointments.component.html',
-  styleUrls: ['./appointments.component.css']
+  selector: 'app-invoices',
+  templateUrl: './invoices.component.html',
+  styleUrls: ['./invoices.component.css']
 })
-export class AppointmentsComponent implements OnInit , AfterViewInit {
+export class InvoicesComponent implements OnInit , AfterViewInit {
+
   @ViewChild('dataTable' , {static: false})  table:any; 
   dataTable:any;
   constructor() { }

@@ -13,6 +13,8 @@ import { FormsModule } from '@angular/forms';
 import { AppointmentsComponent } from './Components/appointments/appointments.component';
 import { PatientsComponent } from './Components/patients/patients.component';
 import { ClinicServicesComponent } from './Components/clinic-services/clinic-services.component';
+import { PrescriptionsComponent } from './Components/prescriptions/prescriptions.component';
+import { InvoicesComponent } from './Components/invoices/invoices.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,8 @@ import { ClinicServicesComponent } from './Components/clinic-services/clinic-ser
     AppointmentsComponent,
     PatientsComponent,
     ClinicServicesComponent,
+    PrescriptionsComponent,
+    InvoicesComponent,
     
   ],
   imports: [

@@ -111,6 +111,19 @@
         <span [ngClass]="{ 'd-none': isToggle }">Prescriptions</span>
       </a>
     </li>
+    <li class="nav-item">
+      <a
+        routerLink="Invoices"
+        class="nav-link text-white"
+        (click)="active(Invoices)"
+        id="Invoices"
+        #Invoices
+        [ngClass]="{ 'fs-5': isToggle, 'text-center': isToggle }"
+      >
+      <i class="fa-solid fa-lg fa-file-invoice-dollar mx-2"></i>
+        <span [ngClass]="{ 'd-none': isToggle }">Invoices</span>
+      </a>
+    </li>
   </ul>
   <div class="dropdown p-3" [ngClass]="{ 'd-none': isToggle }">
     <a

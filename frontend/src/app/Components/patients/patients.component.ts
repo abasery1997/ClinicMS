@@ -1,8 +1,8 @@
 import { Component, OnInit ,AfterViewInit ,ViewChild} from '@angular/core';
 
 
-import { DoctorService } from 'src/app/doctor.service';
-import { Doctor, Time } from '../doctors/doctor';
+import { DoctorService } from 'src/app/Services/doctor.service';
+import { Doctor, Time } from '../Model/doctor';
 declare var $:any;
 @Component({
   selector: 'app-patients',
@@ -14,7 +14,7 @@ export class PatientsComponent implements OnInit , AfterViewInit{
   dataTable:any;
   constructor(private dataService:DoctorService) { }
   doctors:Doctor[]=[];
-  doctor:Doctor=new Doctor('',1,'','','',new Date(),'','','','','',new Time(1,1),new Time(1,1));
+  doctor:Doctor=new Doctor('','1','','','',new Date(),'','','','','',new Time(1,1),new Time(1,1));
   ngOnInit(): void {
     this.dataService.getAllDoctors().subscribe((res)=>{
     this.doctors=res;
@@ -46,7 +46,7 @@ export class PatientsComponent implements OnInit , AfterViewInit{
       "phone":phone,
       "gender":this.gender,
       "birthDate":new Date("2013-04-23T18:25:43.511Z"),
-      "clinicServiceID":3,
+      "clinicServiceID":'3',
       "attendingDays":this.getDays(),
       "startTime":st,
       "endTime":et,
