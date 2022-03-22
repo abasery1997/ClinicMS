@@ -11,6 +11,7 @@ import { EmployeesComponent } from './Components/employees/employees.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AppointmentsComponent } from './Components/appointments/appointments.component';
+import { PatientsComponent } from './Components/patients/patients.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,9 @@ import { AppointmentsComponent } from './Components/appointments/appointments.co
     NotFoundComponent,
     DoctorsComponent,
     EmployeesComponent,
-    AppointmentsComponent
+    AppointmentsComponent,
+    PatientsComponent,
+    
   ],
   imports: [
     BrowserModule,
