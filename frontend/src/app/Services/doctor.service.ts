@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
-import { Doctor } from './Components/doctors/doctor';
+import { Doctor } from '../Components/Model/doctor';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +19,11 @@ export class DoctorService {
     .pipe(catchError(this.handleError));
   }
   
+  updateDoctor(doc:any){
+    return this.http.put<any>(this.doctorsUrl, doc)
+    .pipe(catchError(this.handleError));
+  }
+
   deleteDoctor(id:string){
     return this.http.delete(this.doctorsUrl,{
       body:{id:id},

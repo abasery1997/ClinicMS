@@ -6,8 +6,11 @@ import { PatientsComponent } from './Components/patients/patients.component';
 import { HomeComponent } from './Components/home/home.component';
 import { EmployeesComponent } from './Components/employees/employees.component';
 import { AppointmentsComponent } from './Components/appointments/appointments.component';
+import { ReportsComponent } from './Components/reports/reports.component';
 import { NotFoundComponent } from './Components/not-found/not-found.component';
 import { ClinicServicesComponent } from './Components/clinic-services/clinic-services.component';
+import { PrescriptionsComponent } from './Components/prescriptions/prescriptions.component';
+import { InvoicesComponent } from './Components/invoices/invoices.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'Home', pathMatch: 'full' },
@@ -16,9 +19,12 @@ const routes: Routes = [
 
   { path: 'Employees', component: EmployeesComponent },
   { path: 'Appointments', component: AppointmentsComponent },
+  { path: 'Reports', component: ReportsComponent },
 
   { path: 'Patients', component: PatientsComponent },
   { path: 'Services', component: ClinicServicesComponent },
+  { path: 'Prescriptions', component: PrescriptionsComponent },
+  { path: 'Invoices', component: InvoicesComponent },
 
   { path: '**', component: NotFoundComponent }
 ];

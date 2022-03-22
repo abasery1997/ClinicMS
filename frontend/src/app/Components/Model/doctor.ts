@@ -1,7 +1,7 @@
 export class Doctor {
     constructor(
         public attendingDays:string,
-        public clinicServiceID:number,
+        public clinicServiceID:Object,
         public gender:string,
         public password:string,
         public email:string,

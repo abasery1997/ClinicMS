@@ -81,7 +81,7 @@
         #Patients
         [ngClass]="{ 'fs-5': isToggle, 'text-center': isToggle }"
       >
-      <i class="fa-solid fa-hospital-user m-1"></i>
+        <i class="fa-solid fa-hospital-user m-1"></i>
         <span [ngClass]="{ 'd-none': isToggle }">Patients</span>
       </a>
     </li>
@@ -109,6 +109,32 @@
       >
         <i class="fa-solid fa-hospital-wide m-1"></i>
         <span [ngClass]="{ 'd-none': isToggle }">Prescriptions</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
+        routerLink="Invoices"
+        class="nav-link text-white"
+        (click)="active(Invoices)"
+        id="Invoices"
+        #Invoices
+        [ngClass]="{ 'fs-5': isToggle, 'text-center': isToggle }"
+      >
+        <i class="fa-solid fa-lg fa-file-invoice-dollar mx-2"></i>
+        <span [ngClass]="{ 'd-none': isToggle }">Invoices</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
+        routerLink="Reports"
+        class="nav-link text-white"
+        (click)="active(Reports)"
+        id="Reports"
+        #Reports
+        [ngClass]="{ 'fs-5': isToggle, 'text-center': isToggle }"
+      >
+        <i class="fa-solid fa-scroll m-1"></i>
+        <span [ngClass]="{ 'd-none': isToggle }">Reports</span>
       </a>
     </li>
   </ul>
