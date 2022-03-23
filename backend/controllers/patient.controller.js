@@ -1,5 +1,5 @@
 const { validationResult } = require("express-validator");
-const Patient = require("./../Models/patient");
+const Patient = require("../models/patient");
 
 
 //get all Patients
