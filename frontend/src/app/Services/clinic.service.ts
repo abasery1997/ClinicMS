@@ -22,6 +22,10 @@ export class ClinicService {
     return this.http.post<ClinicServiceClass>(this.clinicServiceUrl,ser)
       .pipe(catchError(this.handleError));
   }
+  UpdateService(ser:ClinicServiceClass){
+    return this.http.put<ClinicServiceClass>(this.clinicServiceUrl,ser)
+      .pipe(catchError(this.handleError));
+  }
   delete(id:string){
     return this.http.delete(this.clinicServiceUrl,{
       body:{id:id},

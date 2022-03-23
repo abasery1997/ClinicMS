@@ -27,8 +27,31 @@ export class ClinicServicesComponent implements OnInit , AfterViewInit {
     this.dataTable = $(this.table.nativeElement);
     this.dataTable.DataTable();
   }
+  editService:boolean=false;
   setClinicService(s:ClinicServiceClass){
     this.service=s;
+    this.editService=true;
+  }
+  addService(amount:string,name:string){
+    this.service.name=name;
+    this.service.invoiceAmount=Number(amount);
+    if(!this.editService)
+    {
+
+      this.clinicService.AddService(this.service).subscribe(res=>{
+        this.clinicService.getAllServices().subscribe(r=>{
+          this.services=r;
+        })
+      });
+    }
+    else{
+      
+    this.clinicService.UpdateService(this.service).subscribe(res=>{
+      this.clinicService.getAllServices().subscribe(r=>{
+        this.services=r;
+      })
+    });
+    }
   }
 
   delete() {
