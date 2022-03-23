@@ -34,7 +34,6 @@ import { InvoicesComponent } from './Components/invoices/invoices.component';
     ClinicServicesComponent,
     PrescriptionsComponent,
     InvoicesComponent,
-
   ],
   imports: [
     BrowserModule,

@@ -13,7 +13,7 @@ router.get("/one", getAnEmployee);
 
 //add new employee route
 router.post("", [
-    body("firstname").isString().withMessage("Employee Name should be String"),
+    body("firstname").isString().withMessage("Employee First Name should be String"),
     body("lastname").isString().withMessage("Employee Name should be String"),
     body("email").isEmail().withMessage("email format not correct"),
     body("gender").isIn(['m', 'f']).withMessage("Employee Name should be String"),
