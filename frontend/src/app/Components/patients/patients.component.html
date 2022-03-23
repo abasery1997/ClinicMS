@@ -26,26 +26,26 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr *ngFor="let patient of patients">
             <td>
               <a
                 target="_blank"
-                href="../../../assets/Images/doctor.jpg"
+                href="{{patient.image}}"
                 ><img
-                  src="../../../assets/Images/doctor.jpg"
+                  src="{{patient.image}}"
                   class="mx-auto"
                   width="75px"
                   height="60px"
                   alt=""
               /></a>
             </td>
-            <td>Ahmed</td>
-            <td>Ali</td>
-            <td>01234463789</td>
-            <td>01234463789</td>
-            <td>Male</td>
-            <td>55</td>
-            <td>someone@something.com</td>
+            <td>{{patient.firstname}}</td>
+            <td>{{patient.lastname}}</td>
+            <td>{{patient.phone}}</td>
+            <td>{{patient.emergencyPhone}}</td>
+            <td>{{patient.gender}}</td>
+            <td>{{patient.birthDate}}</td>
+            <td>{{patient.email}}</td>
             <td>
               <button
                 data-bs-toggle="modal"
@@ -58,53 +58,12 @@
                 data-bs-toggle="modal"
                 data-bs-target="#deleteForm"
                 class="btn btn-danger m-1 "
-                (click)="catchDoctor(doctor)"
+                (click)="onClick(patient)"
               >
                 Delete
               </button>
             </td>
           </tr>
-          <!-- <tr *ngFor="let doctor of doctors">
-            <td>
-              <a
-                target="_blank"
-                href="http://localhost:8080/images/{{ doctor.image }}"
-                ><img
-                  src="http://localhost:8080/images/{{ doctor.image }}"
-                  class="mx-auto"
-                  width="75px"
-                  height="60px"
-                  alt=""
-              /></a>
-            </td>
-            <td>{{ doctor.firstname }}</td>
-            <td>{{ doctor.lastname }}</td>
-            <td>{{ doctor.phone }}</td>
-            <td>Dermatology</td>
-            <td>{{ doctor.gender }}</td>
-            <td>35</td>
-            <td>{{ doctor.email }}</td>
-            <td class="text-capitalize">{{ doctor.attendingDays }}</td>
-            <td>{{ doctor.startTime.h }}:{{ doctor.startTime.m }}</td>
-            <td>{{ doctor.endTime.h }}:{{ doctor.endTime.m }}</td>
-            <td>
-              <button
-                data-bs-toggle="modal"
-                data-bs-target="#addForm"
-                class="btn btn-success mx-1 my-auto"
-              >
-                Edit
-              </button>
-              <button
-                data-bs-toggle="modal"
-                data-bs-target="#deleteForm"
-                class="btn btn-danger mx-1 my-auto"
-                (click)="catchDoctor(doctor)"
-              >
-                Delete
-              </button>
-            </td>
-          </tr> -->
         </tbody>
       </table>
     </div>
@@ -186,7 +145,6 @@
                   class="form-select"
                   id="gender"
                   name="gender"
-                  [(ngModel)]="gender"
                   required
                 >
                   <option selected value="m">Male</option>
@@ -275,11 +233,11 @@
             aria-label="Close"
           ></button>
         </div>
-        <form action="" (submit)="delete()" method="get">
+        <form action="" (submit)="deletePatient()" method="get">
           <div class="modal-body">
             <h4>
-              Are You Sure You Want to Delete Patient {{ doctor.firstname }}
-              {{ doctor.lastname }} ?
+              Are You Sure You Want to Delete Patient {{ patient?.firstname }}
+              {{ patient?.lastname }} ?
             </h4>
           </div>
           <div class="modal-footer">

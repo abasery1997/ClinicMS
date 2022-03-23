@@ -1,76 +1,80 @@
 import { Component, OnInit ,AfterViewInit ,ViewChild} from '@angular/core';
+import { IPatient } from './patient';
+import { PatientService } from '../../Services/patient.service'
 
-
-import { DoctorService } from 'src/app/Services/doctor.service';
-import { Doctor, Time } from '../Model/doctor';
 declare var $:any;
+
 @Component({
   selector: 'app-patients',
   templateUrl: './patients.component.html',
   styleUrls: ['./patients.component.css']
 })
+
 export class PatientsComponent implements OnInit , AfterViewInit{
+
   @ViewChild('dataTable' , {static: false})  table:any; 
   dataTable:any;
-  constructor(private dataService:DoctorService) { }
-  doctors:Doctor[]=[];
-  doctor:Doctor=new Doctor('','1','','','',new Date(),'','','','','',new Time(1,1),new Time(1,1));
+
+  constructor(private patientService:PatientService) { }
+  patients:IPatient[]=[];
+  patient:IPatient|null=null;
+
+  updateTable(){
+    this.patientService.getPatients().subscribe((res)=>{
+      this.patients=res;
+     });
+  }
+
   ngOnInit(): void {
-    this.dataService.getAllDoctors().subscribe((res)=>{
-    this.doctors=res;
-    
-   });
+    this.updateTable();
  }
 
+ 
   ngAfterViewInit(): void {
     this.dataTable = $(this.table.nativeElement);
     this.dataTable.DataTable();
   }
-
+  
   // From Doctor
 
   addDoctor(clinicServiceID:number,password:string,email:string,age:string,
     firstname:string,lastname:string,phone:string,image:any,startTime:string,endTime:any){
-      console.log(image);
-    let startTimeA:string[]= startTime.split(':');
-    let endTimeA:string[]= endTime.split(':');
-    let st:Time=new Time(Number(startTimeA[0]),Number(startTimeA[1]));
-    let et:Time=new Time(Number(endTimeA[0]),Number(endTimeA[1]));
 
-    let doctor:Doctor={
-      "_id":"0",
-      "firstname":firstname,
-      "lastname":lastname,
-      "email":email,
-      "password":password,
-      "phone":phone,
-      "gender":this.gender,
-      "birthDate":new Date("2013-04-23T18:25:43.511Z"),
-      "clinicServiceID":'3',
-      "attendingDays":this.getDays(),
-      "startTime":st,
-      "endTime":et,
-      "image":this.fileName
-  };
-  this.formData.append('firstname',firstname);
-  this.formData.append('lastname',lastname);
-  this.formData.append('email',email);
-  this.formData.append('password',password);
-  this.formData.append('phone',phone);
-  this.formData.append('gender',this.gender);
-  this.formData.append('birthDate',new Date("2013-04-23T18:25:43.511Z").toString());
-  this.formData.append('clinicServiceID','1');
-  this.formData.append('attendingDays',this.getDays());
-  this.formData.append(`startTime[h]`,st.h.toString());
-  this.formData.append(`startTime[m]`,st.m.toString());
-  this.formData.append(`endTime[h]`,et.h.toString());
-  this.formData.append(`endTime[m]`,et.m.toString());
+
+  //   let doctor:Doctor={
+  //     "_id":"0",
+  //     "firstname":firstname,
+  //     "lastname":lastname,
+  //     "email":email,
+  //     "password":password,
+  //     "phone":phone,
+  //     "gender":this.gender,
+  //     "birthDate":new Date("2013-04-23T18:25:43.511Z"),
+  //     "clinicServiceID":'3',
+  //     "attendingDays":this.getDays(),
+  //     "startTime":st,
+  //     "endTime":et,
+  //     "image":this.fileName
+  // };
+  // this.formData.append('firstname',firstname);
+  // this.formData.append('lastname',lastname);
+  // this.formData.append('email',email);
+  // this.formData.append('password',password);
+  // this.formData.append('phone',phone);
+  // this.formData.append('gender',this.gender);
+  // this.formData.append('birthDate',new Date("2013-04-23T18:25:43.511Z").toString());
+  // this.formData.append('clinicServiceID','1');
+  // this.formData.append('attendingDays',this.getDays());
+  // this.formData.append(`startTime[h]`,st.h.toString());
+  // this.formData.append(`startTime[m]`,st.m.toString());
+  // this.formData.append(`endTime[h]`,et.h.toString());
+  // this.formData.append(`endTime[m]`,et.m.toString());
   
-    this.dataService.addDoctor(this.formData).subscribe((docID)=>{
-      this.dataService.getAllDoctors().subscribe((res)=>{
-        this.doctors=res;
-      })
-    })
+  //   this.dataService.addDoctor(this.formData).subscribe((docID)=>{
+  //     this.dataService.getAllDoctors().subscribe((res)=>{
+  //       this.doctors=res;
+  //     })
+  //   })
   }
 
   gender:string="m";
@@ -90,9 +94,7 @@ export class PatientsComponent implements OnInit , AfterViewInit{
     }
     return days;
   }
-  catchDoctor(doctor:Doctor){
-    this.doctor=doctor;
-  }
+
 
   fileName = '';
   formData = new FormData();
@@ -108,14 +110,15 @@ export class PatientsComponent implements OnInit , AfterViewInit{
         console.log(this.fileName);
     }
   }
-  delete(){
-    this.dataService.deleteDoctor(this.doctor._id).subscribe(data => {
-      
-      for(let d of this.doctors){
-        if(d._id==this.doctor._id){
-          console.log(this.doctors.splice(this.doctors.indexOf(d),1));
-        }
-      }
+
+  onClick(patient:IPatient){
+    this.patient=patient;
+ }
+
+ deletePatient(){
+    this.patientService.deletePatient(this.patient?._id).subscribe(()=>{
+      this.updateTable();
     });
   }
+  
 }
