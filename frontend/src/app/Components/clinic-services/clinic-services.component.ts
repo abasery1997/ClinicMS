@@ -1,4 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild  } from '@angular/core';
+import { ClinicService } from 'src/app/Services/clinic.service';
+
 
 
 declare var $:any;
@@ -11,8 +13,9 @@ declare var $:any;
 export class ClinicServicesComponent implements OnInit , AfterViewInit {
   @ViewChild('dataTable' , {static: false})  table:any; 
   dataTable:any;
-  constructor() { }
+  constructor(private clinicService:ClinicService) { }
 
+  
   ngOnInit(): void {
   }
   ngAfterViewInit(): void {
