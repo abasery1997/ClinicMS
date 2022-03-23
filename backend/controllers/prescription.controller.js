@@ -1,13 +1,11 @@
 const { validationResult } = require("express-validator");
-const ClinicService = require("../models/ClinicService");
+const Prescription = require("../models/prescription");
 
-
-//get all Services
-exports.getClinicServices = (req, res, next) => {
-    ClinicService.find({})
+//get all Prescriptions
+exports.getPrescription = (req, res, next) => {
+    Prescription.find({})
         .then(data => {
             res.status(200).json(data)
-
         })
         .catch(error => {
             error.status = 500;
@@ -15,8 +13,8 @@ exports.getClinicServices = (req, res, next) => {
         })
 }
 
-//get specific service
-exports.getAClinicService = (req, res, next) => {
+//get specific Prescription 
+exports.getAPrescription = (req, res, next) => {
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -25,12 +23,11 @@ exports.getAClinicService = (req, res, next) => {
         throw error;
     }
     let id = req.body.id;
-    console.log(id);
-    ClinicService.findById(id)
+    Prescription.findById(id)
         .then(data => {
             console.log(data);
             if (data == null) {
-                throw new Error("Clinic Service not Found!")
+                throw new Error("Prescription not Found!")
             } else {
                 res.status(200).json({ data })
             }
@@ -40,8 +37,8 @@ exports.getAClinicService = (req, res, next) => {
             next(error.message);
         })
 }
-//add new Clinic Service
-exports.addClinicService = (req, res, next) => {
+//add new Prescription
+exports.addPrescription = (req, res, next) => {
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -49,11 +46,11 @@ exports.addClinicService = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let clinicService = new ClinicService({
-        name:req.body.name,
-        invoiceAmount: req.body.invoiceAmount,
+    let prescription = new Prescription({
+        appointmentID: req.body.appointmentID,
+        medicineArr: req.body.medicineArr,        
     });
-    clinicService.save()
+    prescription.save()
         .then(data => {
             res.status(201).json({ id: data._id })
         })
@@ -61,10 +58,9 @@ exports.addClinicService = (req, res, next) => {
             error.status = 500;
             next(error.message);
         })
-
 }
-//update Clinic Service
-exports.updateClinicService = (req, res, next) => {
+//update Prescription
+exports.updatePrescription = (req, res, next) => {
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -72,15 +68,15 @@ exports.updateClinicService = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    ClinicService.findByIdAndUpdate(req.body.id, {
+    Prescription.findByIdAndUpdate(req.body._id, {
         $set: {
-            name:req.body.name,
-            invoiceAmount: req.body.invoiceAmount,
+            appointmentID: req.body.appointmentID,
+            medicineArr: req.body.medicineArr,
         }
     })
         .then(data => {
             if (data == null) {
-                throw new Error("Clinic Service not Found!")
+                throw new Error("Prescription not Found!")
             } else {
 
                 res.status(200).json({ message: "updated" })
@@ -93,8 +89,8 @@ exports.updateClinicService = (req, res, next) => {
         })
 }
 
-//delete Clinic Service
-exports.deleteClinicService = (req, res, next) => {
+//delete Prescription
+exports.deletePrescription = (req, res, next) => {
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -102,11 +98,11 @@ exports.deleteClinicService = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let id = req.body.id;
-    ClinicService.findByIdAndDelete(id)
+    let id = req.body._id;
+    Prescription.findByIdAndDelete(id)
         .then((data) => {
             if (data == null) {
-                throw new Error("Clinic Service not Found!")
+                throw new Error("Prescription not Found!")
             } else {
                 res.status(200).json({ message: "deleted" })
             }

@@ -1,5 +1,5 @@
 const { validationResult } = require("express-validator");
-const Doctor = require("./../Models/doctors");
+const Doctor = require("../models/doctors");
 ///don't remove comments
 //const ClinicService = require("./../Models/ClinicService");
 

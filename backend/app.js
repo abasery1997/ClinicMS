@@ -10,11 +10,13 @@ const  path=require("path");
 
 
 //routes
+const authRouter = require('./routes/auth.router')
+const prescriptionRouter = require('./routes/prescription.router')
 const doctorRoute = require('./routes/doctors.router')
 const employeeRoute = require('./routes/employee.router')
 const patientRoute = require('./routes/patient.router')
 const ClinicService = require('./routes/ClinicService.router')
-
+const appointmentRouter = require('./routes/appointment.router')
 
 const corsOptions ={
   origin:'*',
@@ -69,30 +71,31 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.use("/images",express.static(path.join(__dirname,"images")));
-app.use(multer({storage,fileFilter}).single("image"))
+app.use(multer({storage,fileFilter}).single("image"));
+
 
 
 app.use((req,res,next)=>{
-console.log("dsds");
 if (req.hasOwnProperty('file')){
 
   if (req.file.filename!=null){
     let temp = req.file.filename;
     req.file.filename=`http://localhost:8080/images/${temp}`;
   }
-  else {
-    
-  }
+
 }
 next();
 
 });
 
-
+app.use('/login',authRouter);
 app.use('/doctors',doctorRoute);
 app.use('/employees',employeeRoute);
 app.use('/patients',patientRoute);
 app.use('/clinicservice',ClinicService);
+app.use('/appointments',appointmentRouter);
+app.use('/prescriptions',prescriptionRouter);
+
 //unknown paths
 app.use((req, res, next) => {
   res.status(404).json({ message: " unknown url paths" });
