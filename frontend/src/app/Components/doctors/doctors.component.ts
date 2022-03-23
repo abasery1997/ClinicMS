@@ -103,7 +103,8 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
       })
     }
     else {
-      this.formData.append("image", this.doctor.image);
+      this.formData.append('_id', this.doctor._id);
+      console.log(this.doctor._id);
       this.dataService.updateDoctor(this.formData).subscribe((docID) => {
         this.dataService.getAllDoctors().subscribe((res) => {
           this.doctors = res;
