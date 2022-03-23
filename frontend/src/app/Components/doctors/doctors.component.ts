@@ -34,7 +34,8 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
   attendingDaysValues: string[] = ["sat", "sun", "mon", "tue", "wed", "thu", "fri"];
   parseWorkingDays(days: string) {
     this.attendingDaysString = days.split(',');
-    this.attendingDaysString.splice(this.attendingDaysString.length - 1, 1);
+    if(this.attendingDaysString.length>1)
+      this.attendingDaysString.splice(this.attendingDaysString.length - 1, 1);
     for (let i = 0; i < this.attendingDaysString.length; i++) {
       if (this.attendingDaysString[i] == "mon")
         this.attendingDaysString[i] = "Monday";
