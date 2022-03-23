@@ -17,7 +17,7 @@ router.post("", [
     body("lastname").isString().withMessage("Patient Name should be String"),
     body("email").isEmail().withMessage("email format not correct"),
     body("gender").isIn(['m', 'f']).withMessage("Patient Name should be String"),
-    body("phone").isNumeric().withMessage("phone contains numbers only"),
+    body("phone").isNumeric().matches(/^01[0-2,5]{1}[0-9]{8}$/).withMessage("phone contains numbers only"),
     body("emergencyPhone").isNumeric().matches(/^01[0-2,5]{1}[0-9]{8}$/).withMessage("wrong phone number")
 ], addPatient);
 

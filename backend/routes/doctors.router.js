@@ -13,8 +13,8 @@ router.get("/one", getADoctor);
 
 //add new doctor route
 router.post("", [
-    body("firstname").isString().withMessage("Doctor Name should be String"),
-    body("lastname").isString().withMessage("Doctor Name should be String"),
+    body("firstname").isString().withMessage("Doctor First Name should be String"),
+    body("lastname").isString().withMessage("Doctor Last Name should be String"),
     body("email").isEmail().withMessage("email format not correct"),
     body("gender").isIn(['m', 'f']).withMessage("Doctor Name should be String"),
     body("phone").isNumeric().matches(/^01[0-2,5]{1}[0-9]{8}$/).withMessage("wrong phone number"),
@@ -25,10 +25,11 @@ router.post("", [
 
 //update doctor route
 router.put("", [
-    body("name").isString().withMessage("Doctor Name should be String"),
+    body("firstname").isString().withMessage("Doctor First Name should be String"),
+    body("lastname").isString().withMessage("Doctor Last Name should be String"),
     body("email").isEmail().withMessage("email format not correct"),
     body("gender").isIn(['m', 'f']).withMessage("Doctor Name should be String"),
-    body("phone").isNumeric().withMessage("phone contains numbers only"),
+    body("phone").isNumeric().matches(/^01[0-2,5]{1}[0-9]{8}$/).withMessage("wrong phone number"),
     body("attendingDays").isString().withMessage("attendingDays should be String"),
     body("startTime").isObject().withMessage("startTime should be object"),
     body("endTime").isObject().withMessage("endTime should be object")
