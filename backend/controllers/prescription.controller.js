@@ -22,7 +22,7 @@ exports.getAPrescription = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let id = req.body.id;
+    let id = req.body._id;
     Prescription.findById(id)
         .then(data => {
             console.log(data);
