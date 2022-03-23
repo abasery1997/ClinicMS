@@ -1,7 +1,12 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+<<<<<<< HEAD
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/Operators';
+=======
+import { throwError,Observable } from 'rxjs';
+import {catchError} from 'rxjs/operators';
+>>>>>>> 8cd704a21ec3725c8bd7a93942ac98f7effb9fe7
 import { ClinicServiceClass } from '../Components/Model/clinic-service';
 
 @Injectable({
@@ -18,6 +23,19 @@ export class ClinicService {
       .pipe(catchError(this.handleError));
   }
 
+  AddService(ser:ClinicServiceClass){
+    return this.http.post<ClinicServiceClass>(this.clinicServiceUrl,ser)
+      .pipe(catchError(this.handleError));
+  }
+  UpdateService(ser:ClinicServiceClass){
+    return this.http.put<ClinicServiceClass>(this.clinicServiceUrl,ser)
+      .pipe(catchError(this.handleError));
+  }
+  delete(id:string){
+    return this.http.delete(this.clinicServiceUrl,{
+      body:{id:id},
+    })
+  }
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {
       // A client-side or network error occurred. Handle it accordingly.

@@ -24,7 +24,7 @@ exports.getADoctor = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let id = req.body.id;
+    let id = req.body._id;
     console.log(id);
     Doctor.findById(id)
         .then(data => {
@@ -98,7 +98,7 @@ exports.updateDoctor = (req, res, next) => {
         throw error;
     }
     let birthDate = new Date(req.body.birthDate);
-    Doctor.findByIdAndUpdate(req.body.id, {
+    Doctor.findByIdAndUpdate(req.body._id, {
         $set: {
             name: req.body.name,
             email: req.body.email,
@@ -136,7 +136,7 @@ exports.deleteDoctor = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let id = req.body.id;
+    let id = req.body._id;
     Doctor.findByIdAndDelete(id)
         .then((data) => {
             if (data == null) {
