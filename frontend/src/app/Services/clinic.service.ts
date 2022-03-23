@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
+import { ClinicServiceClass } from '../Components/Model/clinic-service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +10,10 @@ export class ClinicService {
 
   constructor(public http:HttpClient) { }
 
-  clinicServiceUrl:string="localhost:8080/clinicservice";
-  clinicServices:ClinicService[]=[];
+  clinicServiceUrl:string="http://localhost:8080/clinicservice";
+  
   getAllServices(){
-    return this.http.get<ClinicService[]>(this.clinicServiceUrl)
+    return this.http.get<ClinicServiceClass[]>(this.clinicServiceUrl)
       .pipe(catchError(this.handleError));
   }
 
