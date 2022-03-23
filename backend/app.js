@@ -11,6 +11,7 @@ const  path=require("path");
 
 //routes
 const authRouter = require('./routes/auth.router')
+const prescriptionRouter = require('./routes/prescription.router')
 const doctorRoute = require('./routes/doctors.router')
 const employeeRoute = require('./routes/employee.router')
 const patientRoute = require('./routes/patient.router')
@@ -95,6 +96,8 @@ app.use('/employees',employeeRoute);
 app.use('/patients',patientRoute);
 app.use('/clinicservice',ClinicService);
 app.use('/appointments',appointmentRouter);
+app.use('/prescriptions',prescriptionRouter);
+
 //unknown paths
 app.use((req, res, next) => {
   res.status(404).json({ message: " unknown url paths" });
