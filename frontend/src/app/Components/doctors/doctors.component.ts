@@ -31,9 +31,26 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
     });
   }
 
+  attendingDaysValues: string[] = ["sat", "sun", "mon", "tue", "wed", "thu", "fri"];
   parseWorkingDays(days: string) {
-    let daysArray=days.split(',');
-    
+    this.attendingDaysString = days.split(',');
+    this.attendingDaysString.splice(this.attendingDaysString.length - 1, 1);
+    for (let i = 0; i < this.attendingDaysString.length; i++) {
+      if (this.attendingDaysString[i] == "mon")
+        this.attendingDaysString[i] = "Monday";
+      else if (this.attendingDaysString[i] == "sat")
+        this.attendingDaysString[i] = "Saturday";
+      else if (this.attendingDaysString[i] == "sun")
+        this.attendingDaysString[i] = "Sunday";
+      else if (this.attendingDaysString[i] == "tue")
+        this.attendingDaysString[i] = "Tuesday";
+      else if (this.attendingDaysString[i] == "we")
+        this.attendingDaysString[i] = "Wednesday";
+      else if (this.attendingDaysString[i] == "thu")
+        this.attendingDaysString[i] = "Thursday";
+      else
+        this.attendingDaysString[i] = "Friday";
+    }
   }
   calcAge(birthDate: Date): number {
     let age = 0;
@@ -100,13 +117,13 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
     this.ClinicServiceID = clinicService;
   }
   gender: string = "m";
-  attendingDaysValues: string[] = ["sat", "sun", "mon", "tue", "wed", "thu", "fri"];
+  attendingDaysString: string[] = [];
   attendingDays: boolean[] = [false, false, false, false, false, false, false];
   getDays(): string {
     let days: string = "";
     for (let i = 0; i < 7; i++) {
       if (this.attendingDays[i] && i != 6) {
-        days += this.attendingDaysValues[i]+',';
+        days += this.attendingDaysValues[i] + ',';
       }
       else if (this.attendingDays[i] && i == 6) {
         days += this.attendingDaysValues[i];
@@ -141,5 +158,21 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
         }
       }
     });
+  }
+  startTime:Time=new Time(0,0);
+  setStartTime(st:string){
+    
+    let startTimeA: string[] = st.split(':');
+    this.startTime = new Time(Number(startTimeA[0]), Number(startTimeA[1]));
+  }
+  validateTime(et:string){
+    
+    let endTimeA: string[] = et.split(':');
+    let etTime: Time = new Time(Number(endTimeA[0]), Number(endTimeA[1]));
+    if(etTime.h>(this.startTime.h+1))
+      {
+        
+      }
+    return true;
   }
 }
