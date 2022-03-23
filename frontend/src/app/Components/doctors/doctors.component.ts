@@ -31,11 +31,9 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  parseWorkingDays(Adays: string) {
-    let day: string = '';
-    let days: string[] = [];
-    let x = Adays.length;
-    console.log(Adays)
+  parseWorkingDays(days: string) {
+    let daysArray=days.split(',');
+    
   }
   calcAge(birthDate: Date): number {
     let age = 0;
