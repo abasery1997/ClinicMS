@@ -21,7 +21,7 @@ export class DoctorsComponent implements OnInit , AfterViewInit{
   doctors:Doctor[]=[];
   doctor:Doctor=new Doctor('',"1",'','','',new Date(),'','','','','',new Time(1,1),new Time(1,1));
   ngOnInit(): void {
-     this.dataService.getAllDoctors().subscribe((res)=>{
+     this.dataService.getAllDoctors().subscribe((res:any)=>{
      this.doctors=res;
      
     });
@@ -56,14 +56,14 @@ export class DoctorsComponent implements OnInit , AfterViewInit{
   if(!edit)
   {
     this.dataService.addDoctor(this.formData).subscribe((docID)=>{
-      this.dataService.getAllDoctors().subscribe((res)=>{
+      this.dataService.getAllDoctors().subscribe((res:any)=>{
         this.doctors=res;
       })
     })
   }
   else {
-    this.dataService.updateDoctor(this.formData).subscribe((docID)=>{
-      this.dataService.getAllDoctors().subscribe((res)=>{
+    this.dataService.updateDoctor(this.formData).subscribe((docID:any)=>{
+      this.dataService.getAllDoctors().subscribe((res:any)=>{
         this.doctors=res;
       })
     })
@@ -106,8 +106,6 @@ export class DoctorsComponent implements OnInit , AfterViewInit{
     if (this.file) {
         this.fileName = this.file.name;
         this.formData.append("image", this.file);
-        console.log(this.formData.getAll("thumbnail"));
-        console.log(this.fileName);
     }
   }
   delete(){
