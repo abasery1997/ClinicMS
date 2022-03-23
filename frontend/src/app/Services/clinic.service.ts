@@ -1,12 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-<<<<<<< HEAD
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/Operators';
-=======
-import { throwError,Observable } from 'rxjs';
-import {catchError} from 'rxjs/operators';
->>>>>>> 8cd704a21ec3725c8bd7a93942ac98f7effb9fe7
 import { ClinicServiceClass } from '../Components/Model/clinic-service';
 
 @Injectable({
