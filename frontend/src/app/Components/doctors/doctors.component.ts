@@ -26,7 +26,7 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
     this.dataService.getAllDoctors().subscribe((res) => {
       this.doctors = res;
     });
-    this.clinicService.getAllServices().subscribe((res) => {
+    this.clinicService.getAllServices().subscribe((res:any) => {
       this.clinicServices = res;
     });
   }
