@@ -88,6 +88,19 @@ next();
 
 });
 
+app.use((req,res,next)=>{
+  if (req.hasOwnProperty('birthDate')){
+  
+    if (req.body.birthDate!=null){
+     let temp = req.body.birthDate;
+      req.body.birthDate=Date(temp);
+    }
+  
+  }
+  next();
+  
+  });
+
 app.use('/login',authRouter);
 app.use('/doctors',doctorRoute);
 app.use('/employees',employeeRoute);

@@ -27,7 +27,7 @@ exports.getAAppointment = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let id = req.body.id;
+    let id = req.body._id;
     Appointment.findById(id)
         .then(data => {
             console.log(data);
@@ -84,7 +84,7 @@ exports.updateAppointment = (req, res, next) => {
         throw error;
     }
     let appDate = new Date(req.body.appDate);
-    Appointment.findByIdAndUpdate(req.body.id, {
+    Appointment.findByIdAndUpdate(req.body._id, {
         $set: {
             doctorID: req.body.doctorID,
             employeeID: req.body.employeeID,
@@ -117,7 +117,7 @@ exports.deleteAppointment = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let id = req.body.id;
+    let id = req.body._id;
     Appointment.findByIdAndDelete(id)
         .then((data) => {
             if (data == null) {

@@ -24,7 +24,7 @@ exports.getAClinicService = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let id = req.body.id;
+    let id = req.body._id;
     console.log(id);
     ClinicService.findById(id)
         .then(data => {
@@ -72,7 +72,7 @@ exports.updateClinicService = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    ClinicService.findByIdAndUpdate(req.body.id, {
+    ClinicService.findByIdAndUpdate(req.body._id, {
         $set: {
             name:req.body.name,
             invoiceAmount: req.body.invoiceAmount,
@@ -102,7 +102,7 @@ exports.deleteClinicService = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let id = req.body.id;
+    let id = req.body._id;
     ClinicService.findByIdAndDelete(id)
         .then((data) => {
             if (data == null) {

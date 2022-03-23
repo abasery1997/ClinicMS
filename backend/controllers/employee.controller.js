@@ -24,7 +24,7 @@ exports.getAnEmployee = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let id = req.body.id;
+    let id = req.body._id;
     console.log(id);
     Employee.findById(id)
         .then(data => {
@@ -80,7 +80,7 @@ exports.updateEmployee = (req, res, next) => {
         throw error;
     }
     let birthDate = new Date(req.body.birthDate);
-    Employee.findByIdAndUpdate(req.body.id, {
+    Employee.findByIdAndUpdate(req.body._id, {
         $set: {
             name: req.body.name,
             email: req.body.email,
@@ -115,7 +115,7 @@ exports.deleteEmployee = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let id = req.body.id;
+    let id = req.body._id;
     Employee.findByIdAndDelete(id)
         .then((data) => {
             if (data == null) {

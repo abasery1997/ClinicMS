@@ -22,10 +22,11 @@ router.post("", [
 
 //update Employee route
 router.put("", [
-    body("name").isString().withMessage("Employee Name should be String"),
+    body("firstname").isString().withMessage("Employee First Name should be String"),
+    body("lastname").isString().withMessage("Employee Name should be String"),
     body("email").isEmail().withMessage("email format not correct"),
     body("gender").isIn(['m', 'f']).withMessage("Employee Name should be String"),
-    body("phone").isNumeric().withMessage("phone contains numbers only")
+    body("phone").isNumeric().matches(/^01[0-2,5]{1}[0-9]{8}$/).withMessage("wrong phone number")
 ], updateEmployee);
 
 router.delete("", deleteEmployee);
