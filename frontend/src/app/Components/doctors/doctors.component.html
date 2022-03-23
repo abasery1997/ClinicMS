@@ -47,9 +47,9 @@
           <td>{{ doctor.phone }}</td>
           <td>{{getClinicService(doctor.clinicServiceID)}}</td>
           <td>{{ doctor.gender }}</td>
-          <td>35</td>
+          <td>{{calcAge(doctor.birthDate)}}</td>
           <td>{{ doctor.email }}</td>
-          <td class="text-capitalize">{{ doctor.attendingDays }}</td>
+          <td class="text-capitalize">{{ doctor.attendingDays }} {{parseWorkingDays(doctor.attendingDays)}}</td>
           <td>{{ doctor.startTime.h }}:{{ doctor.startTime.m }}</td>
           <td>{{ doctor.endTime.h }}:{{ doctor.endTime.m }}</td>
           <td>
