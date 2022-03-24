@@ -95,12 +95,17 @@ app.use((req,res,next)=>{
      let temp = req.body.birthDate;
       req.body.birthDate=Date(temp);
     }
-  
   }
-  next();
+  if (req.hasOwnProperty('appDate')){
   
+    if (req.body.appDate!=null){
+     let temp = req.body.appDate;
+      req.body.appDate=Date(temp);
+    }
+  }
+  next();  
   });
-
+  appDate
 app.use('/login',authRouter);
 app.use('/doctors',doctorRoute);
 app.use('/employees',employeeRoute);

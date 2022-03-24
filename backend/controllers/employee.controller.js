@@ -82,13 +82,13 @@ exports.updateEmployee = (req, res, next) => {
     let birthDate = new Date(req.body.birthDate);
     Employee.findByIdAndUpdate(req.body._id, {
         $set: {
-            name: req.body.name,
+            firstname: req.body.firstname,
+            lastname:req.body.lastname,
             email: req.body.email,
             password: req.body.password,
             gender: req.body.gender,
             birthDate: birthDate,
             phone:req.body.phone,
-            
         }
     })
         .then(data => {
