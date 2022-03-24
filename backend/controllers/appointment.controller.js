@@ -43,30 +43,35 @@ exports.getAAppointment = (req, res, next) => {
         })
 }
 //add new Appointment
-exports.addAppointment = (req, res, next) => {
-    let errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        let error = new Error();
-        error.status = 422;
-        error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
-        throw error;
+exports.addAppointment = async (req, res, next) => {
+    try {
+        let errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            let error = new Error();
+            error.status = 422;
+            error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
+            throw error;
+        }
+        // await Doctor.findById(req.body.doctorID).then(d => { if (!d) { throw new Error("Doctor not Found!") } })
+        // await Employee.findById(req.body.employeeID).then(e => { if (!e) { throw new Error("Employee not Found!") } })
+        // await Patient.findById(req.body.patientID).then(p => { if (!p) { throw new Error("Patient not Found!") } })
+
+        let appDate = new Date(req.body.appDate);
+        let appointment = await new Appointment({
+            doctorID: req.body.doctorID,
+            employeeID: req.body.employeeID,
+            patientID: req.body.patientID,
+            appDate: appDate,
+
+        });
+        const app = await appointment.save()
+        await res.status(201).json({ id: app._id })
     }
-    let appDate = new Date(req.body.appDate);
-    let appointment = new Appointment({
-        doctorID: req.body.doctorID,
-        employeeID: req.body.employeeID,
-        patientID: req.body.patientID,
-        appDate: appDate,
-        
-    });
-    appointment.save()
-        .then(data => {
-            res.status(201).json({ id: data._id })
-        })
-        .catch(error => {
-            error.status = 500;
-            next(error.message);
-        })
+    catch (error) {
+        error.status = 500;
+        next(error.message);
+    }
+
 
 
 
@@ -90,7 +95,7 @@ exports.updateAppointment = (req, res, next) => {
             employeeID: req.body.employeeID,
             patientID: req.body.patientID,
             appDate: appDate,
-            status:req.body.status
+            status: req.body.status
         }
     })
         .then(data => {

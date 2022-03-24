@@ -1,7 +1,6 @@
 const { validationResult } = require("express-validator");
 const Doctor = require("../models/doctors");
-///don't remove comments
-//const ClinicService = require("./../Models/ClinicService");
+const ClinicService = require("../models/ClinicService");
 
 //get all doctors
 exports.getDoctors = (req, res, next) => {
@@ -41,46 +40,45 @@ exports.getADoctor = (req, res, next) => {
         })
 }
 //add new doctor
-exports.addDoctor = (req, res, next) => {
-    let errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        let error = new Error();
-        error.status = 422;
-        error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
-        throw error;
+exports.addDoctor = async (req, res, next) => {
+    try {
+
+
+        let errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            let error = new Error();
+            error.status = 422;
+            error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
+            throw error;
+        }
+
+        await ClinicService.findById(req.body.clinicServiceID).then(c => { if (!c) { throw new Error("ClinicService not Found!") } })
+
+        let birthDate = new Date(req.body.birthDate);
+        let doctor = await new Doctor({
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            email: req.body.email,
+            image: req.file.filename,
+            password: req.body.password,
+            gender: req.body.gender,
+            phone: req.body.phone,
+            birthDate: birthDate,
+            clinicServiceID: req.body.clinicServiceID,
+            attendingDays: req.body.attendingDays,
+            startTime: req.body.startTime,
+            endTime: req.body.endTime
+        });
+        const doc = await doctor.save()
+        await res.status(201).json({ id: doc._id })
+
+
     }
-    ///don't remove comments
-    //  ClinicService.findById(req.body.clinicServiceID)
-    //     .then(data => {
-    //         if (data == null) {
-    //             throw new Error("Clinic Service not Found!")
-    //          } else {
-    let birthDate = new Date(req.body.birthDate);
-    let doctor = new Doctor({
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        email: req.body.email,
-        image: req.file.filename,
-        password: req.body.password,
-        gender: req.body.gender,
-        phone: req.body.phone,
-        birthDate: birthDate,
-        clinicServiceID: req.body.clinicServiceID,
-        attendingDays: req.body.attendingDays,
-        startTime: req.body.startTime,
-        endTime: req.body.endTime
-    });
-    doctor.save()
-        .then(data => {
-            res.status(201).json({ id: data._id })
-        })
-        ///don't remove comments
-        //       }
-        //    })
-        .catch(error => {
-            error.status = 500;
-            next(error.message);
-        })
+    catch (error) {
+        error.status = 500;
+        next(error.message);
+    }
+
 
 
 
