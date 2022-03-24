@@ -17,6 +17,7 @@ exports.getDoctors = (req, res, next) => {
 
 //get specific doctor 
 exports.getADoctor = (req, res, next) => {
+    const{id} =req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -24,10 +25,10 @@ exports.getADoctor = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let id = req.body._id;
     console.log(id);
     Doctor.findById(id)
         .then(data => {
+            console.log(data);
             console.log(data);
             if (data == null) {
                 throw new Error("Doctor not Found!")
@@ -54,15 +55,15 @@ exports.addDoctor = async (req, res, next) => {
         }
         //check clinic service exists
         await ClinicService.findById(req.body.clinicServiceID).then(c => { if (!c) { throw new Error("ClinicService not Found!") } })
-       
+
         //check duplicated email
         const existedDoctor = await Doctor.findOne({ email })
         if (existedDoctor) return res.status(400).json({ error: "Email Already Exists" })
-       
+
         let doctor = await new Doctor({
             firstname, lastname, email,
             image: req.file.filename,
-            password:bcrypt.hashSync(password, 10),
+            password: bcrypt.hashSync(password, 10),
             gender, phone, birthDate,
             clinicServiceID, attendingDays,
             startTime, endTime
