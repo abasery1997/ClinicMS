@@ -63,6 +63,10 @@
 </div>
 <!-- End Table -->
 <!-- Start Form Modal -->
+<form action="" [formGroup]="validateInputs" method="">
+  <input type="text" name="phone"  formControlName="phone" id="phone">
+  <button (click)="show()">click</button>
+</form>
 <div class="modal fade" id="addForm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
   aria-labelledby="addModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-xl">
@@ -70,7 +74,7 @@
       <div class="modal-header px-5 bg-black text-white">
         <h2 *ngIf="!edit" class="modal-title" id="addModalTitle">Add Doctor</h2>
         <h2 *ngIf="edit" class="modal-title" id="addModalTitle">Edit Doctor</h2>
-        <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" (click)="closeForm()" aria-label="Close"></button>
       </div>
       <form action="" method="post">
         <div class="modal-body px-5">
@@ -174,7 +178,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          <button type="button" class="btn btn-danger" (click)="closeForm()" data-bs-dismiss="modal">
             Cancel
           </button>
           <button *ngIf="edit" type="submit" class="btn btn-success" (click)="

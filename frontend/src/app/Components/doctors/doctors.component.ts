@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ClinicService } from 'src/app/Services/clinic.service';
 
 
@@ -74,6 +75,18 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
     this.dataTable.DataTable();
   }
 
+  validateInputs:FormGroup = new FormGroup({
+    firstName: new FormControl('',[]),
+    lastName: new FormControl(''),
+    phone: new FormControl('',Validators.pattern(/^01[0-2,5]{1}[0-9]{8}$/))
+  });
+  show(){
+    console.log(this.validateInputs.get('phone')?.value)
+    if(this.validateInputs.get('phone')?.valid)
+      console.log("eeeeeeeeeeeeeeeeeeee")  
+      else 
+      console.log("Invaliiiiiiiiiiiiiiiiiiiiiiiiiiiiid")  
+  }
   addDoctor(password: string, email: string, age: string, firstname: string, lastname: string, phone: string, startTime: string, endTime: any) {
 
     let startTimeA: string[] = startTime.split(':');
@@ -99,19 +112,26 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
       this.dataService.addDoctor(this.formData).subscribe((docID) => {
         this.dataService.getAllDoctors().subscribe((res) => {
           this.doctors = res;
+          this.closeForm();
         })
       })
     }
     else {
       this.formData.append('_id', this.doctor._id);
-      console.log(this.doctor._id);
       this.dataService.updateDoctor(this.formData).subscribe((docID) => {
         this.dataService.getAllDoctors().subscribe((res) => {
           this.doctors = res;
+          this.closeForm();
         })
       })
     }
 
+  }
+  closeForm(){
+    alert("hmama")
+    this.edit=false;
+    this.doctor=new Doctor('','','','','',new Date(),'','','','','',new Time(0,0),new Time(0,0));
+    this.attendingDays=[false,false,false,false,false,false,false];
   }
   ClinicServiceID: Object = '';
   setClinicServiceID(clinicService: Object) {
