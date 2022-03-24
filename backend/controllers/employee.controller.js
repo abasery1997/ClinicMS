@@ -1,4 +1,5 @@
 const { validationResult } = require("express-validator");
+const bcrypt = require("bcrypt")
 const Employee = require("../models/employee");
 
 
@@ -42,6 +43,7 @@ exports.getAnEmployee = (req, res, next) => {
 }
 //add new Employee
 exports.addEmployee = (req, res, next) => {
+    const { firstname, lastname, password, email, gender, phone, } = req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -51,14 +53,14 @@ exports.addEmployee = (req, res, next) => {
     }
     let birthDate = new Date(req.body.birthDate);
     let employee = new Employee({
-        firstname: req.body.firstname,
-        lastname:req.body.lastname,
-        email: req.body.email,
+        firstname,
+        lastname,
+        email,
         image:req.file.filename,
-        password: req.body.password,
-        gender: req.body.gender,
-        birthDate: birthDate,
-        phone:req.body.phone,
+        password :bcrypt.hashSync(password, 10),
+        gender,
+        birthDate,
+        phone,
     });
     employee.save()
         .then(data => {
