@@ -4,7 +4,7 @@ const Appointment = require("../models/appointment");
 
 //get all Prescriptions
 exports.getPrescription = (req, res, next) => {
-    Prescription.find({})
+    Prescription.find({},{__v:0})
         .then(data => {
             res.status(200).json(data)
         })
@@ -24,9 +24,8 @@ exports.getAPrescription = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    Prescription.findById(id)
+    Prescription.findById(id,{__v:0})
         .then(data => {
-            console.log(data);
             if (data == null) {
                 throw new Error("Prescription not Found!")
             } else {

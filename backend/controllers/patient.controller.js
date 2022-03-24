@@ -5,7 +5,7 @@ const Patient = require("../models/patient");
 
 //get all Patients
 exports.getAllPatients = (req, res, next) => {
-    Patient.find({})
+    Patient.find({},{password:0,__v:0})
         .then(data => {
             res.status(200).json(data)
 
@@ -26,9 +26,8 @@ exports.getAPatient = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    Patient.findById(id)
+    Patient.findById(id,{password:0,__v:0})
         .then(data => {
-            console.log(data);
             if (data == null) {
                 throw new Error("Patient not Found!")
             } else {

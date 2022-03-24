@@ -4,7 +4,7 @@ const ClinicService = require("../models/ClinicService");
 
 //get all Services
 exports.getClinicServices = (req, res, next) => {
-    ClinicService.find({})
+    ClinicService.find({},{__v:0})
         .then(data => {
             res.status(200).json(data)
 
@@ -25,7 +25,7 @@ exports.getAClinicService = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    ClinicService.findById(id)
+    ClinicService.findById(id,{__v:0})
         .then(data => {
             if (data == null) {
                 throw new Error("Clinic Service not Found!")

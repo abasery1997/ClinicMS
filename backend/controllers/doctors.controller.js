@@ -5,7 +5,7 @@ const ClinicService = require("../models/ClinicService");
 
 //get all doctors
 exports.getDoctors = (req, res, next) => {
-    Doctor.find({})
+    Doctor.find({},{password:0,__v:0})
         .then(data => {
             res.status(200).json(data)
         })
@@ -25,7 +25,9 @@ exports.getADoctor = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    Doctor.findById(id)
+    //let projection = { _id:1,password: 1 };
+
+    Doctor.findById(id,{password:0,__v:0})
         .then(data => {
             if (data == null) {
                 throw new Error("Doctor not Found!")
