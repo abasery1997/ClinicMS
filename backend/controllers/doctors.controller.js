@@ -112,7 +112,7 @@ exports.updateDoctor = async (req, res, next) => {
         if (doc == null) {
             throw new Error("Doctor not Found!")
         } else {
-            res.status(200).json({ message: "updated" })
+            await res.status(200).json({ message: "updated" })
         }
 
     }
@@ -125,7 +125,7 @@ exports.updateDoctor = async (req, res, next) => {
 
 //delete doctor
 exports.deleteDoctor = (req, res, next) => {
-    const{id}=req.body;
+    const { id } = req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
