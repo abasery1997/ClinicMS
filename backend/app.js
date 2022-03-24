@@ -105,7 +105,7 @@ app.use((req,res,next)=>{
   }
   next();  
   });
-  appDate
+  
 app.use('/login',authRouter);
 app.use('/doctors',doctorRoute);
 app.use('/employees',employeeRoute);

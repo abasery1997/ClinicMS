@@ -93,8 +93,8 @@
               <label for="Speciality" class="form-label">Speciality</label>
               <select class="form-select" id="Speciality" name="Speciality"
                 (blur)="setClinicServiceID(Speciality.value)" #Speciality required>
-                <option selected></option>
-                <option *ngFor="let c of clinicServices" value={{c._id}}>{{c.name}}</option>
+                <option *ngIf="!edit" selected></option>
+                <option *ngFor="let c of clinicServices" value={{c._id}} [selected]="selectSpeciality(c._id)">{{c.name}}</option>
               </select>
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
@@ -168,7 +168,7 @@
                 required />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
-              <label for="endTime" class="form-label">Ende Time</label>
+              <label for="endTime" class="form-label">End Time</label>
               <input type="time" class="form-control" #eTime id="endTime" (blur)="validateTime(eTime.value)" required />
             </div>
           </div>
