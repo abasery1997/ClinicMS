@@ -17,7 +17,7 @@ exports.getDoctors = (req, res, next) => {
 
 //get specific doctor 
 exports.getADoctor = (req, res, next) => {
-    const{id} =req.body;
+    const { id } = req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -51,7 +51,7 @@ exports.addDoctor = async (req, res, next) => {
             throw error;
         }
         //check clinic service exists
-        await ClinicService.findById(req.body.clinicServiceID).then(c => { if (!c) { throw new Error("ClinicService not Found!") } })
+        await ClinicService.findById(clinicServiceID).then(c => { if (!c) { throw new Error("ClinicService not Found!") } })
 
         //check duplicated email
         const existedDoctor = await Doctor.findOne({ email })
@@ -83,42 +83,49 @@ exports.addDoctor = async (req, res, next) => {
 
 }
 //update doctor
-exports.updateDoctor = (req, res, next) => {
-    const { firstname, lastname, password, email, gender, phone, clinicServiceID, attendingDays, startTime, endTime } = req.body;
-    let birthDate = new Date(req.body.birthDate);
-    let errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        let error = new Error();
-        error.status = 422;
-        error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
-        throw error;
-    }
-    Doctor.findByIdAndUpdate(req.body._id, {
-        $set: {
-            firstname,lastname,email,
-            password: bcrypt.hashSync(password, 10),
-            gender,phone,birthDate,
-            clinicServiceID,attendingDays,
-            startTime,endTime
+exports.updateDoctor = async (req, res, next) => {
+    try {
+
+
+        const { id, firstname, lastname, password, email, gender, phone, clinicServiceID, attendingDays, startTime, endTime } = req.body;
+        let birthDate = new Date(req.body.birthDate);
+        let errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            let error = new Error();
+            error.status = 422;
+            error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
+            throw error;
         }
-    })
-        .then(data => {
-            if (data == null) {
-                throw new Error("Doctor not Found!")
-            } else {
 
-                res.status(200).json({ message: "updated" })
+        //check clinic service exists
+        await ClinicService.findById(clinicServiceID).then(c => { if (!c) { throw new Error("ClinicService not Found!") } })
+
+        const doc = await Doctor.findByIdAndUpdate(id, {
+            $set: {
+                firstname, lastname, email,
+                password: bcrypt.hashSync(password, 10),
+                gender, phone, birthDate,
+                clinicServiceID, attendingDays,
+                startTime, endTime
             }
+        })
+        if (doc == null) {
+            throw new Error("Doctor not Found!")
+        } else {
+            res.status(200).json({ message: "updated" })
+        }
 
-        })
-        .catch(error => {
-            error.status = 500;
-            next(error.message);
-        })
+    }
+    catch (error) {
+        error.status = 500;
+        next(error.message);
+    }
+
 }
 
 //delete doctor
 exports.deleteDoctor = (req, res, next) => {
+    const{id}=req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -126,7 +133,6 @@ exports.deleteDoctor = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let id = req.body._id;
     Doctor.findByIdAndDelete(id)
         .then((data) => {
             if (data == null) {
