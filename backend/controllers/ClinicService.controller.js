@@ -17,6 +17,7 @@ exports.getClinicServices = (req, res, next) => {
 
 //get specific service
 exports.getAClinicService = (req, res, next) => {
+    const { id } = req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -24,11 +25,8 @@ exports.getAClinicService = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let id = req.body._id;
-    console.log(id);
     ClinicService.findById(id)
         .then(data => {
-            console.log(data);
             if (data == null) {
                 throw new Error("Clinic Service not Found!")
             } else {
@@ -42,6 +40,7 @@ exports.getAClinicService = (req, res, next) => {
 }
 //add new Clinic Service
 exports.addClinicService = (req, res, next) => {
+    const { name, invoiceAmount } = req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -50,8 +49,7 @@ exports.addClinicService = (req, res, next) => {
         throw error;
     }
     let clinicService = new ClinicService({
-        name:req.body.name,
-        invoiceAmount: req.body.invoiceAmount,
+        name, invoiceAmount
     });
     clinicService.save()
         .then(data => {
@@ -65,6 +63,7 @@ exports.addClinicService = (req, res, next) => {
 }
 //update Clinic Service
 exports.updateClinicService = (req, res, next) => {
+    const { id, name, invoiceAmount } = req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -72,10 +71,9 @@ exports.updateClinicService = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    ClinicService.findByIdAndUpdate(req.body._id, {
+    ClinicService.findByIdAndUpdate(id, {
         $set: {
-            name:req.body.name,
-            invoiceAmount: req.body.invoiceAmount,
+            name, invoiceAmount
         }
     })
         .then(data => {
@@ -95,6 +93,7 @@ exports.updateClinicService = (req, res, next) => {
 
 //delete Clinic Service
 exports.deleteClinicService = (req, res, next) => {
+    const { id } = req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -102,7 +101,6 @@ exports.deleteClinicService = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let id = req.body._id;
     ClinicService.findByIdAndDelete(id)
         .then((data) => {
             if (data == null) {

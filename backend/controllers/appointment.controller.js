@@ -20,6 +20,7 @@ exports.getAppointments = (req, res, next) => {
 
 //get specific Appointment 
 exports.getAAppointment = (req, res, next) => {
+    const {id} = req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -27,7 +28,6 @@ exports.getAAppointment = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let id = req.body._id;
     Appointment.findById(id)
         .then(data => {
             console.log(data);

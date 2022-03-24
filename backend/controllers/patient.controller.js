@@ -18,6 +18,7 @@ exports.getAllPatients = (req, res, next) => {
 
 //get specific Patient 
 exports.getAPatient = (req, res, next) => {
+    const {id}=req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -25,8 +26,6 @@ exports.getAPatient = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let id = req.body._id;
-    console.log(id);
     Patient.findById(id)
         .then(data => {
             console.log(data);
@@ -70,7 +69,7 @@ exports.addPatient = (req, res, next) => {
 }
 //update Patient
 exports.updatePatient = (req, res, next) => {
-    const { firstname, lastname, password, email, gender, phone, emergencyPhone } = req.body;
+    const { id, firstname, lastname, password, email, gender, phone, emergencyPhone } = req.body;
     let birthDate = new Date(req.body.birthDate);
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -80,7 +79,7 @@ exports.updatePatient = (req, res, next) => {
         throw error;
     }
 
-    Patient.findByIdAndUpdate(req.body._id, {
+    Patient.findByIdAndUpdate(id, {
         $set: {
             firstname, lastname, email,
             password: bcrypt.hashSync(password, 10),
@@ -104,6 +103,7 @@ exports.updatePatient = (req, res, next) => {
 
 //delete Patient
 exports.deletePatient = (req, res, next) => {
+    const {id}=req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -111,7 +111,6 @@ exports.deletePatient = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let id = req.body._id;
     Patient.findByIdAndDelete(id)
         .then((data) => {
             if (data == null) {

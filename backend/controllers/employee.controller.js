@@ -18,6 +18,7 @@ exports.getAllEmployees = (req, res, next) => {
 
 //get specific Employee 
 exports.getAnEmployee = (req, res, next) => {
+    const {id}= req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -25,8 +26,6 @@ exports.getAnEmployee = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let id = req.body._id;
-    console.log(id);
     Employee.findById(id)
         .then(data => {
             console.log(data);
@@ -70,8 +69,8 @@ exports.addEmployee = (req, res, next) => {
 
 }
 //update employee
-exports.updateEmployee = (req, res, next) => {
-    const { firstname, lastname, password, email, gender, phone, } = req.body;
+exports.updateEmployee =  (req, res, next) => {
+    const {id, firstname, lastname, password, email, gender, phone, } = req.body;
     let birthDate = new Date(req.body.birthDate);
 
     let errors = validationResult(req);
@@ -81,7 +80,7 @@ exports.updateEmployee = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    Employee.findByIdAndUpdate(req.body._id, {
+    Employee.findByIdAndUpdate(id, {
         $set: {
             firstname,lastname,email,
             password :bcrypt.hashSync(password, 10),
@@ -105,6 +104,7 @@ exports.updateEmployee = (req, res, next) => {
 
 //delete Employee
 exports.deleteEmployee = (req, res, next) => {
+    const {id}=req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -112,7 +112,6 @@ exports.deleteEmployee = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let id = req.body._id;
     Employee.findByIdAndDelete(id)
         .then((data) => {
             if (data == null) {
