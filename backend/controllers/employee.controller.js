@@ -44,6 +44,8 @@ exports.getAnEmployee = (req, res, next) => {
 //add new Employee
 exports.addEmployee = (req, res, next) => {
     const { firstname, lastname, password, email, gender, phone, } = req.body;
+    let birthDate = new Date(req.body.birthDate);
+
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -51,16 +53,11 @@ exports.addEmployee = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let birthDate = new Date(req.body.birthDate);
     let employee = new Employee({
-        firstname,
-        lastname,
-        email,
+        firstname,lastname,email,
         image:req.file.filename,
         password :bcrypt.hashSync(password, 10),
-        gender,
-        birthDate,
-        phone,
+        gender,birthDate,phone
     });
     employee.save()
         .then(data => {
@@ -74,6 +71,9 @@ exports.addEmployee = (req, res, next) => {
 }
 //update employee
 exports.updateEmployee = (req, res, next) => {
+    const { firstname, lastname, password, email, gender, phone, } = req.body;
+    let birthDate = new Date(req.body.birthDate);
+
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -81,16 +81,11 @@ exports.updateEmployee = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let birthDate = new Date(req.body.birthDate);
     Employee.findByIdAndUpdate(req.body._id, {
         $set: {
-            firstname: req.body.firstname,
-            lastname:req.body.lastname,
-            email: req.body.email,
-            password: req.body.password,
-            gender: req.body.gender,
-            birthDate: birthDate,
-            phone:req.body.phone,
+            firstname,lastname,email,
+            password :bcrypt.hashSync(password, 10),
+            gender,birthDate,phone
         }
     })
         .then(data => {

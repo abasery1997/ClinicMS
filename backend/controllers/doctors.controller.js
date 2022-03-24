@@ -84,6 +84,8 @@ exports.addDoctor = async (req, res, next) => {
 }
 //update doctor
 exports.updateDoctor = (req, res, next) => {
+    const { firstname, lastname, password, email, gender, phone, clinicServiceID, attendingDays, startTime, endTime } = req.body;
+    let birthDate = new Date(req.body.birthDate);
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -91,20 +93,13 @@ exports.updateDoctor = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let birthDate = new Date(req.body.birthDate);
     Doctor.findByIdAndUpdate(req.body._id, {
         $set: {
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            email: req.body.email,
-            password: req.body.password,
-            gender: req.body.gender,
-            phone: req.body.phone,
-            birthDate: birthDate,
-            clinicServiceID: req.body.clinicServiceID,
-            attendingDays: req.body.attendingDays,
-            startTime: req.body.startTime,
-            endTime: req.body.endTime
+            firstname,lastname,email,
+            password: bcrypt.hashSync(password, 10),
+            gender,phone,birthDate,
+            clinicServiceID,attendingDays,
+            startTime,endTime
         }
     })
         .then(data => {
