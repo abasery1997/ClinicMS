@@ -4,7 +4,7 @@ const Appointment = require("../models/appointment");
 
 //get all Prescriptions
 exports.getPrescription = (req, res, next) => {
-    Prescription.find({})
+    Prescription.find({}, { __v: 0 })
         .then(data => {
             res.status(200).json(data)
         })
@@ -16,6 +16,7 @@ exports.getPrescription = (req, res, next) => {
 
 //get specific Prescription 
 exports.getAPrescription = (req, res, next) => {
+    const { id } = req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -23,10 +24,8 @@ exports.getAPrescription = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let id = req.body._id;
-    Prescription.findById(id)
+    Prescription.findById(id, { __v: 0 })
         .then(data => {
-            console.log(data);
             if (data == null) {
                 throw new Error("Prescription not Found!")
             } else {
@@ -41,8 +40,7 @@ exports.getAPrescription = (req, res, next) => {
 //add new Prescription
 exports.addPrescription = async (req, res, next) => {
     try {
-
-
+        const { appointmentID, medicineArr } = req.body;
         let errors = validationResult(req);
         if (!errors.isEmpty()) {
             let error = new Error();
@@ -50,16 +48,14 @@ exports.addPrescription = async (req, res, next) => {
             error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
             throw error;
         }
-
-        // await Appointment.findById(req.body.appointmentID).then(a => { if (!a) { throw new Error("Appointment not Found!") } })
+        // await Appointment.findById(appointmentID).then(a => { if (!a) { throw new Error("Appointment not Found!") } })
 
         let prescription = await new Prescription({
-            appointmentID: req.body.appointmentID,
-            medicineArr: req.body.medicineArr,
+            appointmentID, medicineArr
         });
 
         const pres = await prescription.save()
-        res.status(201).json({ id: pres._id })
+      await  res.status(201).json({ id: pres._id })
 
 
     }
@@ -70,37 +66,43 @@ exports.addPrescription = async (req, res, next) => {
 
 }
 //update Prescription
-exports.updatePrescription = (req, res, next) => {
-    let errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        let error = new Error();
-        error.status = 422;
-        error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
-        throw error;
-    }
-    Prescription.findByIdAndUpdate(req.body._id, {
-        $set: {
-            appointmentID: req.body.appointmentID,
-            medicineArr: req.body.medicineArr,
+exports.updatePrescription = async (req, res, next) => {
+    try {
+
+
+        const { id, appointmentID, medicineArr } = req.body;
+        let errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            let error = new Error();
+            error.status = 422;
+            error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
+            throw error;
         }
-    })
-        .then(data => {
-            if (data == null) {
-                throw new Error("Prescription not Found!")
-            } else {
 
-                res.status(200).json({ message: "updated" })
+        // await Appointment.findById(appointmentID).then(a => { if (!a) { throw new Error("Appointment not Found!") } })
+
+        let pres = await Prescription.findByIdAndUpdate(id, {
+            $set: {
+                appointmentID, medicineArr
             }
+        })
+        if (pres == null) {
+            throw new Error("Prescription not Found!")
+        } else {
+           await  res.status(200).json({ message: "updated" })
+        }
 
-        })
-        .catch(error => {
-            error.status = 500;
-            next(error.message);
-        })
+    }
+    catch (error) {
+        error.status = 500;
+        next(error.message);
+    }
+
 }
 
 //delete Prescription
 exports.deletePrescription = (req, res, next) => {
+    const { id } = req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -108,7 +110,6 @@ exports.deletePrescription = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let id = req.body._id;
     Prescription.findByIdAndDelete(id)
         .then((data) => {
             if (data == null) {
