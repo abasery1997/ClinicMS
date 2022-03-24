@@ -1,4 +1,5 @@
 const { validationResult } = require("express-validator");
+const bcrypt = require("bcrypt")
 const Doctor = require("../models/doctors");
 const ClinicService = require("../models/ClinicService");
 
@@ -42,8 +43,8 @@ exports.getADoctor = (req, res, next) => {
 //add new doctor
 exports.addDoctor = async (req, res, next) => {
     try {
-
-
+        const { firstname, lastname, password, email, gender, phone, clinicServiceID, attendingDays, startTime, endTime } = req.body;
+        let birthDate = new Date(req.body.birthDate);
         let errors = validationResult(req);
         if (!errors.isEmpty()) {
             let error = new Error();
@@ -51,23 +52,20 @@ exports.addDoctor = async (req, res, next) => {
             error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
             throw error;
         }
-
+        //check clinic service exists
         await ClinicService.findById(req.body.clinicServiceID).then(c => { if (!c) { throw new Error("ClinicService not Found!") } })
-
-        let birthDate = new Date(req.body.birthDate);
+       
+        //check duplicated email
+        const existedDoctor = await Doctor.findOne({ email })
+        if (existedDoctor) return res.status(400).json({ error: "Email Already Exists" })
+       
         let doctor = await new Doctor({
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            email: req.body.email,
+            firstname, lastname, email,
             image: req.file.filename,
-            password: req.body.password,
-            gender: req.body.gender,
-            phone: req.body.phone,
-            birthDate: birthDate,
-            clinicServiceID: req.body.clinicServiceID,
-            attendingDays: req.body.attendingDays,
-            startTime: req.body.startTime,
-            endTime: req.body.endTime
+            password:bcrypt.hashSync(password, 10),
+            gender, phone, birthDate,
+            clinicServiceID, attendingDays,
+            startTime, endTime
         });
         const doc = await doctor.save()
         await res.status(201).json({ id: doc._id })
