@@ -1,5 +1,6 @@
 const { validationResult } = require("express-validator");
 const Prescription = require("../models/prescription");
+const Appointment = require("../models/appointment");
 
 //get all Prescriptions
 exports.getPrescription = (req, res, next) => {
@@ -38,26 +39,35 @@ exports.getAPrescription = (req, res, next) => {
         })
 }
 //add new Prescription
-exports.addPrescription = (req, res, next) => {
-    let errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        let error = new Error();
-        error.status = 422;
-        error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
-        throw error;
+exports.addPrescription = async (req, res, next) => {
+    try {
+
+
+        let errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            let error = new Error();
+            error.status = 422;
+            error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
+            throw error;
+        }
+
+        // await Appointment.findById(req.body.appointmentID).then(a => { if (!a) { throw new Error("Appointment not Found!") } })
+
+        let prescription = await new Prescription({
+            appointmentID: req.body.appointmentID,
+            medicineArr: req.body.medicineArr,
+        });
+
+        const pres = await prescription.save()
+        res.status(201).json({ id: pres._id })
+
+
     }
-    let prescription = new Prescription({
-        appointmentID: req.body.appointmentID,
-        medicineArr: req.body.medicineArr,        
-    });
-    prescription.save()
-        .then(data => {
-            res.status(201).json({ id: data._id })
-        })
-        .catch(error => {
-            error.status = 500;
-            next(error.message);
-        })
+    catch (error) {
+        error.status = 500;
+        next(error.message);
+    }
+
 }
 //update Prescription
 exports.updatePrescription = (req, res, next) => {
