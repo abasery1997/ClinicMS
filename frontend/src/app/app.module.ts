@@ -10,7 +10,7 @@ import { DoctorsComponent } from './Components/doctors/doctors.component';
 import { EmployeesComponent } from './Components/employees/employees.component';
 import { AppointmentsComponent } from './Components/appointments/appointments.component';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgChartsModule } from 'ng2-charts';
 // import { Chart } from 'chart.js';
 // import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -40,6 +40,7 @@ import { InvoicesComponent } from './Components/invoices/invoices.component';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    ReactiveFormsModule,
     NgChartsModule
   ],
   providers: [],

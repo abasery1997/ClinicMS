@@ -4,7 +4,7 @@ const Appointment = require("../models/appointment");
 
 //get all Prescriptions
 exports.getPrescription = (req, res, next) => {
-    Prescription.find({})
+    Prescription.find({}, { __v: 0 })
         .then(data => {
             res.status(200).json(data)
         })
@@ -24,9 +24,8 @@ exports.getAPrescription = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    Prescription.findById(id)
+    Prescription.findById(id, { __v: 0 })
         .then(data => {
-            console.log(data);
             if (data == null) {
                 throw new Error("Prescription not Found!")
             } else {
@@ -56,7 +55,7 @@ exports.addPrescription = async (req, res, next) => {
         });
 
         const pres = await prescription.save()
-        res.status(201).json({ id: pres._id })
+      await  res.status(201).json({ id: pres._id })
 
 
     }
@@ -67,36 +66,38 @@ exports.addPrescription = async (req, res, next) => {
 
 }
 //update Prescription
-exports.updatePrescription = (req, res, next) => {
-    const { id, appointmentID, medicineArr } = req.body;
-    let errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        let error = new Error();
-        error.status = 422;
-        error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
-        throw error;
+exports.updatePrescription = async (req, res, next) => {
+    try {
+
+
+        const { id, appointmentID, medicineArr } = req.body;
+        let errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            let error = new Error();
+            error.status = 422;
+            error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
+            throw error;
+        }
+
+        // await Appointment.findById(appointmentID).then(a => { if (!a) { throw new Error("Appointment not Found!") } })
+
+        let pres = await Prescription.findByIdAndUpdate(id, {
+            $set: {
+                appointmentID, medicineArr
+            }
+        })
+        if (pres == null) {
+            throw new Error("Prescription not Found!")
+        } else {
+           await  res.status(200).json({ message: "updated" })
+        }
+
+    }
+    catch (error) {
+        error.status = 500;
+        next(error.message);
     }
 
-    // await Appointment.findById(appointmentID).then(a => { if (!a) { throw new Error("Appointment not Found!") } })
-    
-    Prescription.findByIdAndUpdate(id, {
-        $set: {
-            appointmentID, medicineArr
-        }
-    })
-        .then(data => {
-            if (data == null) {
-                throw new Error("Prescription not Found!")
-            } else {
-
-                res.status(200).json({ message: "updated" })
-            }
-
-        })
-        .catch(error => {
-            error.status = 500;
-            next(error.message);
-        })
 }
 
 //delete Prescription

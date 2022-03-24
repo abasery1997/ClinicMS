@@ -13,7 +13,7 @@ exports.login = (req, res, next) => {
 
             break;
         case 'd':
-            Doctor.findOne({ email })
+            Doctor.findOne({ email },{password:0,__v:0})
                 .then(doctor => {
                     if (doctor != null) {
                         //check password
@@ -33,7 +33,7 @@ exports.login = (req, res, next) => {
                 })
             break;
         case 'e':
-            Employee.findOne({ email })
+            Employee.findOne({ email },{password:0,__v:0})
                 .then(employee => {
                     if (employee != null) {
 
@@ -52,7 +52,7 @@ exports.login = (req, res, next) => {
                 })
             break;
         case 'p':
-            Patient.findOne({ email })
+            Patient.findOne({ email },{password:0,__v:0})
                 .then(patient => {
                     if (patient != null) {
                         const validPassword = bcrypt.compareSync(password, patient.password)

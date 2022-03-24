@@ -5,7 +5,7 @@ const Employee = require("../models/employee");
 
 //get all Employees
 exports.getAllEmployees = (req, res, next) => {
-    Employee.find({})
+    Employee.find({},{password:0,__v:0})
         .then(data => {
             res.status(200).json(data)
 
@@ -26,9 +26,8 @@ exports.getAnEmployee = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    Employee.findById(id)
+    Employee.findById(id,{password:0,__v:0})
         .then(data => {
-            console.log(data);
             if (data == null) {
                 throw new Error("Employee not Found!")
             } else {
