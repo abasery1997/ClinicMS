@@ -52,7 +52,7 @@ exports.addDoctor = async (req, res, next) => {
             throw error;
         }
 
-       // await ClinicService.findById(req.body.clinicServiceID).then(c => { if (!c) { throw new Error("ClinicService not Found!") } })
+        await ClinicService.findById(req.body.clinicServiceID).then(c => { if (!c) { throw new Error("ClinicService not Found!") } })
 
         let birthDate = new Date(req.body.birthDate);
         let doctor = await new Doctor({
