@@ -1,18 +1,106 @@
-<div>
-  <div>
-    <div class="chart">
-      <canvas
-        baseChart
-        [data]="pieChartData"
-        [type]="pieChartType"
-        [options]="pieChartOptions"
-      >
-        <!-- [plugins]="pieChartPlugins" -->
-      </canvas>
+<!-- [plugins]="pieChartPlugins" -->
+<div class="container d-flex flex-column align-items-center p-2">
+  <div class="card w-100 m-2">
+    <div class="card-header">Invoices</div>
+    <div class="card-body">
+      <div class="d-flex">
+        <select class="w-50 m-2" name="doctor" id="doc">
+          <option value="0">select doctor</option>
+        </select>
+        <select class="w-50 m-2" name="service" id="serv">
+          <option value="0">select service</option>
+        </select>
+      </div>
+      <table class="table table-hover table-bordered table-striped">
+        <thead class="table-dark">
+          <tr>
+            <th>Name</th>
+            <th>Invoice Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
-</div>
-<div class="button-row">
+  <div class="card w-100 m-2">
+    <div class="card-header">Appointments</div>
+    <div class="card-body">
+      <div class="d-flex">
+        <select class="w-50 m-2" name="doctor" id="doc">
+          <option value="0">select doctor</option>
+        </select>
+        <select class="w-50 m-2" name="service" id="serv">
+          <option value="0">select service</option>
+        </select>
+      </div>
+      <table class="table table-hover table-bordered table-striped">
+        <thead class="table-dark">
+          <tr>
+            <th>Patient Name</th>
+            <th>Doctor Name</th>
+            <th>Employee Name</th>
+            <th>Date</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card w-100 m-2">
+    <div class="card-header">Income Per Month</div>
+    <div class="card-body row d-flex justify-content-center">
+      <div class="chart col-12 col-lg-9">
+        <canvas
+          baseChart
+          [data]="incomeChartData"
+          [type]="incomeChartType"
+          [options]="chartOptions"
+        >
+        </canvas>
+      </div>
+    </div>
+  </div>
+  <div class="card w-100 m-2">
+    <div class="card-header">Patients Gender</div>
+    <div class="card-body row d-flex justify-content-center">
+      <div class="chart col-8 col-lg-4">
+        <canvas
+          baseChart
+          [data]="genderChartData"
+          [type]="genderChartType"
+          [options]="chartOptions"
+        >
+        </canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="button-row">
   <button mat-button mat-raised-button color="primary" (click)="toggleLegend()">
     Toggle Legend
   </button>
@@ -33,4 +121,5 @@
   >
     Change Legend Position
   </button>
+</div> -->
 </div>
