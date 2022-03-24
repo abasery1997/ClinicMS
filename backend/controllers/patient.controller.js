@@ -1,4 +1,5 @@
 const { validationResult } = require("express-validator");
+const bcrypt = require("bcrypt")
 const Patient = require("../models/patient");
 
 
@@ -42,6 +43,9 @@ exports.getAPatient = (req, res, next) => {
 }
 //add new Patient
 exports.addPatient = (req, res, next) => {
+    const { firstname, lastname, password, email, gender, phone, emergencyPhone } = req.body;
+    let birthDate = new Date(req.body.birthDate);
+
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -49,17 +53,11 @@ exports.addPatient = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let birthDate = new Date(req.body.birthDate);
     let patient = new Patient({
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
-        email: req.body.email,
+        firstname, lastname, email,
         image: req.file.filename,
-        password: req.body.password,
-        gender: req.body.gender,
-        birthDate: birthDate,
-        phone: req.body.phone,
-        emergencyPhone: req.body.emergencyPhone,
+        password: bcrypt.hashSync(password, 10),
+        gender, birthDate, phone, emergencyPhone,
     });
     patient.save()
         .then(data => {
@@ -72,6 +70,8 @@ exports.addPatient = (req, res, next) => {
 }
 //update Patient
 exports.updatePatient = (req, res, next) => {
+    const { firstname, lastname, password, email, gender, phone, emergencyPhone } = req.body;
+    let birthDate = new Date(req.body.birthDate);
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -79,18 +79,12 @@ exports.updatePatient = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let birthDate = new Date(req.body.birthDate);
+
     Patient.findByIdAndUpdate(req.body._id, {
         $set: {
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            email: req.body.email,
-            password: req.body.password,
-            gender: req.body.gender,
-            birthDate: birthDate,
-            phone: req.body.phone,
-            emergencyPhone: req.body.emergencyPhone,
-
+            firstname, lastname, email,
+            password: bcrypt.hashSync(password, 10),
+            gender, birthDate, phone, emergencyPhone
         }
     })
         .then(data => {
