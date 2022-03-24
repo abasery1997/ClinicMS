@@ -25,11 +25,8 @@ exports.getADoctor = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    console.log(id);
     Doctor.findById(id)
         .then(data => {
-            console.log(data);
-            console.log(data);
             if (data == null) {
                 throw new Error("Doctor not Found!")
             } else {
