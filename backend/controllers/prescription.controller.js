@@ -16,7 +16,7 @@ exports.getPrescription = (req, res, next) => {
 
 //get specific Prescription 
 exports.getAPrescription = (req, res, next) => {
-    const { id } = req.body;
+    const { _id } = req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -24,7 +24,7 @@ exports.getAPrescription = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    Prescription.findById(id, { __v: 0 })
+    Prescription.findById(_id, { __v: 0 })
         .then(data => {
             if (data == null) {
                 throw new Error("Prescription not Found!")
@@ -70,7 +70,7 @@ exports.updatePrescription = async (req, res, next) => {
     try {
 
 
-        const { id, appointmentID, medicineArr } = req.body;
+        const { _id, appointmentID, medicineArr } = req.body;
         let errors = validationResult(req);
         if (!errors.isEmpty()) {
             let error = new Error();
@@ -81,7 +81,7 @@ exports.updatePrescription = async (req, res, next) => {
 
         // await Appointment.findById(appointmentID).then(a => { if (!a) { throw new Error("Appointment not Found!") } })
 
-        let pres = await Prescription.findByIdAndUpdate(id, {
+        let pres = await Prescription.findByIdAndUpdate(_id, {
             $set: {
                 appointmentID, medicineArr
             }
@@ -102,7 +102,7 @@ exports.updatePrescription = async (req, res, next) => {
 
 //delete Prescription
 exports.deletePrescription = (req, res, next) => {
-    const { id } = req.body;
+    const { _id } = req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -110,7 +110,7 @@ exports.deletePrescription = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    Prescription.findByIdAndDelete(id)
+    Prescription.findByIdAndDelete(_id)
         .then((data) => {
             if (data == null) {
                 throw new Error("Prescription not Found!")

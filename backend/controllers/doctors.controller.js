@@ -17,7 +17,7 @@ exports.getDoctors = (req, res, next) => {
 
 //get specific doctor 
 exports.getADoctor = (req, res, next) => {
-    const { id } = req.body;
+    const { _id } = req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -27,7 +27,7 @@ exports.getADoctor = (req, res, next) => {
     }
     //let projection = { _id:1,password: 1 };
 
-    Doctor.findById(id,{password:0,__v:0})
+    Doctor.findById(_id,{password:0,__v:0})
         .then(data => {
             if (data == null) {
                 throw new Error("Doctor not Found!")
@@ -89,7 +89,7 @@ exports.updateDoctor = async (req, res, next) => {
     try {
 
 
-        const { id, firstname, lastname, password, email, gender, phone, clinicServiceID, attendingDays, startTime, endTime } = req.body;
+        const { _id, firstname, lastname, password, email, gender, phone, clinicServiceID, attendingDays, startTime, endTime } = req.body;
         let birthDate = new Date(req.body.birthDate);
         let errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -102,7 +102,7 @@ exports.updateDoctor = async (req, res, next) => {
         //check clinic service exists
         await ClinicService.findById(clinicServiceID).then(c => { if (!c) { throw new Error("ClinicService not Found!") } })
 
-        const doc = await Doctor.findByIdAndUpdate(id, {
+        const doc = await Doctor.findByIdAndUpdate(_id, {
             $set: {
                 firstname, lastname, email,
                 password: bcrypt.hashSync(password, 10),
@@ -127,7 +127,7 @@ exports.updateDoctor = async (req, res, next) => {
 
 //delete doctor
 exports.deleteDoctor = (req, res, next) => {
-    const { id } = req.body;
+    const { _id } = req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -135,7 +135,7 @@ exports.deleteDoctor = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    Doctor.findByIdAndDelete(id)
+    Doctor.findByIdAndDelete(_id)
         .then((data) => {
             if (data == null) {
                 throw new Error("Doctor not Found!")

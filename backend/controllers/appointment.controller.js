@@ -20,7 +20,7 @@ exports.getAppointments = (req, res, next) => {
 
 //get specific Appointment 
 exports.getAAppointment = (req, res, next) => {
-    const {id} = req.body;
+    const {_id} = req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -28,7 +28,7 @@ exports.getAAppointment = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    Appointment.findById(id,{__v:0})
+    Appointment.findById(_id,{__v:0})
         .then(data => {
             if (data == null) {
                 throw new Error("Appointment not Found!")
@@ -78,7 +78,7 @@ exports.addAppointment = async (req, res, next) => {
 //update Appointment
 exports.updateAppointment = async (req, res, next) => {
     try {
-        const { id,doctorID, employeeID, patientID, status } = req.body;
+        const { _id,doctorID, employeeID, patientID, status } = req.body;
         let appDate = new Date(req.body.appDate);
         let errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -91,7 +91,7 @@ exports.updateAppointment = async (req, res, next) => {
         // await Employee.findById(employeeID).then(e => { if (!e) { throw new Error("Employee not Found!") } })
         // await Patient.findById(patientID).then(p => { if (!p) { throw new Error("Patient not Found!") } })
 
-        const app = await Appointment.findByIdAndUpdate(id, {
+        const app = await Appointment.findByIdAndUpdate(_id, {
             $set: {
                 doctorID, employeeID, patientID, appDate, status
             }
@@ -112,7 +112,7 @@ exports.updateAppointment = async (req, res, next) => {
 
 //delete Appointment
 exports.deleteAppointment = (req, res, next) => {
-    const {id}=req.body;
+    const {_id}=req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -120,7 +120,7 @@ exports.deleteAppointment = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    Appointment.findByIdAndDelete(id)
+    Appointment.findByIdAndDelete(_id)
         .then((data) => {
             if (data == null) {
                 throw new Error("Appointment not Found!")

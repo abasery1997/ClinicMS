@@ -18,7 +18,7 @@ exports.getAllEmployees = (req, res, next) => {
 
 //get specific Employee 
 exports.getAnEmployee = (req, res, next) => {
-    const {id}= req.body;
+    const {_id}= req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -26,7 +26,7 @@ exports.getAnEmployee = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    Employee.findById(id,{password:0,__v:0})
+    Employee.findById(_id,{password:0,__v:0})
         .then(data => {
             if (data == null) {
                 throw new Error("Employee not Found!")
@@ -69,7 +69,7 @@ exports.addEmployee = (req, res, next) => {
 }
 //update employee
 exports.updateEmployee =  (req, res, next) => {
-    const {id, firstname, lastname, password, email, gender, phone, } = req.body;
+    const {_id, firstname, lastname, password, email, gender, phone, } = req.body;
     let birthDate = new Date(req.body.birthDate);
 
     let errors = validationResult(req);
@@ -79,7 +79,7 @@ exports.updateEmployee =  (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    Employee.findByIdAndUpdate(id, {
+    Employee.findByIdAndUpdate(_id, {
         $set: {
             firstname,lastname,email,
             password :bcrypt.hashSync(password, 10),
@@ -103,7 +103,7 @@ exports.updateEmployee =  (req, res, next) => {
 
 //delete Employee
 exports.deleteEmployee = (req, res, next) => {
-    const {id}=req.body;
+    const {_id}=req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -111,7 +111,7 @@ exports.deleteEmployee = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    Employee.findByIdAndDelete(id)
+    Employee.findByIdAndDelete(_id)
         .then((data) => {
             if (data == null) {
                 throw new Error("Employee not Found!")
