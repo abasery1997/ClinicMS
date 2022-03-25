@@ -74,6 +74,12 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
     this.dataTable = $(this.table.nativeElement);
     this.dataTable.DataTable();
   }
+  cancel(){
+    this.edit=false;
+    this.doctor=new Doctor('', "1", '', '', '', new Date(), '', '', '', '', '', new Time(1, 1), new Time(1, 1));
+
+
+  }
 
   validateInputs:FormGroup = new FormGroup({
     firstName: new FormControl('',[]),

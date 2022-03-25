@@ -21,8 +21,13 @@ export class EmployeeService {
       .pipe(catchError(this.handleError));
     ;
   }
+  updateEmployee(emp:any){
+    return this.http.put(this.url, emp)
+    .pipe(catchError(this.handleError));
+  }
+
   deleteEmployee(id: any) {
-    return this.http.delete(this.url, { body: { id: id }, })
+    return this.http.delete(this.url, { body: { _id: id }, })
       .pipe(catchError(this.handleError));
   }
 
