@@ -10,29 +10,33 @@
         </button>
     </div>
     <div class="card-body">
-        <table #dataTable class="table table-bordered border-dark">
-            <thead class="bg-dark text-white">
-                <tr>
-                    <th>Name</th>
-                    <th>Invoice Amount</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let s of services">
-                    <td>{{s.name}}</td>
-                    <td>{{s.invoiceAmount}}</td>
-                    <td>
-                        <button data-bs-toggle="modal" data-bs-target="#addForm" (click)="setClinicService(s)" class="btn btn-success mx-1 my-auto">
-                            Edit
-                        </button>
-                        <button data-bs-toggle="modal" data-bs-target="#deleteForm" (click)="setClinicService(s)" class="btn btn-danger mx-1 my-auto">
-                            Delete
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <!-- <table datatable [dtOptions]="dtOptions"  class="table table-bordered border-dark"></table> -->
+        <!-- <div class="hSpace py-5 bg-danger" ></div> -->
+        <div class="table-padding">
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  class="table table-bordered text-center"> 
+                <thead class="bg-dark mt-5 text-white">
+                    <tr>
+                        <th>Name</th>
+                        <th>Invoice Amount</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                     <tr *ngFor="let s of services">
+                        <td>{{s.name}}</td>
+                        <td>{{s.invoiceAmount}} EGP</td>
+                        <td>
+                            <button data-bs-toggle="modal" data-bs-target="#addForm" (click)="setClinicService(s)" class="btn btn-success mx-1 my-auto">
+                                Edit
+                            </button>
+                            <button data-bs-toggle="modal" data-bs-target="#deleteForm" (click)="setClinicService(s)" class="btn btn-danger mx-1 my-auto">
+                                Delete
+                            </button>
+                        </td>
+                    </tr> 
+                </tbody>
+            </table> 
+        </div>
     </div>
 </div>
 <!-- End Table -->
