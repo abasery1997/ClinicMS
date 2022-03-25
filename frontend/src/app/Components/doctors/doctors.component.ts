@@ -78,14 +78,18 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
   validateInputs:FormGroup = new FormGroup({
     firstName: new FormControl('',[]),
     lastName: new FormControl(''),
-    phone: new FormControl('',Validators.pattern(/^01[0-2,5]{1}[0-9]{8}$/))
+    gender:new FormControl(''),
+    email:new FormControl('hmam',[Validators.email,Validators.required]),
+    password:new FormControl(''),
+    phone:new FormControl('',Validators.pattern(/^01[0-2,5]{1}[0-9]{8}$/)),
+    birthDate:new FormControl(''),
+    clinicServiceID:new FormControl(''),
+    startTime:new FormControl(''),
+    endTime:new FormControl(''),
+    attendingDays: new FormControl('false')
   });
-  show(){
-    console.log(this.validateInputs.get('phone')?.value)
-    if(this.validateInputs.get('phone')?.valid)
-      console.log("eeeeeeeeeeeeeeeeeeee")  
-      else 
-      console.log("Invaliiiiiiiiiiiiiiiiiiiiiiiiiiiiid")  
+  validatEmail(){
+    console.log(this.validateInputs.get('attendingDays')?.value)
   }
   addDoctor(password: string, email: string, age: string, firstname: string, lastname: string, phone: string, startTime: string, endTime: any) {
 
@@ -127,8 +131,10 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
     }
 
   }
+  setday(d:any){
+    console.log(d)
+  }
   closeForm(){
-    alert("hmama")
     this.edit=false;
     this.doctor=new Doctor('','','','','',new Date(),'','','','','',new Time(0,0),new Time(0,0));
     this.attendingDays=[false,false,false,false,false,false,false];
