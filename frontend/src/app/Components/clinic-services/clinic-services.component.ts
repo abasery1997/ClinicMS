@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, OnInit, ViewChild  } from '@angular/core';
+import { Component, OnInit ,OnDestroy } from '@angular/core';
 import { ClinicService } from 'src/app/Services/clinic.service';
 import { ClinicServiceClass } from '../Model/clinic-service';
-
+import { Subject } from 'rxjs';
 
 
 declare var $:any;
@@ -11,21 +11,29 @@ declare var $:any;
   templateUrl: './clinic-services.component.html',
   styleUrls: ['./clinic-services.component.css']
 })
-export class ClinicServicesComponent implements OnInit , AfterViewInit {
-  @ViewChild('dataTable' , {static: false})  table:any; 
-  dataTable:any;
-  constructor(private clinicService:ClinicService) { }
+export class ClinicServicesComponent implements OnInit  {
 
+  dtTrigger: Subject<any> = new Subject<any>();
+  constructor(private clinicService:ClinicService) { }
+  selected:boolean = true;
   service:ClinicServiceClass=new ClinicServiceClass('0','',1);
   services:ClinicServiceClass[]=[];  
+
+  dtOptions: DataTables.Settings = {};
   ngOnInit(): void {
+    this.dtOptions = {
+      searching:true,
+      paging:true,
+      responsive:true
+    };
     this.clinicService.getAllServices().subscribe(res=>{
       this.services=res;
+      this.dtTrigger.next();
     })
   }
-  ngAfterViewInit(): void {
-    this.dataTable = $(this.table.nativeElement);
-    this.dataTable.DataTable();
+  ngOnDestroy(): void {
+    // Do not forget to unsubscribe the event
+    this.dtTrigger.unsubscribe();
   }
   editService:boolean=false;
   setClinicService(s:ClinicServiceClass){
@@ -41,6 +49,7 @@ export class ClinicServicesComponent implements OnInit , AfterViewInit {
       this.clinicService.AddService(this.service).subscribe(res=>{
         this.clinicService.getAllServices().subscribe(r=>{
           this.services=r;
+          
         })
       });
     }

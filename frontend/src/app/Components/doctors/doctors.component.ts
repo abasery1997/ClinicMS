@@ -74,24 +74,26 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
     this.dataTable = $(this.table.nativeElement);
     this.dataTable.DataTable();
   }
-  cancel(){
-    this.edit=false;
-    this.doctor=new Doctor('', "1", '', '', '', new Date(), '', '', '', '', '', new Time(1, 1), new Time(1, 1));
+  cancel() {
+    this.edit = false;
+    this.doctor = new Doctor('', "1", '', '', '', new Date(), '', '', '', '', '', new Time(1, 1), new Time(1, 1));
 
 
   }
 
-  validateInputs:FormGroup = new FormGroup({
-    firstName: new FormControl('',[]),
-    lastName: new FormControl(''),
-    phone: new FormControl('',Validators.pattern(/^01[0-2,5]{1}[0-9]{8}$/))
+  validateInputs: FormGroup = new FormGroup({
+    firstName: new FormControl('', [Validators.required]),
+    lastName: new FormControl('', [Validators.required]),
+    gender: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.email, Validators.required]),
+    password: new FormControl('', [Validators.required]),
+    phone: new FormControl('', Validators.pattern(/^01[0-2,5]{1}[0-9]{8}$/)),
+    birthDate: new FormControl('', [Validators.required]),
+    startTime: new FormControl('', [Validators.required]),
+    endTime: new FormControl('', [Validators.required]),
   });
-  show(){
-    console.log(this.validateInputs.get('phone')?.value)
-    if(this.validateInputs.get('phone')?.valid)
-      console.log("eeeeeeeeeeeeeeeeeeee")  
-      else 
-      console.log("Invaliiiiiiiiiiiiiiiiiiiiiiiiiiiiid")  
+  validatEmail() {
+
   }
   addDoctor(password: string, email: string, age: string, firstname: string, lastname: string, phone: string, startTime: string, endTime: any) {
 
@@ -120,7 +122,7 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
           this.doctors = res;
           this.closeForm();
         })
-      })
+      },()=>{},()=>{this.formData = new FormData();})
     }
     else {
       this.formData.append('_id', this.doctor._id);
@@ -129,15 +131,21 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
           this.doctors = res;
           this.closeForm();
         })
-      })
+      },()=>{},()=>{this.formData = new FormData();})
     }
 
   }
-  closeForm(){
-    alert("hmama")
-    this.edit=false;
-    this.doctor=new Doctor('','','','','',new Date(),'','','','','',new Time(0,0),new Time(0,0));
-    this.attendingDays=[false,false,false,false,false,false,false];
+  setday(d: string) {
+    let index = this.attendingDaysValues.findIndex(day => day == d);
+    if (index != -1)
+      this.attendingDays[index] = !this.attendingDays[index];
+  }
+  closeForm() {
+    console.log(this.validateInputs.get('phone')?.valid)
+    this.edit = false;
+    
+    this.doctor = new Doctor('', '', '', '', '', new Date(), '', '', '', '', '', new Time(0, 0), new Time(0, 0));
+    this.attendingDays = [false, false, false, false, false, false, false];
   }
   ClinicServiceID: Object = '';
   setClinicServiceID(clinicService: Object) {
@@ -179,9 +187,7 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
   formData = new FormData();
   file: File | null = null;
   onFileSelected(event: any) {
-
     this.file = event.target.files[0];
-    console.log(this.file);
     if (this.file) {
       this.fileName = this.file.name;
       this.formData.append("image", this.file);
@@ -189,7 +195,6 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
   }
   delete() {
     this.dataService.deleteDoctor(this.doctor._id).subscribe(data => {
-
       for (let d of this.doctors) {
         if (d._id == this.doctor._id) {
           console.log(this.doctors.splice(this.doctors.indexOf(d), 1));
@@ -203,12 +208,11 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
     let startTimeA: string[] = st.split(':');
     this.startTime = new Time(Number(startTimeA[0]), Number(startTimeA[1]));
   }
-  validateTime(et: string) {
-
+  validateTime(et: string): boolean {
     let endTimeA: string[] = et.split(':');
     let etTime: Time = new Time(Number(endTimeA[0]), Number(endTimeA[1]));
     if (etTime.h > (this.startTime.h + 1)) {
-
+      return false;
     }
     return true;
   }

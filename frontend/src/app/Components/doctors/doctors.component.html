@@ -11,8 +11,7 @@
       <thead class="bg-dark text-white">
         <tr>
           <th>Image</th>
-          <th>First Name</th>
-          <th>Last Name</th>
+          <th>Name</th>
           <th>Phone</th>
           <th>Speciality</th>
           <th>Gender</th>
@@ -30,8 +29,7 @@
             <a target="_blank" href="{{ doctor.image }}"><img src="{{ doctor.image }}" class="mx-auto" width="75px"
                 height="60px" alt="" /></a>
           </td>
-          <td>{{ doctor.firstname }}</td>
-          <td>{{ doctor.lastname }}</td>
+          <td>{{ doctor.firstname }} {{ doctor.lastname }}</td>
           <td>{{ doctor.phone }}</td>
           <td>{{getClinicService(doctor.clinicServiceID)}}</td>
           <td>{{ doctor.gender }}</td>
@@ -63,10 +61,6 @@
 </div>
 <!-- End Table -->
 <!-- Start Form Modal -->
-<form action="" [formGroup]="validateInputs" method="">
-  <input type="text" name="phone"  formControlName="phone" id="phone">
-  <button (click)="show()">click</button>
-</form>
 <div class="modal fade" id="addForm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
   aria-labelledby="addModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-xl">
@@ -74,28 +68,24 @@
       <div class="modal-header px-5 bg-black text-white">
         <h2 *ngIf="!edit" class="modal-title" id="addModalTitle">Add Doctor</h2>
         <h2 *ngIf="edit" class="modal-title" id="addModalTitle">Edit Doctor</h2>
-<<<<<<< HEAD
         <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close" (click)="cancel()"></button>
-=======
-        <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" (click)="closeForm()" aria-label="Close"></button>
->>>>>>> 414d1c969d7bfffe3fca0b4edd41d3cd773d456e
       </div>
-      <form action="" method="post">
+      <form action="" [formGroup]="validateInputs" id="myForm" method="post">
         <div class="modal-body px-5">
           <div class="row">
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="fname" class="form-label">First Name</label>
               <input type="text" class="form-control" id="fname" placeholder="Ex : Ahmed" #firstName
-                [value]="doctor.firstname" required />
+                [value]="doctor.firstname" formControlName="firstName" />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="lname" class="form-label">Last Name</label>
               <input type="text" class="form-control" #lastName id="lname" placeholder="Ex : Mohamed"
-                [value]="doctor.lastname" required />
+                [value]="doctor.lastname" formControlName="lastName" />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="phone" class="form-label">Phone</label>
-              <input type="tel" class="form-control" #phone id="phone" [value]="doctor.phone" required />
+              <input type="tel" class="form-control" [ngClass]="validateInputs.get('phone')?.valid?'':'errorClass'" #phone id="phone" [value]="doctor.phone" formControlName="phone" />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="Speciality" class="form-label">Speciality</label>
@@ -107,23 +97,23 @@
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="gender" class="form-label">Gender</label>
-              <select class="form-select" id="gender" name="gender" [(ngModel)]="gender" required>
+              <select class="form-select" id="gender" name="gender" formControlName="gender">
                 <option selected value="m">Male</option>
                 <option value="f">Female</option>
               </select>
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
-              <label for="age" class="form-label">Age</label>
-              <input type="date" class="form-control" #age id="age" required />
+              <label for="age" class="form-label">BirthDate</label>
+              <input type="date" class="form-control" max="2000-01-01"#age id="age" formControlName="birthDate" />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="email" class="form-label">Email address</label>
-              <input type="email" class="form-control" id="email" placeholder="name@example.com" #email
+              <input type="email" class="form-control" id="email" formControlName="email" placeholder="name@example.com" #email
                 [value]="doctor.email" required />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="password" class="form-label">Login Password</label>
-              <input type="password" class="form-control" id="password" [value]="doctor.password" #password required />
+              <input type="password" class="form-control" id="password" [value]="doctor.password" #password formControlName="password" />
             </div>
 
             <div class="my-3 col-lg-4 col-md-6 col-12">
@@ -133,38 +123,38 @@
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="Speciality" class="form-label">Available Days</label>
               <div class="form-group">
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" [(ngModel)]="attendingDays[0]" type="checkbox" id="sat" name="sat"
+                <div class="form-check form-check-inline" >
+                  <input class="form-check-input" type="checkbox" (change)="setday(sat.value)" [checked]="attendingDays[0]" #sat id="sat"  name="sat"
                     value="sat" />
                   <label class="form-check-label" for="sat">Sat</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="sun" name="sun" [(ngModel)]="attendingDays[1]"
+                  <input class="form-check-input" type="checkbox" (change)="setday(sun.value)" [checked]="attendingDays[1]" #sun id="sun" name="sun" 
                     value="sun" />
                   <label class="form-check-label" for="sun">Sun</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="mon" name="mon" [(ngModel)]="attendingDays[2]"
+                  <input class="form-check-input" type="checkbox" (change)="setday(mon.value)" [checked]="attendingDays[2]" #mon id="mon" name="mon"
                     value="mon" />
                   <label class="form-check-label" for="mon">Mon</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="tue" name="tue" [(ngModel)]="attendingDays[3]"
+                  <input class="form-check-input" type="checkbox" (change)="setday(tue.value)" [checked]="attendingDays[3]" #tue id="tue" name="tue"
                     value="tue" />
                   <label class="form-check-label" for="tue">Tue</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="wed" name="wed" [(ngModel)]="attendingDays[4]"
+                  <input class="form-check-input" type="checkbox" (change)="setday(wed.value)" [checked]="attendingDays[4]" #wed id="wed" name="wed"
                     value="wed" />
                   <label class="form-check-label" for="wed">Wed</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="thu" name="thu" [(ngModel)]="attendingDays[5]"
+                  <input class="form-check-input" type="checkbox" (change)="setday(thu.value)" [checked]="attendingDays[5]" #thu id="thu" name="thu"
                     value="thu" />
                   <label class="form-check-label" for="thu">Thu</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="fri" name="fri" [(ngModel)]="attendingDays[6]"
+                  <input class="form-check-input" type="checkbox" (change)="setday(fri.value)" [checked]="attendingDays[6]" #fri id="fri" name="fri"
                     value="fri" />
                   <label class="form-check-label" for="fri">Fri</label>
                 </div>
@@ -172,12 +162,12 @@
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="startTime" class="form-label">Start Time</label>
-              <input type="time" class="form-control" id="startTime" #sTime (blur)="setStartTime(sTime.value)"
-                required />
+              <input type="time" id="startTime" #sTime (blur)="setStartTime(sTime.value)"
+                formControlName="startTime" />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="endTime" class="form-label">End Time</label>
-              <input type="time" class="form-control" #eTime id="endTime" (blur)="validateTime(eTime.value)" required />
+              <input type="time" #eTime id="endTime" [ngClass]="validateTime(eTime.value)?'':'errorClass'" (blur)="validateTime(eTime.value)" formControlName="endTime" />
             </div>
           </div>
         </div>
@@ -210,7 +200,7 @@
             sTime.value,
             eTime.value
           )
-        " data-bs-dismiss="modal">
+        " [disabled]="!validateInputs.valid" data-bs-dismiss="modal">
             Add
           </button>
         </div>
