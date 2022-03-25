@@ -18,7 +18,7 @@ exports.getAllPatients = (req, res, next) => {
 
 //get specific Patient 
 exports.getAPatient = (req, res, next) => {
-    const {id}=req.body;
+    const {_id}=req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -26,7 +26,7 @@ exports.getAPatient = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    Patient.findById(id,{password:0,__v:0})
+    Patient.findById(_id,{password:0,__v:0})
         .then(data => {
             if (data == null) {
                 throw new Error("Patient not Found!")
@@ -69,7 +69,7 @@ exports.addPatient = (req, res, next) => {
 }
 //update Patient
 exports.updatePatient = (req, res, next) => {
-    const { id, firstname, lastname, password, email, gender, phone, emergencyPhone } = req.body;
+    const { _id, firstname, lastname, password, email, gender, phone, emergencyPhone } = req.body;
     let birthDate = new Date(req.body.birthDate);
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -79,7 +79,7 @@ exports.updatePatient = (req, res, next) => {
         throw error;
     }
 
-    Patient.findByIdAndUpdate(id, {
+    Patient.findByIdAndUpdate(_id, {
         $set: {
             firstname, lastname, email,
             password: bcrypt.hashSync(password, 10),

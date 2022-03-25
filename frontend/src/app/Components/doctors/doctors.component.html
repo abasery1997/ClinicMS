@@ -68,14 +68,14 @@
       <div class="modal-header px-5 bg-black text-white">
         <h2 *ngIf="!edit" class="modal-title" id="addModalTitle">Add Doctor</h2>
         <h2 *ngIf="edit" class="modal-title" id="addModalTitle">Edit Doctor</h2>
-        <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close" (click)="cancel()"></button>
+        <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close" (click)="closeForm()"></button>
       </div>
-      <form action="" [formGroup]="validateInputs" id="myForm" method="post">
+      <form action="" [formGroup]="validateInputs" id="myForm" #myForm="ngForm" method="post">
         <div class="modal-body px-5">
           <div class="row">
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="fname" class="form-label">First Name</label>
-              <input type="text" class="form-control" id="fname" placeholder="Ex : Ahmed" #firstName
+              <input type="text" class="form-control" id="firstName" placeholder="Ex : Ahmed" #firstName
                 [value]="doctor.firstname" formControlName="firstName" />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
@@ -108,7 +108,7 @@
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="email" class="form-label">Email address</label>
-              <input type="email" class="form-control" id="email" formControlName="email" placeholder="name@example.com" #email
+              <input type="email" class="form-control" id="email" [ngClass]="validateInputs.get('email')?.valid||validateInputs.get('email')?.untouched?'':'errorClass'" formControlName="email" placeholder="name@example.com" #email
                 [value]="doctor.email" required />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
@@ -118,7 +118,7 @@
 
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="image" class="form-label">Image</label>
-              <input class="form-control" type="file" id="image" (change)="onFileSelected($event)" multiple required />
+              <input class="form-control" type="file" formControlName="image" id="image" (change)="onFileSelected($event)" multiple required />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="Speciality" class="form-label">Available Days</label>
@@ -162,12 +162,12 @@
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="startTime" class="form-label">Start Time</label>
-              <input type="time" id="startTime" #sTime (blur)="setStartTime(sTime.value)"
+              <input type="time" id="startTime" #sTime (blur)="show()"
                 formControlName="startTime" />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="endTime" class="form-label">End Time</label>
-              <input type="time" #eTime id="endTime" [ngClass]="validateTime(eTime.value)?'':'errorClass'" (blur)="validateTime(eTime.value)" formControlName="endTime" />
+              <input type="time" #eTime id="endTime" [ngClass]="endTimeFlag?'':'errorClass'" (blur)="validateTime(eTime.value)" formControlName="endTime" />
             </div>
           </div>
         </div>
@@ -200,7 +200,7 @@
             sTime.value,
             eTime.value
           )
-        " [disabled]="!validateInputs.valid" data-bs-dismiss="modal">
+        " [disabled]="validateInputs.invalid||!endTimeFlag" data-bs-dismiss="modal">
             Add
           </button>
         </div>

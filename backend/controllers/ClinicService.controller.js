@@ -17,7 +17,7 @@ exports.getClinicServices = (req, res, next) => {
 
 //get specific service
 exports.getAClinicService = (req, res, next) => {
-    const { id } = req.body;
+    const { _id } = req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -25,7 +25,7 @@ exports.getAClinicService = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    ClinicService.findById(id,{__v:0})
+    ClinicService.findById(_id,{__v:0})
         .then(data => {
             if (data == null) {
                 throw new Error("Clinic Service not Found!")
@@ -63,7 +63,7 @@ exports.addClinicService = (req, res, next) => {
 }
 //update Clinic Service
 exports.updateClinicService = (req, res, next) => {
-    const { id, name, invoiceAmount } = req.body;
+    const { _id, name, invoiceAmount } = req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -71,7 +71,7 @@ exports.updateClinicService = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    ClinicService.findByIdAndUpdate(id, {
+    ClinicService.findByIdAndUpdate(_id, {
         $set: {
             name, invoiceAmount
         }
@@ -93,7 +93,7 @@ exports.updateClinicService = (req, res, next) => {
 
 //delete Clinic Service
 exports.deleteClinicService = (req, res, next) => {
-    const { id } = req.body;
+    const { _id } = req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -101,7 +101,7 @@ exports.deleteClinicService = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    ClinicService.findByIdAndDelete(id)
+    ClinicService.findByIdAndDelete(_id)
         .then((data) => {
             if (data == null) {
                 throw new Error("Clinic Service not Found!")
