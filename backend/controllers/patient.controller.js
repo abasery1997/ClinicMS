@@ -43,7 +43,7 @@ exports.getAPatient = (req, res, next) => {
 exports.addPatient = (req, res, next) => {
     const { firstname, lastname, password, email, gender, phone, emergencyPhone } = req.body;
     let birthDate = new Date(req.body.birthDate);
-
+    console.log("here");
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -63,6 +63,7 @@ exports.addPatient = (req, res, next) => {
         })
         .catch(error => {
             error.status = 500;
+            error.message="Add Failded";
             next(error.message);
         })
 }
@@ -102,7 +103,7 @@ exports.updatePatient = (req, res, next) => {
 
 //delete Patient
 exports.deletePatient = (req, res, next) => {
-    const {id}=req.body;
+    const {_id}=req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -110,7 +111,7 @@ exports.deletePatient = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    Patient.findByIdAndDelete(id)
+    Patient.findByIdAndDelete(_id)
         .then((data) => {
             if (data == null) {
                 throw new Error("Patient not Found!")

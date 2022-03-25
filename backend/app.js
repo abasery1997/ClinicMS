@@ -74,7 +74,14 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 app.use(multer({ storage, fileFilter }).single("image"));
 
 
+// to see request body 
+app.use ((req,res,next)=>{
+if (req.hasOwnProperty('body')){
+console.log("request body object ",req.body);
+}
+next();
 
+});
 app.use((req, res, next) => {
   if (req.hasOwnProperty('file')) {
 
