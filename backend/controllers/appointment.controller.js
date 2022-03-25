@@ -8,7 +8,7 @@ const Patient = require("../models/patient");
 
 //get all appointments
 exports.getAppointments = (req, res, next) => {
-    Appointment.find({})
+    Appointment.find({},{__v:0})
         .then(data => {
             res.status(200).json(data)
         })
@@ -20,6 +20,7 @@ exports.getAppointments = (req, res, next) => {
 
 //get specific Appointment 
 exports.getAAppointment = (req, res, next) => {
+    const {id} = req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -27,10 +28,8 @@ exports.getAAppointment = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let id = req.body._id;
-    Appointment.findById(id)
+    Appointment.findById(id,{__v:0})
         .then(data => {
-            console.log(data);
             if (data == null) {
                 throw new Error("Appointment not Found!")
             } else {
@@ -43,30 +42,32 @@ exports.getAAppointment = (req, res, next) => {
         })
 }
 //add new Appointment
-exports.addAppointment = (req, res, next) => {
-    let errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        let error = new Error();
-        error.status = 422;
-        error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
-        throw error;
+exports.addAppointment = async (req, res, next) => {
+    try {
+        const { doctorID, employeeID, patientID } = req.body;
+        let appDate = new Date(req.body.appDate);
+        let errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            let error = new Error();
+            error.status = 422;
+            error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
+            throw error;
+        }
+        // await Doctor.findById(doctorID).then(d => { if (!d) { throw new Error("Doctor not Found!") } })
+        // await Employee.findById(employeeID).then(e => { if (!e) { throw new Error("Employee not Found!") } })
+        // await Patient.findById(patientID).then(p => { if (!p) { throw new Error("Patient not Found!") } })
+
+        let appointment = await new Appointment({
+            doctorID, employeeID, patientID, appDate
+        });
+        const app = await appointment.save()
+        await res.status(201).json({ id: app._id })
     }
-    let appDate = new Date(req.body.appDate);
-    let appointment = new Appointment({
-        doctorID: req.body.doctorID,
-        employeeID: req.body.employeeID,
-        patientID: req.body.patientID,
-        appDate: appDate,
-        
-    });
-    appointment.save()
-        .then(data => {
-            res.status(201).json({ id: data._id })
-        })
-        .catch(error => {
-            error.status = 500;
-            next(error.message);
-        })
+    catch (error) {
+        error.status = 500;
+        next(error.message);
+    }
+
 
 
 
@@ -75,41 +76,43 @@ exports.addAppointment = (req, res, next) => {
 
 }
 //update Appointment
-exports.updateAppointment = (req, res, next) => {
-    let errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        let error = new Error();
-        error.status = 422;
-        error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
-        throw error;
-    }
-    let appDate = new Date(req.body.appDate);
-    Appointment.findByIdAndUpdate(req.body._id, {
-        $set: {
-            doctorID: req.body.doctorID,
-            employeeID: req.body.employeeID,
-            patientID: req.body.patientID,
-            appDate: appDate,
-            status:req.body.status
+exports.updateAppointment = async (req, res, next) => {
+    try {
+        const { id,doctorID, employeeID, patientID, status } = req.body;
+        let appDate = new Date(req.body.appDate);
+        let errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            let error = new Error();
+            error.status = 422;
+            error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
+            throw error;
         }
-    })
-        .then(data => {
-            if (data == null) {
-                throw new Error("Appointment not Found!")
-            } else {
+        // await Doctor.findById(doctorID).then(d => { if (!d) { throw new Error("Doctor not Found!") } })
+        // await Employee.findById(employeeID).then(e => { if (!e) { throw new Error("Employee not Found!") } })
+        // await Patient.findById(patientID).then(p => { if (!p) { throw new Error("Patient not Found!") } })
 
-                res.status(200).json({ message: "updated" })
+        const app = await Appointment.findByIdAndUpdate(id, {
+            $set: {
+                doctorID, employeeID, patientID, appDate, status
             }
+        })
+        if (app == null) {
+            throw new Error("Appointment not Found!")
+        } else {
+            await res.status(200).json({ message: "updated" })
+        }
 
-        })
-        .catch(error => {
-            error.status = 500;
-            next(error.message);
-        })
+    }
+    catch (error) {
+        error.status = 500;
+        next(error.message);
+    }
+
 }
 
 //delete Appointment
 exports.deleteAppointment = (req, res, next) => {
+    const {id}=req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -117,7 +120,6 @@ exports.deleteAppointment = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let id = req.body._id;
     Appointment.findByIdAndDelete(id)
         .then((data) => {
             if (data == null) {

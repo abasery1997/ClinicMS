@@ -1,10 +1,11 @@
 const { validationResult } = require("express-validator");
+const bcrypt = require("bcrypt")
 const Employee = require("../models/employee");
 
 
 //get all Employees
 exports.getAllEmployees = (req, res, next) => {
-    Employee.find({})
+    Employee.find({},{password:0,__v:0})
         .then(data => {
             res.status(200).json(data)
 
@@ -17,6 +18,7 @@ exports.getAllEmployees = (req, res, next) => {
 
 //get specific Employee 
 exports.getAnEmployee = (req, res, next) => {
+    const {id}= req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -24,11 +26,8 @@ exports.getAnEmployee = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let id = req.body._id;
-    console.log(id);
-    Employee.findById(id)
+    Employee.findById(id,{password:0,__v:0})
         .then(data => {
-            console.log(data);
             if (data == null) {
                 throw new Error("Employee not Found!")
             } else {
@@ -42,6 +41,9 @@ exports.getAnEmployee = (req, res, next) => {
 }
 //add new Employee
 exports.addEmployee = (req, res, next) => {
+    const { firstname, lastname, password, email, gender, phone, } = req.body;
+    let birthDate = new Date(req.body.birthDate);
+
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -49,16 +51,11 @@ exports.addEmployee = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let birthDate = new Date(req.body.birthDate);
     let employee = new Employee({
-        firstname: req.body.firstname,
-        lastname:req.body.lastname,
-        email: req.body.email,
+        firstname,lastname,email,
         image:req.file.filename,
-        password: req.body.password,
-        gender: req.body.gender,
-        birthDate: birthDate,
-        phone:req.body.phone,
+        password :bcrypt.hashSync(password, 10),
+        gender,birthDate,phone
     });
     employee.save()
         .then(data => {
@@ -71,7 +68,10 @@ exports.addEmployee = (req, res, next) => {
 
 }
 //update employee
-exports.updateEmployee = (req, res, next) => {
+exports.updateEmployee =  (req, res, next) => {
+    const {id, firstname, lastname, password, email, gender, phone, } = req.body;
+    let birthDate = new Date(req.body.birthDate);
+
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -79,16 +79,11 @@ exports.updateEmployee = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let birthDate = new Date(req.body.birthDate);
-    Employee.findByIdAndUpdate(req.body._id, {
+    Employee.findByIdAndUpdate(id, {
         $set: {
-            name: req.body.name,
-            email: req.body.email,
-            password: req.body.password,
-            gender: req.body.gender,
-            birthDate: birthDate,
-            phone:req.body.phone,
-            
+            firstname,lastname,email,
+            password :bcrypt.hashSync(password, 10),
+            gender,birthDate,phone
         }
     })
         .then(data => {
@@ -108,6 +103,7 @@ exports.updateEmployee = (req, res, next) => {
 
 //delete Employee
 exports.deleteEmployee = (req, res, next) => {
+    const {id}=req.body;
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
         let error = new Error();
@@ -115,7 +111,6 @@ exports.deleteEmployee = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    let id = req.body._id;
     Employee.findByIdAndDelete(id)
         .then((data) => {
             if (data == null) {

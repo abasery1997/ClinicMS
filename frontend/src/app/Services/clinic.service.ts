@@ -28,7 +28,7 @@ export class ClinicService {
   }
   delete(id:string){
     return this.http.delete(this.clinicServiceUrl,{
-      body:{id:id},
+      body:{_id:id},
     })
   }
   private handleError(error: HttpErrorResponse) {

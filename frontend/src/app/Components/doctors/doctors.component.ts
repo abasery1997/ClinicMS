@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ClinicService } from 'src/app/Services/clinic.service';
 
 
@@ -26,7 +27,7 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
     this.dataService.getAllDoctors().subscribe((res) => {
       this.doctors = res;
     });
-    this.clinicService.getAllServices().subscribe((res:any) => {
+    this.clinicService.getAllServices().subscribe((res: any) => {
       this.clinicServices = res;
     });
   }
@@ -34,7 +35,7 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
   attendingDaysValues: string[] = ["sat", "sun", "mon", "tue", "wed", "thu", "fri"];
   parseWorkingDays(days: string) {
     this.attendingDaysString = days.split(',');
-    if(this.attendingDaysString.length>1)
+    if (this.attendingDaysString.length > 1)
       this.attendingDaysString.splice(this.attendingDaysString.length - 1, 1);
     for (let i = 0; i < this.attendingDaysString.length; i++) {
       if (this.attendingDaysString[i] == "mon")
@@ -57,7 +58,6 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
     let age = 0;
     let bd = new Date(birthDate);
     let today = new Date();
-    //console.log(birthDate)
     return today.getFullYear() - bd.getFullYear();
   }
   clinicServices: ClinicServiceClass[] = [];
@@ -81,6 +81,18 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
 
   }
 
+  validateInputs:FormGroup = new FormGroup({
+    firstName: new FormControl('',[]),
+    lastName: new FormControl(''),
+    phone: new FormControl('',Validators.pattern(/^01[0-2,5]{1}[0-9]{8}$/))
+  });
+  show(){
+    console.log(this.validateInputs.get('phone')?.value)
+    if(this.validateInputs.get('phone')?.valid)
+      console.log("eeeeeeeeeeeeeeeeeeee")  
+      else 
+      console.log("Invaliiiiiiiiiiiiiiiiiiiiiiiiiiiiid")  
+  }
   addDoctor(password: string, email: string, age: string, firstname: string, lastname: string, phone: string, startTime: string, endTime: any) {
 
     let startTimeA: string[] = startTime.split(':');
@@ -106,20 +118,26 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
       this.dataService.addDoctor(this.formData).subscribe((docID) => {
         this.dataService.getAllDoctors().subscribe((res) => {
           this.doctors = res;
+          this.closeForm();
         })
       })
     }
     else {
       this.formData.append('_id', this.doctor._id);
-      console.log(this.doctor._id);
-      this.edit=false;
       this.dataService.updateDoctor(this.formData).subscribe((docID) => {
         this.dataService.getAllDoctors().subscribe((res) => {
           this.doctors = res;
+          this.closeForm();
         })
       })
     }
 
+  }
+  closeForm(){
+    alert("hmama")
+    this.edit=false;
+    this.doctor=new Doctor('','','','','',new Date(),'','','','','',new Time(0,0),new Time(0,0));
+    this.attendingDays=[false,false,false,false,false,false,false];
   }
   ClinicServiceID: Object = '';
   setClinicServiceID(clinicService: Object) {
@@ -144,6 +162,17 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
   catchDoctor(doctor: Doctor) {
     this.doctor = doctor;
     this.edit = true;
+    let days = doctor.attendingDays.split(',');
+    if (days.length > 1)
+      days.splice(days.length - 1, 1);
+    console.log(days)
+    let index = -1;
+    for (let i = 0; i < this.attendingDaysString.length; i++) {
+      index = this.attendingDaysValues.indexOf(days[i]);
+      if (index != -1) {
+        this.attendingDays[index] = true;
+      }
+    }
   }
 
   fileName = '';
@@ -168,20 +197,25 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
       }
     });
   }
-  startTime:Time=new Time(0,0);
-  setStartTime(st:string){
-    
+  startTime: Time = new Time(0, 0);
+  setStartTime(st: string) {
+
     let startTimeA: string[] = st.split(':');
     this.startTime = new Time(Number(startTimeA[0]), Number(startTimeA[1]));
   }
-  validateTime(et:string){
-    
+  validateTime(et: string) {
+
     let endTimeA: string[] = et.split(':');
     let etTime: Time = new Time(Number(endTimeA[0]), Number(endTimeA[1]));
-    if(etTime.h>(this.startTime.h+1))
-      {
-        
-      }
+    if (etTime.h > (this.startTime.h + 1)) {
+
+    }
     return true;
+  }
+
+  selectSpeciality(id: Object): boolean {
+    let _id = id.toString();
+    let i = this.doctor.clinicServiceID.toString();
+    return _id == i;
   }
 }
