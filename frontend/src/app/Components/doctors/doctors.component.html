@@ -11,8 +11,7 @@
       <thead class="bg-dark text-white">
         <tr>
           <th>Image</th>
-          <th>First Name</th>
-          <th>Last Name</th>
+          <th>Name</th>
           <th>Phone</th>
           <th>Speciality</th>
           <th>Gender</th>
@@ -30,8 +29,7 @@
             <a target="_blank" href="{{ doctor.image }}"><img src="{{ doctor.image }}" class="mx-auto" width="75px"
                 height="60px" alt="" /></a>
           </td>
-          <td>{{ doctor.firstname }}</td>
-          <td>{{ doctor.lastname }}</td>
+          <td>{{ doctor.firstname }} {{ doctor.lastname }}</td>
           <td>{{ doctor.phone }}</td>
           <td>{{getClinicService(doctor.clinicServiceID)}}</td>
           <td>{{ doctor.gender }}</td>

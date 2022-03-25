@@ -19,7 +19,7 @@ import { PatientsComponent } from './Components/patients/patients.component';
 import { ClinicServicesComponent } from './Components/clinic-services/clinic-services.component';
 import { PrescriptionsComponent } from './Components/prescriptions/prescriptions.component';
 import { InvoicesComponent } from './Components/invoices/invoices.component';
-
+import { DataTablesModule } from "angular-datatables";
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,7 +41,8 @@ import { InvoicesComponent } from './Components/invoices/invoices.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    NgChartsModule
+    NgChartsModule,
+    DataTablesModule
   ],
   providers: [],
   bootstrap: [AppComponent]
