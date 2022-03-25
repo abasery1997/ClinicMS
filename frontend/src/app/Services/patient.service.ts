@@ -18,8 +18,16 @@ export class PatientService {
     return this.http.get<IPatient[]>(this.url).pipe(catchError(this.handleError));
   }
 
+  addPatient(patient:any){
+    return this.http.post(this.url,patient).pipe(catchError(this.handleError))
+  }
+
+  updatePatient(patient:any){
+    return this.http.put(this.url,patient).pipe(catchError(this.handleError))
+  }
+
   deletePatient(id:any){
-    return this.http.delete(this.url,{body:{id:id}}).pipe(catchError(this.handleError));
+    return this.http.delete(this.url,{body:{_id:id}}).pipe(catchError(this.handleError));
   }
 
 

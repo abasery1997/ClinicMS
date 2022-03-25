@@ -74,6 +74,12 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
     this.dataTable = $(this.table.nativeElement);
     this.dataTable.DataTable();
   }
+  cancel(){
+    this.edit=false;
+    this.doctor=new Doctor('', "1", '', '', '', new Date(), '', '', '', '', '', new Time(1, 1), new Time(1, 1));
+
+
+  }
 
   addDoctor(password: string, email: string, age: string, firstname: string, lastname: string, phone: string, startTime: string, endTime: any) {
 
@@ -106,6 +112,7 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
     else {
       this.formData.append('_id', this.doctor._id);
       console.log(this.doctor._id);
+      this.edit=false;
       this.dataService.updateDoctor(this.formData).subscribe((docID) => {
         this.dataService.getAllDoctors().subscribe((res) => {
           this.doctors = res;

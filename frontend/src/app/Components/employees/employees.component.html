@@ -6,6 +6,7 @@
       data-bs-toggle="modal"
       data-bs-target="#addForm"
       class="btn btn-success"
+      (click)="addButton()"
     >
       Add Employee
     </button>
@@ -44,13 +45,14 @@
           <td>{{ employee.phone }}</td>
           <td>Dermatology</td>
           <td>{{ employee.gender }}</td>
-          <td>35</td>
+          <td>{{calcAge(employee.birthDate)}}</td>
           <td>{{ employee.email }}</td>
            <td>
             <button
               data-bs-toggle="modal"
               data-bs-target="#addForm"
               class="btn btn-success mx-1 my-auto"
+              (click)="onClick(employee)"
             >
               Edit
             </button>
@@ -81,8 +83,9 @@
 >
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
-      <div class="modal-header px-5 bg-black text-white">
-        <h2 class="modal-title" id="addModalTitle">Add Employee</h2>
+      <div class="modal-header px-5 bg-black text-white" (click)="closeForm()">
+        <h2 *ngIf="!edit" class="modal-title" id="addModalTitle">Add Employee</h2>
+        <h2 *ngIf="edit" class="modal-title" id="addModalTitle">Edit Employee</h2>
         <button
           type="button"
           class="btn-close bg-white"
@@ -114,6 +117,7 @@
                 placeholder="Ex : Ahmed"
                 #firstName
                 required
+                value="{{employee?.firstname}}"
               />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
@@ -125,6 +129,7 @@
                 id="lname"
                 placeholder="Ex : Mohamed"
                 required
+                value="{{employee?.lastname}}"
               />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
@@ -135,6 +140,7 @@
                 #phone
                 id="phone"
                 required
+                value="{{employee?.phone}}"
               />
             </div>
            
@@ -146,6 +152,7 @@
                 name="gender"
                 #gender
                 required
+                value="{{employee?.gender}}"
               >
                 <option selected value="m">Male</option>
                 <option value="f">Female</option>
@@ -159,6 +166,7 @@
                 #birthDate
                 id="age"
                 required
+                value="{{calcAge(employee?.birthDate)}}"
               />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
@@ -170,6 +178,7 @@
                 placeholder="name@example.com"
                 #email
                 required
+                value="{{employee?.email}}"
               />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
@@ -180,12 +189,15 @@
                 id="password"
                 #password
                 required
+                value="{{employee?.password}}"
               />
             </div>
 
             <div class="my-3 col-lg-4 col-md-6 col-12">
-              <label for="image" class="form-label">Image</label>
+              <label for="image" class="form-label" 
+              *ngIf="!edit" >Image</label>
               <input
+              *ngIf="!edit"
                 class="form-control"
                 type="file"
                 id="image"
@@ -198,10 +210,13 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="closeForm()">
             Cancel
           </button>
-          <button type="submit" class="btn btn-success" data-bs-dismiss="modal">
+          <button *ngIf="edit" type="submit" class="btn btn-success" data-bs-dismiss="modal">
+            Edit
+          </button>
+          <button *ngIf="!edit" type="submit" class="btn btn-success" data-bs-dismiss="modal" >
             Add
           </button>
         </div>

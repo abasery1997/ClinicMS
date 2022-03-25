@@ -6,6 +6,7 @@
         data-bs-toggle="modal"
         data-bs-target="#addForm"
         class="btn btn-success"
+        (click)="addButton()"
       >
         Add Patient
       </button>
@@ -44,13 +45,14 @@
             <td>{{patient.phone}}</td>
             <td>{{patient.emergencyPhone}}</td>
             <td>{{patient.gender}}</td>
-            <td>{{patient.birthDate}}</td>
+            <td>{{calcAge(patient.birthDate)}}</td>
             <td>{{patient.email}}</td>
             <td>
               <button
                 data-bs-toggle="modal"
                 data-bs-target="#addForm"
                 class="btn btn-success m-1 "
+                (click)="onClick(patient)"
               >
                 Edit
               </button>
@@ -81,8 +83,9 @@
   >
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
-        <div class="modal-header px-5 bg-black text-white">
-          <h2 class="modal-title" id="addModalTitle">Add Patient</h2>
+        <div class="modal-header px-5 bg-black text-white" (click)="closeForm()" >
+          <h2 *ngIf="!edit" class="modal-title" id="addModalTitle">Add Patient</h2>
+          <h2 *ngIf="edit" class="modal-title" id="addModalTitle">Edit Patient</h2>
           <button
             type="button"
             class="btn-close bg-white"
@@ -92,7 +95,16 @@
         </div>
         <form
           action=""
-    
+          (submit)="addPatient(
+            firstName.value,
+            lastName.value,
+            phone.value,
+            emergencyPhone.value,
+            gender.value,
+            bdate.value,
+            email.value,
+            password.value
+            )"
           method="post"
         >
           <div class="modal-body px-5">
@@ -106,6 +118,7 @@
                   placeholder="Ex : Ahmed"
                   #firstName
                   required
+                  value={{patient?.firstname}}
                 />
               </div>
               <div class="my-3 col-lg-4 col-md-6 col-12">
@@ -117,6 +130,7 @@
                   id="lname"
                   placeholder="Ex : Mohamed"
                   required
+                  value={{patient?.lastname}}
                 />
               </div>
               <div class="my-3 col-lg-4 col-md-6 col-12">
@@ -127,6 +141,7 @@
                   #phone
                   id="phone"
                   required
+                  value={{patient?.phone}}
                 />
               </div>
               <div class="my-3 col-lg-4 col-md-6 col-12">
@@ -137,6 +152,7 @@
                   #emergencyPhone
                   id="emergencyPhone"
                   required
+                  value={{patient?.emergencyPhone}}
                 />
               </div>
               <div class="my-3 col-lg-4 col-md-6 col-12">
@@ -146,20 +162,22 @@
                   id="gender"
                   name="gender"
                   required
-                >
+                  #gender
+                  value={{patient?.gender}}
+                > 
                   <option selected value="m">Male</option>
                   <option value="f">Female</option>
                 </select>
               </div>
               <div class="my-3 col-lg-4 col-md-6 col-12">
-                <label for="bdate" class="form-label">Birth Date</label>
+                <label for="bdate" class="form-label">BirthDate</label>
                 <input
                   type="date"
-                  
                   class="form-control"
                   #bdate
                   id="bdate"
                   required
+                  value={{calcAge(patient?.birthDate)}}
                 />
               </div>
               <div class="my-3 col-lg-4 col-md-6 col-12">
@@ -171,6 +189,7 @@
                   placeholder="name@example.com"
                   #email
                   required
+                  value={{patient?.email}}
                 />
               </div>
               <div class="my-3 col-lg-4 col-md-6 col-12">
@@ -181,12 +200,14 @@
                   id="password"
                   #password
                   required
+                  value={{patient?.password}}
                 />
               </div>
   
               <div class="my-3 col-lg-4 col-md-6 col-12">
-                <label for="image" class="form-label">Image</label>
+                <label *ngIf="!edit" for="image" class="form-label">Image</label>
                 <input
+                  *ngIf="!edit"
                   class="form-control"
                   type="file"
                   id="image"
@@ -199,11 +220,14 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="closeForm()">
               Cancel
             </button>
-            <button type="submit" class="btn btn-success" data-bs-dismiss="modal">
+            <button *ngIf="!edit" type="submit" class="btn btn-success" data-bs-dismiss="modal">
               Add
+            </button>
+            <button *ngIf="edit" type="submit" class="btn btn-success" data-bs-dismiss="modal">
+              Edit
             </button>
           </div>
         </form>

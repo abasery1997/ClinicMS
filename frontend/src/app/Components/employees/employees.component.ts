@@ -11,15 +11,18 @@ declare var $: any;
 export class EmployeesComponent implements OnInit, AfterViewInit {
 
   employees: IEmployee[] = [];
-  employee:IEmployee|null=null;
+  employee: IEmployee | null = null;
+  id:string="";
+  edit: Boolean = false;
   fileName = '';
   formData = new FormData();
   file: File | null = null;
+
   constructor(private employeeService: EmployeeService) { }
   @ViewChild('dataTable', { static: false }) table: any;
   dataTable: any;
 
-  updateTable(){
+  updateTable() {
     this.employeeService.getEmployees().subscribe((res) => {
       this.employees = res;
     });
@@ -42,7 +45,23 @@ export class EmployeesComponent implements OnInit, AfterViewInit {
     }
   }
 
-  addEmployee(firstName: string,lastName: string,phone: string,birthDate: string,email: string,password: string,gender: string){
+  addButton() {
+    this.closeForm();
+    this.employee = {
+      _id: "",
+      firstname: "",
+      lastname: "",
+      image: "",
+      birthDate: new Date(),
+      email: "",
+      password: "",
+      gender: "",
+      phone: "",
+    }
+  }
+
+  addEmployee(firstName: string, lastName: string, phone: string, birthDate: string, email: string, password: string, gender: string) {
+
     this.formData.append("firstname", firstName);
     this.formData.append("lastname", lastName);
     this.formData.append("phone", phone);
@@ -50,19 +69,40 @@ export class EmployeesComponent implements OnInit, AfterViewInit {
     this.formData.append("email", email);
     this.formData.append("password", password);
     this.formData.append("gender", gender);
-    this.employeeService.addEmployee(this.formData).subscribe((res:any)=>{
+
+    if (!this.edit) {
+      this.employeeService.addEmployee(this.formData).subscribe((res: any) => {
+        this.updateTable();
+      });
+    }else{
+      this.formData.append("_id", this.id);
+      this.employeeService.updateEmployee(this.formData).subscribe((res: any) => {
+        this.updateTable();
+      });
+    }
+  }
+
+  onClick(employee: IEmployee) {
+    this.edit = true;
+    this.employee = employee;
+    this.id=employee._id;
+  }
+
+
+
+  deleteEmployee() {
+    this.employeeService.deleteEmployee(this.employee?._id).subscribe(() => {
       this.updateTable();
     });
   }
 
-  onClick(employee:IEmployee) {
-    this.employee=employee;
+  calcAge(birthDate: any) {
+    let bd = new Date(birthDate);
+    let today = new Date();
+    return today.getFullYear() - bd.getFullYear();
   }
 
-  deleteEmployee(){
-    this.employeeService.deleteEmployee(this.employee?._id).subscribe(()=>{
-      this.updateTable();
-    });
+  closeForm() {
+    this.edit = false;
   }
-
 }
