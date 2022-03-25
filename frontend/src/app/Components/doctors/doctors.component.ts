@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ClinicService } from 'src/app/Services/clinic.service';
 
 
@@ -74,12 +74,7 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
     this.dataTable = $(this.table.nativeElement);
     this.dataTable.DataTable();
   }
-  cancel() {
-    this.edit = false;
-    this.doctor = new Doctor('', "1", '', '', '', new Date(), '', '', '', '', '', new Time(1, 1), new Time(1, 1));
 
-
-  }
 
   validateInputs: FormGroup = new FormGroup({
     firstName: new FormControl('', [Validators.required]),
@@ -91,9 +86,10 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
     birthDate: new FormControl('', [Validators.required]),
     startTime: new FormControl('', [Validators.required]),
     endTime: new FormControl('', [Validators.required]),
+    image:new FormControl('', [Validators.required]),
   });
-  validatEmail() {
-
+  show() {
+    console.log(this.validateInputs.get('endTime'))
   }
   addDoctor(password: string, email: string, age: string, firstname: string, lastname: string, phone: string, startTime: string, endTime: any) {
 
@@ -129,9 +125,9 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
       this.dataService.updateDoctor(this.formData).subscribe((docID) => {
         this.dataService.getAllDoctors().subscribe((res) => {
           this.doctors = res;
-          this.closeForm();
+          this.closeForm();this.validateInputs.reset()
         })
-      },()=>{},()=>{this.formData = new FormData();})
+      },()=>{this.closeForm()},()=>{this.formData = new FormData();this.closeForm()})
     }
 
   }
@@ -140,11 +136,29 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
     if (index != -1)
       this.attendingDays[index] = !this.attendingDays[index];
   }
+  g(e:any){
+    e.reset();
+  }
   closeForm() {
+    this.validateInputs.reset()
     console.log(this.validateInputs.get('phone')?.valid)
-    this.edit = false;
     
-    this.doctor = new Doctor('', '', '', '', '', new Date(), '', '', '', '', '', new Time(0, 0), new Time(0, 0));
+    this.edit = false;
+    this.doctor = {
+      firstname:"",
+      lastname:"",
+      attendingDays:"",
+      clinicServiceID:"",
+      birthDate:new Date(),
+      email:"",
+      endTime:new Time(0,0),
+      gender:"",
+      image:"",
+      password:"",
+      phone:"",
+      startTime:new Time(0,0),
+      _id:""
+    }
     this.attendingDays = [false, false, false, false, false, false, false];
   }
   ClinicServiceID: Object = '';
@@ -208,13 +222,16 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
     let startTimeA: string[] = st.split(':');
     this.startTime = new Time(Number(startTimeA[0]), Number(startTimeA[1]));
   }
-  validateTime(et: string): boolean {
+  endTimeFlag:boolean=true;
+  emailFlag:boolean=true;
+  validateTime(et: string) {
     let endTimeA: string[] = et.split(':');
     let etTime: Time = new Time(Number(endTimeA[0]), Number(endTimeA[1]));
     if (etTime.h > (this.startTime.h + 1)) {
-      return false;
+      this.endTimeFlag= true;
     }
-    return true;
+    else 
+     this.endTimeFlag= false;
   }
 
   selectSpeciality(id: Object): boolean {
