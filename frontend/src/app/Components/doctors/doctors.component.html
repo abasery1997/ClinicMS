@@ -70,13 +70,9 @@
       <div class="modal-header px-5 bg-black text-white">
         <h2 *ngIf="!edit" class="modal-title" id="addModalTitle">Add Doctor</h2>
         <h2 *ngIf="edit" class="modal-title" id="addModalTitle">Edit Doctor</h2>
-<<<<<<< HEAD
         <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close" (click)="cancel()"></button>
-=======
-        <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" (click)="closeForm()" aria-label="Close"></button>
->>>>>>> 414d1c969d7bfffe3fca0b4edd41d3cd773d456e
       </div>
-      <form action="" [formGroup]="validateInputs" method="post">
+      <form action="" [formGroup]="validateInputs" id="myForm" method="post">
         <div class="modal-body px-5">
           <div class="row">
             <div class="my-3 col-lg-4 col-md-6 col-12">
@@ -91,7 +87,7 @@
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="phone" class="form-label">Phone</label>
-              <input type="tel" class="form-control" #phone id="phone" [value]="doctor.phone" formControlName="phone" />
+              <input type="tel" class="form-control" [ngClass]="validateInputs.get('phone')?.valid?'':'errorClass'" #phone id="phone" [value]="doctor.phone" formControlName="phone" />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="Speciality" class="form-label">Speciality</label>
@@ -103,18 +99,18 @@
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="gender" class="form-label">Gender</label>
-              <select class="form-select" id="gender" name="gender" formControlName="gender" formControlName="gender">
+              <select class="form-select" id="gender" name="gender" formControlName="gender">
                 <option selected value="m">Male</option>
                 <option value="f">Female</option>
               </select>
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="age" class="form-label">BirthDate</label>
-              <input type="date" class="form-control" #age id="age" formControlName="birthDate" />
+              <input type="date" class="form-control" max="2000-01-01"#age id="age" formControlName="birthDate" />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="email" class="form-label">Email address</label>
-              <input type="email" class="form-control" (blur)="validatEmail()" id="email" formControlName="email" placeholder="name@example.com" #email
+              <input type="email" class="form-control" id="email" formControlName="email" placeholder="name@example.com" #email
                 [value]="doctor.email" required />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
@@ -130,37 +126,37 @@
               <label for="Speciality" class="form-label">Available Days</label>
               <div class="form-group">
                 <div class="form-check form-check-inline" >
-                  <input class="form-check-input" type="checkbox" (change)="setday(sat)" #sat id="sat"  name="sat"
+                  <input class="form-check-input" type="checkbox" (change)="setday(sat.value)" [checked]="attendingDays[0]" #sat id="sat"  name="sat"
                     value="sat" />
                   <label class="form-check-label" for="sat">Sat</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="sun" name="sun" 
+                  <input class="form-check-input" type="checkbox" (change)="setday(sun.value)" [checked]="attendingDays[1]" #sun id="sun" name="sun" 
                     value="sun" />
                   <label class="form-check-label" for="sun">Sun</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="mon" name="mon"
+                  <input class="form-check-input" type="checkbox" (change)="setday(mon.value)" [checked]="attendingDays[2]" #mon id="mon" name="mon"
                     value="mon" />
                   <label class="form-check-label" for="mon">Mon</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="tue" name="tue"
+                  <input class="form-check-input" type="checkbox" (change)="setday(tue.value)" [checked]="attendingDays[3]" #tue id="tue" name="tue"
                     value="tue" />
                   <label class="form-check-label" for="tue">Tue</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="wed" name="wed"
+                  <input class="form-check-input" type="checkbox" (change)="setday(wed.value)" [checked]="attendingDays[4]" #wed id="wed" name="wed"
                     value="wed" />
                   <label class="form-check-label" for="wed">Wed</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="thu" name="thu"
+                  <input class="form-check-input" type="checkbox" (change)="setday(thu.value)" [checked]="attendingDays[5]" #thu id="thu" name="thu"
                     value="thu" />
                   <label class="form-check-label" for="thu">Thu</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" id="fri" name="fri"
+                  <input class="form-check-input" type="checkbox" (change)="setday(fri.value)" [checked]="attendingDays[6]" #fri id="fri" name="fri"
                     value="fri" />
                   <label class="form-check-label" for="fri">Fri</label>
                 </div>
@@ -173,7 +169,7 @@
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="endTime" class="form-label">End Time</label>
-              <input type="time" #eTime id="endTime" (blur)="validateTime(eTime.value)" formControlName="endTime" />
+              <input type="time" #eTime id="endTime" [ngClass]="validateTime(eTime.value)?'':'errorClass'" (blur)="validateTime(eTime.value)" formControlName="endTime" />
             </div>
           </div>
         </div>
