@@ -10,13 +10,14 @@ const path = require("path");
 
 
 //routes
-const authRouter = require('./routes/auth.router')
-const prescriptionRouter = require('./routes/prescription.router')
-const doctorRoute = require('./routes/doctors.router')
-const employeeRoute = require('./routes/employee.router')
-const patientRoute = require('./routes/patient.router')
-const ClinicService = require('./routes/ClinicService.router')
-const appointmentRouter = require('./routes/appointment.router')
+const authRouter = require('./routes/auth.router');
+const prescriptionRouter = require('./routes/prescription.router');
+const doctorRoute = require('./routes/doctors.router');
+const employeeRoute = require('./routes/employee.router');
+const patientRoute = require('./routes/patient.router');
+const ClinicService = require('./routes/ClinicService.router');
+const appointmentRouter = require('./routes/appointment.router');
+const invoicesreportsRouter=require('./routes/invoicesreports.router');
 
 const corsOptions = {
   origin: '*',
@@ -76,12 +77,13 @@ app.use(multer({ storage, fileFilter }).single("image"));
 
 // to see request body 
 app.use ((req,res,next)=>{
-if (req.hasOwnProperty('body')){
-console.log("request body object ",req.body);
-}
-next();
+  if (req.hasOwnProperty('body')){
+  console.log("request body object ",req.body);
+  }
+  next();
+  
+  });
 
-});
 app.use((req, res, next) => {
   if (req.hasOwnProperty('file')) {
 
@@ -119,6 +121,8 @@ app.use('/patients', patientRoute);
 app.use('/clinicservice', ClinicService);
 app.use('/appointments', appointmentRouter);
 app.use('/prescriptions', prescriptionRouter);
+app.use('/invoicesreports', invoicesreportsRouter);
+
 
 //unknown paths
 app.use((req, res, next) => {
