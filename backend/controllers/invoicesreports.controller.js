@@ -4,19 +4,13 @@ const Employee = require("../models/employee");
 const Patient = require("../models/patient");
 const ClinicService = require("../models/ClinicService");
 
-const { getAppointments } = require("./appointment.controller")
-const { getADoctor } = require('./doctors.controller')
-const { getAPatient } = require('./patient.controller')
-const { getAnEmployee } = require('./employee.controller');
-const { json } = require("express/lib/response");
 
 exports.getInovoicesReport = (req, res, next) => {
-    // Appointment.find().forEach(()=>{
 
     let respones = [];
 
     // })
-    async function test() {
+    async function getInovoicesReport() {
         const appData = await Appointment.find({});
         let i = 0;
         for (const element of JSON.parse(JSON.stringify(appData))) {
@@ -33,15 +27,15 @@ exports.getInovoicesReport = (req, res, next) => {
             respones[i]['employeeLastName'] = empData.lastname;
             respones[i]['patientFirstName'] = patData.firstname;
             respones[i]['patientLastName'] = patData.lastname;
-            
+
             i++;
             console.log(respones);
         }
         return respones;
     }
-        test().then((data)=>{
-            res.status(200).json(data);
-        })
+    getInovoicesReport().then((data) => {
+        res.status(200).json(data);
+    })
         .catch(error => {
             error.status = 500;
             next(error.message);
