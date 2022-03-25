@@ -11,7 +11,7 @@ exports.getInovoicesReport = (req, res, next) => {
 
     // })
     async function getInovoicesReport() {
-        const appData = await Appointment.find({});
+        const appData = await Appointment.find({},{__v:0});
         let i = 0;
         for (const element of JSON.parse(JSON.stringify(appData))) {
             respones.push(element);
