@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ClinicService } from 'src/app/Services/clinic.service';
-
+import { DatePipe } from '@angular/common'
 
 import { DoctorService } from 'src/app/Services/doctor.service';
 import { ClinicServiceClass } from '../Model/clinic-service';
@@ -12,7 +12,8 @@ declare var $: any;
 @Component({
   selector: 'app-doctors',
   templateUrl: './doctors.component.html',
-  styleUrls: ['./doctors.component.css']
+  styleUrls: ['./doctors.component.css'],
+  providers:[DatePipe]
 })
 export class DoctorsComponent implements OnInit, AfterViewInit {
 
@@ -46,7 +47,7 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
         this.attendingDaysString[i] = "Sunday";
       else if (this.attendingDaysString[i] == "tue")
         this.attendingDaysString[i] = "Tuesday";
-      else if (this.attendingDaysString[i] == "we")
+      else if (this.attendingDaysString[i] == "wed")
         this.attendingDaysString[i] = "Wednesday";
       else if (this.attendingDaysString[i] == "thu")
         this.attendingDaysString[i] = "Thursday";
@@ -88,8 +89,20 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
     endTime: new FormControl('', [Validators.required]),
     image:new FormControl('', [Validators.required]),
   });
+  parseTime(time:Time):string{
+    let s:string='';
+    if(time.h<10)
+      s='0'+time.h;
+    else 
+      s=time.h.toString();
+    if(time.m<10)
+      s+=':'+'0'+time.m;
+    else
+      s+=':'+time.m;
+    return s;
+  }
   show() {
-    console.log(this.validateInputs.get('endTime'))
+    console.log(this.validateInputs.get('email'))
   }
   addDoctor(password: string, email: string, age: string, firstname: string, lastname: string, phone: string, startTime: string, endTime: any) {
 
@@ -104,7 +117,7 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
     this.formData.append('email', email);
     this.formData.append('password', password);
     this.formData.append('phone', phone);
-    this.formData.append('gender', this.gender);
+    this.formData.append('gender', this.validateInputs.get('gender')?.value);
     this.formData.append('birthDate', birthDate.toString());
     this.formData.append('clinicServiceID', this.ClinicServiceID.toString());
     this.formData.append('attendingDays', this.getDays());
@@ -112,20 +125,26 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
     this.formData.append(`startTime[m]`, st.m.toString());
     this.formData.append(`endTime[h]`, et.h.toString());
     this.formData.append(`endTime[m]`, et.m.toString());
+    console.log(this.ClinicServiceID.toString(),"ddd"+this.gender)
     if (!this.edit) {
       this.dataService.addDoctor(this.formData).subscribe((docID) => {
         this.dataService.getAllDoctors().subscribe((res) => {
           this.doctors = res;
           this.closeForm();
+          this.formData = new FormData();
         })
-      },()=>{},()=>{this.formData = new FormData();})
+      },()=>{this.formData = new FormData();
+        if (this.file) {
+          this.fileName = this.file.name;
+          this.formData.append("image", this.file);
+        }})
     }
     else {
       this.formData.append('_id', this.doctor._id);
       this.dataService.updateDoctor(this.formData).subscribe((docID) => {
         this.dataService.getAllDoctors().subscribe((res) => {
           this.doctors = res;
-          this.closeForm();this.validateInputs.reset()
+          this.closeForm();this.validateInputs.reset();
         })
       },()=>{this.closeForm()},()=>{this.formData = new FormData();this.closeForm()})
     }
@@ -141,8 +160,8 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
   }
   closeForm() {
     this.validateInputs.reset()
-    console.log(this.validateInputs.get('phone')?.valid)
     
+    this.formData=new FormData();
     this.edit = false;
     this.doctor = {
       firstname:"",
@@ -183,11 +202,12 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
   edit: boolean = false;
   catchDoctor(doctor: Doctor) {
     this.doctor = doctor;
+    this.ClinicServiceID=this.doctor.clinicServiceID;
+    console.log(this.doctor)
     this.edit = true;
     let days = doctor.attendingDays.split(',');
     if (days.length > 1)
       days.splice(days.length - 1, 1);
-    console.log(days)
     let index = -1;
     for (let i = 0; i < this.attendingDaysString.length; i++) {
       index = this.attendingDaysValues.indexOf(days[i]);
@@ -238,5 +258,14 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
     let _id = id.toString();
     let i = this.doctor.clinicServiceID.toString();
     return _id == i;
+  }
+  selectGender(s:string):boolean{
+    return s==this.doctor.gender;
+  }
+  parseDate(d:Date):any
+  {
+    const datepipe: DatePipe = new DatePipe('en-US');
+    return datepipe.transform(d, 'yyyy-MM-dd');
+
   }
 }

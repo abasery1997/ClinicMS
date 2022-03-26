@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import { IPatient } from './patient';
+import { IPatient } from '../Model/patient';
 import { PatientService } from '../../Services/patient.service'
 
 declare var $: any;

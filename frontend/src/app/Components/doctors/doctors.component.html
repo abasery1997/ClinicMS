@@ -96,27 +96,27 @@
               </select>
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
-              <label for="gender" class="form-label">Gender</label>
+              <label for="gender" class="form-label">Gender</label>{{validateInputs.get('gender')?.value}}
               <select class="form-select" id="gender" name="gender" formControlName="gender">
-                <option selected value="m">Male</option>
-                <option value="f">Female</option>
+                <option [selected]="selectGender('m')" value="m">Male</option>
+                <option value="f" [selected]="selectGender('f')">Female</option>
               </select>
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="age" class="form-label">BirthDate</label>
-              <input type="date" class="form-control" max="2000-01-01"#age id="age" formControlName="birthDate" />
+              <input type="date" class="form-control" value="{{validateInputs.get('birthDate')?.value}}" [value]="parseDate(doctor.birthDate)" max="2000-01-01"#age id="age" formControlName="birthDate" />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="email" class="form-label">Email address</label>
-              <input type="email" class="form-control" id="email" [ngClass]="validateInputs.get('email')?.valid||validateInputs.get('email')?.untouched?'':'errorClass'" formControlName="email" placeholder="name@example.com" #email
+              <input type="email" class="form-control" id="email" [ngClass]="validateInputs.get('email')?.valid||validateInputs.get('email')?.untouched?'':'errorClass'" formControlName="email" [value]="edit?doctor.email:''" placeholder="name@example.com" #email
                 [value]="doctor.email" required />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="password" class="form-label">Login Password</label>
-              <input type="password" class="form-control" id="password" [value]="doctor.password" #password formControlName="password" />
+              <input type="password" class="form-control" id="password" #password formControlName="password" />
             </div>
 
-            <div class="my-3 col-lg-4 col-md-6 col-12">
+            <div *ngIf="!edit" class="my-3 col-lg-4 col-md-6 col-12">
               <label for="image" class="form-label">Image</label>
               <input class="form-control" type="file" formControlName="image" id="image" (change)="onFileSelected($event)" multiple required />
             </div>
@@ -162,12 +162,12 @@
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="startTime" class="form-label">Start Time</label>
-              <input type="time" id="startTime" #sTime (blur)="show()"
+              <input type="time" id="startTime" value="{{parseTime(doctor.startTime)}}" #sTime (blur)="show()"
                 formControlName="startTime" />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="endTime" class="form-label">End Time</label>
-              <input type="time" #eTime id="endTime" [ngClass]="endTimeFlag?'':'errorClass'" (blur)="validateTime(eTime.value)" formControlName="endTime" />
+              <input type="time" #eTime id="endTime" [ngClass]="endTimeFlag?'':'errorClass'" value="{{parseTime(doctor.endTime)}}" (blur)="validateTime(eTime.value)" formControlName="endTime" />
             </div>
           </div>
         </div>

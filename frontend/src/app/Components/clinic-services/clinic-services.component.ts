@@ -49,7 +49,6 @@ export class ClinicServicesComponent implements OnInit  {
       this.clinicService.AddService(this.service).subscribe(res=>{
         this.clinicService.getAllServices().subscribe(r=>{
           this.services=r;
-          
         })
       });
     }
