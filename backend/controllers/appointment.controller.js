@@ -67,13 +67,6 @@ exports.addAppointment = async (req, res, next) => {
         error.status = 500;
         next(error.message);
     }
-
-
-
-
-
-
-
 }
 //update Appointment
 exports.updateAppointment = async (req, res, next) => {
