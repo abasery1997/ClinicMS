@@ -6,19 +6,15 @@
       <div class="table-padding">
         <table datatable [dtOptions]="dtOptions"   class="table table-bordered text-center"> 
         <thead class="table-dark">
-          <tr>
-            <th>Name</th>
-            <th>Invoice Amount</th>
-          </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>ba</td>
-            <td>ac</td>
+          <tr *ngFor="let doc of doctorInvoices">
+            <td>{{doc.doctorFirstName}}</td>
+            <td>{{doc.clinicServiceAmount}}</td>
           </tr>
-          <tr>
-            <td>cc</td>
-            <td>dd</td>
+          <tr *ngFor="let p of patientInvoices">
+            <td>{{p.patientFirstName}}</td>
+            <td>{{p.clinicServiceAmount}}</td>
           </tr>
         </tbody>
       </table>
@@ -32,7 +28,7 @@
       <div class="chart col-12 col-lg-9">
         <canvas
           baseChart
-          [data]="incomeChartData"
+          [data]="calcIncomePerMonth()"
           [type]="incomeChartType"
           [options]="chartOptions"
         >
