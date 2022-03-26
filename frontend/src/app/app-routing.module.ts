@@ -9,6 +9,7 @@ import { AppointmentsComponent } from './Components/appointments/appointments.co
 import { ReportsComponent } from './Components/reports/reports.component';
 import { NotFoundComponent } from './Components/not-found/not-found.component';
 import { ClinicServicesComponent } from './Components/clinic-services/clinic-services.component';
+import { LoginComponent } from './Components/login/login.component';
 
 
 const routes: Routes = [
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'Reports', component: ReportsComponent },
 
   { path: 'Patients', component: PatientsComponent },
+  { path: 'Login', component: LoginComponent },
   { path: 'Services', component: ClinicServicesComponent },
 
 

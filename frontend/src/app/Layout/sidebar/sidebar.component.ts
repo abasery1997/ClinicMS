@@ -14,6 +14,7 @@ export class SidebarComponent implements OnInit {
   }
   isToggle: boolean = false;
   ngOnInit(): void {
+    
     //active navbar buttons
     let path = location.pathname.slice(1);
     this.active(document.getElementById((path == '') ? 'Home' : path)!);
