@@ -116,6 +116,19 @@ export class PatientsComponent implements OnInit, AfterViewInit {
   closeForm() {
     this.edit = false;
     this.formData=new FormData();
+    this.patient={
+      _id: "",
+      firstname: "",
+      lastname: "",
+      image: "",
+      birthDate: new Date,
+      email: "",
+      password: "",
+      gender: "",
+      phone: "",
+      emergencyPhone:""
+    }
+    this.validateInputs.reset();
   }
 
   addButton(){

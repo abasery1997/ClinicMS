@@ -111,12 +111,24 @@ export class EmployeesComponent implements OnInit, AfterViewInit {
   closeForm() {
     this.edit = false;
     this.formData=new FormData();
+    this.employee={
+      _id: "",
+      firstname: "",
+      lastname: "",
+      image: "",
+      birthDate: new Date,
+      email: "",
+      password: "",
+      gender: "",
+      phone: "",
+    }
+    this.validateInputs.reset();
   }
 
   addButton(){
     this.edit = false;
-    this.validateInputs.reset();
     this.formData=new FormData();
+    this.validateInputs.reset();
   }
   parseDate(d:Date|any):any
   {

@@ -55,15 +55,12 @@
   aria-labelledby="addModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
-      <div class="modal-header px-5 bg-black text-white" (click)="closeForm()">
+      <div class="modal-header px-5 bg-black text-white">
         <h2 *ngIf="!edit" class="modal-title" id="addModalTitle">Add Employee</h2>
         <h2 *ngIf="edit" class="modal-title" id="addModalTitle">Edit Employee</h2>
-        <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"  (click)="closeForm()"></button>
       </div>
-      <form 
-          [formGroup]="validateInputs" 
-          action="" 
-          (submit)="addEmployee(
+      <form [formGroup]="validateInputs" action="" (submit)="addEmployee(
           firstName.value,
           lastName.value,
           phone.value,
@@ -86,8 +83,9 @@
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="phone" class="form-label">Phone</label>
-           
-              <input type="tel" class="form-control" [ngClass]="validateInputs.get('phone')?.valid||validateInputs.get('phone')?.untouched?'':'errorClass'" 
+
+              <input type="tel" class="form-control"
+                [ngClass]="validateInputs.get('phone')?.valid||validateInputs.get('phone')?.untouched?'':'errorClass'"
                 #phone id="phone" value="{{employee?.phone}}" formControlName="phone" />
 
             </div>
@@ -102,9 +100,8 @@
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="age" class="form-label">Birth Date</label>
-              <input type="date" class="form-control" #birthDate id="age" required max="2000-01-01"
-              min="1900-01-01" [value]="parseDate(employee?.birthDate)"
-                value="{{calcAge(employee?.birthDate)}}" formControlName="birthDate" />
+              <input type="date" class="form-control" #birthDate id="age" required max="2000-01-01" min="1900-01-01"
+                value={{parseDate(employee?.birthDate)}} formControlName="birthDate" />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="email" class="form-label">Email address</label>
