@@ -83,7 +83,7 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
     gender: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.email, Validators.required]),
     password: new FormControl('', [Validators.required]),
-    phone: new FormControl('', Validators.pattern(/^01[0-2,5]{1}[0-9]{8}$/)),
+    phone: new FormControl('', [Validators.pattern(/^01[0-2,5]{1}[0-9]{8}$/),Validators.required]),
     birthDate: new FormControl('', [Validators.required]),
     startTime: new FormControl('', [Validators.required]),
     endTime: new FormControl('', [Validators.required]),
