@@ -133,6 +133,7 @@ export class DoctorsComponent implements OnInit {
     this.formData.append(`startTime[m]`, st.m.toString());
     this.formData.append(`endTime[h]`, et.h.toString());
     this.formData.append(`endTime[m]`, et.m.toString());
+    console.log(this.validateInputs.value)
     console.log(this.ClinicServiceID.toString(),"ddd"+this.gender)
     if (!this.edit) {
       this.dataService.addDoctor(this.formData).subscribe((docID) => {
@@ -213,7 +214,6 @@ export class DoctorsComponent implements OnInit {
     this.closeForm();
     this.doctor = doctor;
     this.ClinicServiceID=this.doctor.clinicServiceID;
-    console.log(this.doctor)
     this.edit = true;
     let days = doctor.attendingDays.split(',');
     if (days.length > 1)
@@ -225,7 +225,7 @@ export class DoctorsComponent implements OnInit {
         this.attendingDays[index] = true;
       }
     }
-   this.parseWorkingDays(doctor.attendingDays);
+    this.parseWorkingDays(this.doctor.attendingDays);
   }
 
   fileName = '';

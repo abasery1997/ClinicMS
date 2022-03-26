@@ -4,6 +4,8 @@ import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { PatientService } from 'src/app/Services/patient.service';
 import { IPatient } from 'src/app/Components/Model/patient';
+import { InvoicesService } from 'src/app/Services/invoices.service';
+import { Invoice } from '../Model/invoice';
 import { Subject } from 'rxjs';
 import { DataTablesModule } from "angular-datatables";
 
@@ -14,11 +16,12 @@ import { DataTablesModule } from "angular-datatables";
 })
 export class ReportsComponent implements OnInit {
 
+  constructor(private patient:PatientService,private invoiceService:InvoicesService){}
+  invoices:Invoice[]=[];
 
   dtTrigger: Subject<any> = new Subject<any>();
   dtOptions: DataTables.Settings = {};
 
-  constructor(private patient:PatientService){}
   ngOnInit(): void {
     this.dtOptions = {
       searching:true,
@@ -33,6 +36,11 @@ export class ReportsComponent implements OnInit {
         else
           this.femalesNumber++;
       })
+    });
+    this.invoiceService.getAllInvoices().subscribe({
+      next:res=>{
+        this.invoices=res;
+      }
     });
   }
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
