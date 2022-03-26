@@ -24,7 +24,7 @@
           <td>{{ doctor.firstname }} {{ doctor.lastname }}</td>
           <td>{{ doctor.phone }}</td>
           <td>{{getClinicService(doctor.clinicServiceID)}}</td>
-          <td class="text-capitalize">{{parseWorkingDays(doctor.attendingDays)}}
+          <td class="text-capitalize">
             <span *ngFor="let day of attendingDaysString" class="badge bg-primary m-1">{{day}}</span>
           </td>
           <td>{{parseTime(doctor.startTime)}}</td>

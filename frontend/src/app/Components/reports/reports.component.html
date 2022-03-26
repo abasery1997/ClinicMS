@@ -6,14 +6,20 @@
       <div class="table-padding">
         <table datatable [dtOptions]="dtOptions"   class="table table-bordered text-center"> 
         <thead class="table-dark">
+            <tr>
+              <th>
+                Name
+              </th>
+              <th>Amount</th>
+            </tr>
         </thead>
         <tbody>
           <tr *ngFor="let doc of doctorInvoices">
-            <td>{{doc.doctorFirstName}}</td>
+            <td>{{doc.doctorName}}</td>
             <td>{{doc.clinicServiceAmount}}</td>
           </tr>
           <tr *ngFor="let p of patientInvoices">
-            <td>{{p.patientFirstName}}</td>
+            <td>{{p.patientName}}</td>
             <td>{{p.clinicServiceAmount}}</td>
           </tr>
         </tbody>

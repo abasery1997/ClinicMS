@@ -52,24 +52,22 @@ export class DoctorsComponent implements OnInit {
     if (this.attendingDaysString.length > 1)
       this.attendingDaysString.splice(this.attendingDaysString.length - 1, 1);
 
-    else {
+    for (let i = 0; i < this.attendingDaysString.length; i++) {
+      if (this.attendingDaysString[i] == "mon")
+        this.attendingDaysString[i] = "Monday";
+      else if (this.attendingDaysString[i] == "sat")
+        this.attendingDaysString[i] = "Saturday";
+      else if (this.attendingDaysString[i] == "sun")
+        this.attendingDaysString[i] = "Sunday";
+      else if (this.attendingDaysString[i] == "tue")
+        this.attendingDaysString[i] = "Tuesday";
+      else if (this.attendingDaysString[i] == "wed")
+        this.attendingDaysString[i] = "Wednesday";
+      else if (this.attendingDaysString[i] == "thu")
+        this.attendingDaysString[i] = "Thursday";
+      else
+        this.attendingDaysString[i] = "Friday";
 
-      for (let i = 0; i < this.attendingDaysString.length; i++) {
-        if (this.attendingDaysString[i] == "mon")
-          this.attendingDaysString[i] = "Monday";
-        else if (this.attendingDaysString[i] == "sat")
-          this.attendingDaysString[i] = "Saturday";
-        else if (this.attendingDaysString[i] == "sun")
-          this.attendingDaysString[i] = "Sunday";
-        else if (this.attendingDaysString[i] == "tue")
-          this.attendingDaysString[i] = "Tuesday";
-        else if (this.attendingDaysString[i] == "wed")
-          this.attendingDaysString[i] = "Wednesday";
-        else if (this.attendingDaysString[i] == "thu")
-          this.attendingDaysString[i] = "Thursday";
-        else
-          this.attendingDaysString[i] = "Friday";
-      }
     }
   }
   calcAge(birthDate: Date): number {
