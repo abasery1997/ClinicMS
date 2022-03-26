@@ -21,7 +21,6 @@ export class ReportsComponent implements OnInit {
         else
           this.femalesNumber++;
       })
-    console.log(this.femalesNumber,this.malesNumber)
     });
   }
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;

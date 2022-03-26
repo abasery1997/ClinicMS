@@ -2,12 +2,7 @@
 <div class="card m-3" style="min-width: fit-content">
   <div class="card-header d-flex justify-content-between">
     <h1 class="fw-bold">Employee Manage</h1>
-    <button
-      data-bs-toggle="modal"
-      data-bs-target="#addForm"
-      class="btn btn-success"
-      (click)="addButton()"
-    >
+    <button data-bs-toggle="modal" data-bs-target="#addForm" class="btn btn-success" (click)="addButton()">
       Add Employee
     </button>
   </div>
@@ -29,16 +24,8 @@
       <tbody>
         <tr *ngFor="let employee of employees">
           <td>
-            <a
-              target="_blank"
-              href="{{ employee.image }}"
-              ><img
-                src="{{ employee.image }}"
-                class="mx-auto"
-                width="75px"
-                height="60px"
-                alt=""
-            /></a>
+            <a target="_blank" href="{{ employee.image }}"><img src="{{ employee.image }}" class="mx-auto" width="75px"
+                height="60px" alt="" /></a>
           </td>
           <td>{{ employee.firstname }}</td>
           <td>{{ employee.lastname }}</td>
@@ -47,21 +34,13 @@
           <td>{{ employee.gender }}</td>
           <td>{{calcAge(employee.birthDate)}}</td>
           <td>{{ employee.email }}</td>
-           <td>
-            <button
-              data-bs-toggle="modal"
-              data-bs-target="#addForm"
-              class="btn btn-success mx-1 my-auto"
-              (click)="onClick(employee)"
-            >
+          <td>
+            <button data-bs-toggle="modal" data-bs-target="#addForm" class="btn btn-success mx-1 my-auto"
+              (click)="onClick(employee)">
               Edit
             </button>
-            <button
-              data-bs-toggle="modal"
-              data-bs-target="#deleteForm"
-              class="btn btn-danger mx-1 my-auto"
-              (click)="onClick(employee)"
-            >
+            <button data-bs-toggle="modal" data-bs-target="#deleteForm" class="btn btn-danger mx-1 my-auto"
+              (click)="onClick(employee)">
               Delete
             </button>
           </td>
@@ -72,30 +51,19 @@
 </div>
 <!-- End Table -->
 <!-- Start Form Modal -->
-<div
-  class="modal fade"
-  id="addForm"
-  data-bs-backdrop="static"
-  data-bs-keyboard="false"
-  tabindex="-1"
-  aria-labelledby="addModalTitle"
-  aria-hidden="true"
->
+<div class="modal fade" id="addForm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="addModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header px-5 bg-black text-white" (click)="closeForm()">
         <h2 *ngIf="!edit" class="modal-title" id="addModalTitle">Add Employee</h2>
         <h2 *ngIf="edit" class="modal-title" id="addModalTitle">Edit Employee</h2>
-        <button
-          type="button"
-          class="btn-close bg-white"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form
-        action=""
-        (submit)="addEmployee(
+      <form 
+          [formGroup]="validateInputs" 
+          action="" 
+          (submit)="addEmployee(
           firstName.value,
           lastName.value,
           phone.value,
@@ -103,109 +71,58 @@
           email.value,
           password.value,
           gender.value
-          )"
-        method="post"
-      >
+          )" method="post">
         <div class="modal-body px-5">
           <div class="row">
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="fname" class="form-label">First Name</label>
-              <input
-                type="text"
-                class="form-control"
-                id="fname"
-                placeholder="Ex : Ahmed"
-                #firstName
-                required
-                value="{{employee?.firstname}}"
-              />
+              <input type="text" class="form-control" id="fname" placeholder="Ex : Ahmed" #firstName required
+                value="{{employee?.firstname}}" formControlName="firstName" />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="lname" class="form-label">Last Name</label>
-              <input
-                type="text"
-                class="form-control"
-                #lastName
-                id="lname"
-                placeholder="Ex : Mohamed"
-                required
-                value="{{employee?.lastname}}"
-              />
+              <input type="text" class="form-control" #lastName id="lname" placeholder="Ex : Mohamed" required
+                value="{{employee?.lastname}}" formControlName="lastName" />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="phone" class="form-label">Phone</label>
-              <input
-                type="tel"
-                class="form-control"
-                #phone
-                id="phone"
-                required
-                value="{{employee?.phone}}"
-              />
-            </div>
            
+              <input type="tel" class="form-control" [ngClass]="validateInputs.get('phone')?.valid||validateInputs.get('phone')?.untouched?'':'errorClass'" 
+                #phone id="phone" value="{{employee?.phone}}" formControlName="phone" />
+
+            </div>
+
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="gender" class="form-label">Gender</label>
-              <select
-                class="form-select"
-                id="gender"
-                name="gender"
-                #gender
-                required
-                value="{{employee?.gender}}"
-              >
+              <select class="form-select" id="gender" name="gender" #gender required value="{{employee?.gender}}"
+                formControlName="gender">
                 <option selected value="m">Male</option>
                 <option value="f">Female</option>
               </select>
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="age" class="form-label">Birth Date</label>
-              <input
-                type="date"
-                class="form-control"
-                #birthDate
-                id="age"
-                required
-                value="{{calcAge(employee?.birthDate)}}"
-              />
+              <input type="date" class="form-control" #birthDate id="age" required max="2000-01-01"
+              min="1900-01-01" [value]="parseDate(employee?.birthDate)"
+                value="{{calcAge(employee?.birthDate)}}" formControlName="birthDate" />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="email" class="form-label">Email address</label>
-              <input
-                type="email"
-                class="form-control"
-                id="email"
-                placeholder="name@example.com"
-                #email
-                required
+              <input type="email" class="form-control" id="email" placeholder="name@example.com" #email required
                 value="{{employee?.email}}"
-              />
+                [ngClass]="validateInputs.get('email')?.valid||validateInputs.get('email')?.untouched?'':'errorClass'"
+                formControlName="email" />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="password" class="form-label">Login Password</label>
-              <input
-                type="password"
-                class="form-control"
-                id="password"
-                #password
-                required
-                value="{{employee?.password}}"
-              />
+              <input type="password" class="form-control" id="password" #password required
+                value="{{employee?.password}}" formControlName="password" />
             </div>
 
             <div class="my-3 col-lg-4 col-md-6 col-12">
-              <label for="image" class="form-label" 
-              *ngIf="!edit" >Image</label>
-              <input
-              *ngIf="!edit"
-                class="form-control"
-                type="file"
-                id="image"
-                (change)="onFileSelected($event)"
-                #image
-                multiple
-                required
-              />
+              <label for="image" class="form-label" *ngIf="!edit">Image</label>
+              <input *ngIf="!edit" class="form-control" type="file" id="image" (change)="onFileSelected($event)" #image
+                multiple required formControlName="image" />
             </div>
           </div>
         </div>
@@ -216,7 +133,8 @@
           <button *ngIf="edit" type="submit" class="btn btn-success" data-bs-dismiss="modal">
             Edit
           </button>
-          <button *ngIf="!edit" type="submit" class="btn btn-success" data-bs-dismiss="modal" >
+          <button *ngIf="!edit" type="submit" class="btn btn-success" data-bs-dismiss="modal"
+            [disabled]="validateInputs.invalid">
             Add
           </button>
         </div>
@@ -227,24 +145,12 @@
 
 <!-- End Form Modal -->
 <!-- Start Delete Modal -->
-<div
-  class="modal fade"
-  id="deleteForm"
-  data-bs-backdrop="static"
-  data-bs-keyboard="false"
-  tabindex="-1"
-  aria-labelledby="modalTitle"
-  aria-hidden="true"
->
+<div class="modal fade" id="deleteForm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="modalTitle" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form action="" (submit)="deleteEmployee()" method="get">
         <div class="modal-body">

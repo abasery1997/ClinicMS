@@ -7,3 +7,6 @@ label{
 td{
     border-bottom: solid 1px rgb(66, 66, 66) !important;
 }
+.errorClass{
+    border: 2px solid red;
+}
