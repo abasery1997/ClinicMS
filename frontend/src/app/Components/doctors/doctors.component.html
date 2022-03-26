@@ -209,7 +209,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="modalTitle">Delete Doctor</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeForm()"></button>
       </div>
       <form action="" (submit)="delete()" method="get">
         <div class="modal-body">
@@ -219,7 +219,7 @@
           </h4>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="closeForm()">
             Cancel
           </button>
           <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">

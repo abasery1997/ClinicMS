@@ -169,7 +169,6 @@ export class DoctorsComponent implements OnInit {
   closeForm() {
     this.validateInputs.reset()
     
-    this.formData=new FormData();
     this.edit = false;
     this.doctor = {
       firstname:"",
@@ -210,7 +209,8 @@ export class DoctorsComponent implements OnInit {
   }
   edit: boolean = false;
   catchDoctor(doctor: Doctor) {
-    this.formData=new FormData();
+    
+    this.closeForm();
     this.doctor = doctor;
     this.ClinicServiceID=this.doctor.clinicServiceID;
     console.log(this.doctor)
@@ -243,6 +243,7 @@ export class DoctorsComponent implements OnInit {
       for (let d of this.doctors) {
         if (d._id == this.doctor._id) {
           console.log(this.doctors.splice(this.doctors.indexOf(d), 1));
+          this.closeForm();
         }
       }
     });
