@@ -177,7 +177,7 @@
                 </select>
               </div>
               <div class="my-3 col-lg-4 col-md-6 col-12">
-                <label for="bdate" class="form-label">BirthDate</label>
+                <label for="bdate" class="form-label">Birth Date</label>
                 <input
                   type="date"
                   class="form-control"
@@ -186,8 +186,7 @@
                   max="2000-01-01"
                   min="1900-01-01"
                   required
-                  value={{calcAge(patient?.birthDate)}}
-                  [value]="parseDate(patient?.birthDate)"
+                  value={{parseDate(patient?.birthDate)}}
                   formControlName="birthDate"
                 />
               </div>
