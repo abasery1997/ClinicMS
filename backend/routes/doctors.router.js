@@ -1,7 +1,7 @@
 const express = require("express");
 const { body, query, param } = require("express-validator")
 const router = express.Router();
-const { getDoctors, getADoctor, addDoctor, updateDoctor, deleteDoctor } = require("./../Controllers/doctors.controller")
+const { getDoctors, getADoctor, addDoctor, updateDoctor, deleteDoctor ,getDoctorsByClinciService} = require("./../Controllers/doctors.controller")
 
 
 //get all doctors
@@ -10,6 +10,9 @@ router.get("", getDoctors);
 
 //get a doctor data
 router.get("/one", getADoctor);
+
+router.get("/ClinicService", getDoctorsByClinciService);
+
 
 //add new doctor route
 router.post("", [

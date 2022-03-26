@@ -84,7 +84,6 @@ app.use ((req,res,next)=>{
     console.log("request file object ",req.file);
     }
   next();
-  
   });
 
 app.use((req, res, next) => {
