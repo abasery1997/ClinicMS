@@ -40,6 +40,35 @@ exports.getADoctor = (req, res, next) => {
             next(error.message);
         })
 }
+
+
+
+//get doctors by clinic Service ID 
+exports.getDoctorsByClinciService = (req, res, next) => {
+    const { clinicServiceID } = req.body;
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        let error = new Error();
+        error.status = 422;
+        error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
+        throw error;
+    }
+    //let projection = { _id:1,password: 1 };
+
+    Doctor.find({ 'clinicServiceID': clinicServiceID })
+        .then(data => {
+            if (data == null) {
+                throw new Error("there are no doctors in the Service")
+            } else {
+                res.status(200).json({ data })
+            }
+        })
+        .catch(error => {
+            error.status = 500;
+            next(error.message);
+        })
+}
+
 //add new doctor
 exports.addDoctor = async (req, res, next) => {
     try {

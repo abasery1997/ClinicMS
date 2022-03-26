@@ -6,6 +6,9 @@ import { PatientService } from 'src/app/Services/patient.service';
 import { IPatient } from 'src/app/Components/Model/patient';
 import { InvoicesService } from 'src/app/Services/invoices.service';
 import { Invoice } from '../Model/invoice';
+import { Subject } from 'rxjs';
+import { DataTablesModule } from "angular-datatables";
+
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',
@@ -15,7 +18,16 @@ export class ReportsComponent implements OnInit {
 
   constructor(private patient:PatientService,private invoiceService:InvoicesService){}
   invoices:Invoice[]=[];
+
+  dtTrigger: Subject<any> = new Subject<any>();
+  dtOptions: DataTables.Settings = {};
+
   ngOnInit(): void {
+    this.dtOptions = {
+      searching:true,
+      paging:true,
+      responsive:true
+    };
     this.patient.getPatients().subscribe(res=>{
       this.patients=res;
       this.patients.forEach((p)=>{

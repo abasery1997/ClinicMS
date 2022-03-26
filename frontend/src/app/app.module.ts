@@ -16,8 +16,6 @@ import { NgChartsModule } from 'ng2-charts';
 import { ReportsComponent } from './Components/reports/reports.component';
 import { PatientsComponent } from './Components/patients/patients.component';
 import { ClinicServicesComponent } from './Components/clinic-services/clinic-services.component';
-import { PrescriptionsComponent } from './Components/prescriptions/prescriptions.component';
-import { InvoicesComponent } from './Components/invoices/invoices.component';
 import { DataTablesModule } from "angular-datatables";
 @NgModule({
   declarations: [
@@ -31,8 +29,7 @@ import { DataTablesModule } from "angular-datatables";
     ReportsComponent,
     PatientsComponent,
     ClinicServicesComponent,
-    PrescriptionsComponent,
-    InvoicesComponent,
+
   ],
   imports: [
     BrowserModule,
