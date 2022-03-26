@@ -219,12 +219,13 @@ export class DoctorsComponent implements OnInit {
     if (days.length > 1)
       days.splice(days.length - 1, 1);
     let index = -1;
-    for (let i = 0; i < this.attendingDaysString.length; i++) {
+    for (let i = 0; i < days.length; i++) {
       index = this.attendingDaysValues.indexOf(days[i]);
       if (index != -1) {
         this.attendingDays[index] = true;
       }
     }
+   this.parseWorkingDays(doctor.attendingDays);
   }
 
   fileName = '';

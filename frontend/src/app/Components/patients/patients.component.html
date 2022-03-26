@@ -12,12 +12,12 @@
       </button>
     </div>
     <div class="card-body">
-      <table #dataTable class="table table-bordered border-dark">
+      <div class="table-padding">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  class="table table-bordered text-center"> 
         <thead class="bg-dark text-white">
           <tr>
+            <th>Name</th>
             <th>Image</th>
-            <th>First Name</th>
-            <th>Last Name</th>
             <th>Phone</th>
             <th>Emergency Phone</th>
             <th>Gender</th>
@@ -28,6 +28,8 @@
         </thead>
         <tbody>
           <tr *ngFor="let patient of patients">
+            <td>{{patient.firstname}} {{patient.lastname}}</td>
+            <td>{{patient.phone}}</td>
             <td>
               <a
                 target="_blank"
@@ -40,11 +42,8 @@
                   alt=""
               /></a>
             </td>
-            <td>{{patient.firstname}}</td>
-            <td>{{patient.lastname}}</td>
-            <td>{{patient.phone}}</td>
             <td>{{patient.emergencyPhone}}</td>
-            <td>{{patient.gender}}</td>
+            <td>{{ patient.gender == "m" ? "Male" : "Female" }}</td>
             <td>{{calcAge(patient.birthDate)}}</td>
             <td>{{patient.email}}</td>
             <td>
@@ -68,6 +67,7 @@
           </tr>
         </tbody>
       </table>
+    </div>
     </div>
   </div>
   <!-- End Table -->
@@ -217,7 +217,7 @@
               </div>
   
               <div class="my-3 col-lg-4 col-md-6 col-12">
-                <label *ngIf="!edit" for="image" class="form-label">Image</label>
+                <label *ngIf="!edit" accept=".jpg,.png,.jpeg" for="image" class="form-label">Image</label>
                 <input
                   *ngIf="!edit"
                   class="form-control"

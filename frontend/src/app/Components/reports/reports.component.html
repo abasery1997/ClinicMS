@@ -3,15 +3,8 @@
   <div class="card w-100 m-2">
     <div class="card-header">Invoices</div>
     <div class="card-body">
-      <div class="d-flex">
-        <select class="w-50 m-2" name="doctor" id="doc">
-          <option value="0">select doctor</option>
-        </select>
-        <select class="w-50 m-2" name="service" id="serv">
-          <option value="0">select service</option>
-        </select>
-      </div>
-      <table class="table table-hover table-bordered table-striped">
+      <div class="table-padding">
+        <table datatable [dtOptions]="dtOptions"   class="table table-bordered text-center"> 
         <thead class="table-dark">
           <tr>
             <th>Name</th>
@@ -20,57 +13,19 @@
         </thead>
         <tbody>
           <tr>
-            <td></td>
-            <td></td>
+            <td>ba</td>
+            <td>ac</td>
           </tr>
           <tr>
-            <td></td>
-            <td></td>
+            <td>cc</td>
+            <td>dd</td>
           </tr>
         </tbody>
       </table>
     </div>
-  </div>
-  <div class="card w-100 m-2">
-    <div class="card-header">Appointments</div>
-    <div class="card-body">
-      <div class="d-flex">
-        <select class="w-50 m-2" name="doctor" id="doc">
-          <option value="0">select doctor</option>
-        </select>
-        <select class="w-50 m-2" name="service" id="serv">
-          <option value="0">select service</option>
-        </select>
-      </div>
-      <table class="table table-hover table-bordered table-striped">
-        <thead class="table-dark">
-          <tr>
-            <th>Patient Name</th>
-            <th>Doctor Name</th>
-            <th>Employee Name</th>
-            <th>Date</th>
-            <th>Time</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-        </tbody>
-      </table>
     </div>
   </div>
+
   <div class="card w-100 m-2">
     <div class="card-header">Income Per Month</div>
     <div class="card-body row d-flex justify-content-center">

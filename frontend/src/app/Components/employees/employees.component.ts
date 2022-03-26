@@ -1,18 +1,19 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { DatePipe } from '@angular/common'
+import { DatePipe } from '@angular/common';
+import { Subject } from 'rxjs';
 
 import { EmployeeService } from '../../Services/employee.service';
 import { IEmployee } from '../Model/employee';
 
-declare var $: any;
+
 @Component({
   selector: 'app-employees',
   templateUrl: './employees.component.html',
   styleUrls: ['./employees.component.css'],
   providers:[DatePipe]
 })
-export class EmployeesComponent implements OnInit, AfterViewInit {
+export class EmployeesComponent implements OnInit {
 
   employees: IEmployee[] = [];
   employee: IEmployee | null = null;
@@ -22,27 +23,30 @@ export class EmployeesComponent implements OnInit, AfterViewInit {
   formData = new FormData();
   file: File | null = null;
 
+
+  dtTrigger: Subject<any> = new Subject<any>();
+  dtOptions: DataTables.Settings = {};
+
   constructor(private employeeService: EmployeeService) { }
   
-  @ViewChild('dataTable', { static: false }) table: any;
-  dataTable: any;
 
   updateTable() {
     this.employeeService.getEmployees().subscribe((res) => {
       this.employees = res;
+      this.dtTrigger.next();
     });
   }
 
   ngOnInit(): void {
+    this.dtOptions = {
+      searching:true,
+      paging:true,
+      responsive:true
+    };
     this.updateTable();
   }
 
-  ngAfterViewInit(): void {
-      
-      this.dataTable = $(this.table.nativeElement);
-      this.dataTable.DataTable();
-    
-  }
+ 
 
   onFileSelected(event: any) {
     this.file = event.target.files[0];

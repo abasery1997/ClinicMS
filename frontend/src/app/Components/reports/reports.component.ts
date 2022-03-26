@@ -4,6 +4,9 @@ import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { PatientService } from 'src/app/Services/patient.service';
 import { IPatient } from 'src/app/Components/Model/patient';
+import { Subject } from 'rxjs';
+import { DataTablesModule } from "angular-datatables";
+
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',
@@ -11,8 +14,17 @@ import { IPatient } from 'src/app/Components/Model/patient';
 })
 export class ReportsComponent implements OnInit {
 
+
+  dtTrigger: Subject<any> = new Subject<any>();
+  dtOptions: DataTables.Settings = {};
+
   constructor(private patient:PatientService){}
   ngOnInit(): void {
+    this.dtOptions = {
+      searching:true,
+      paging:true,
+      responsive:true
+    };
     this.patient.getPatients().subscribe(res=>{
       this.patients=res;
       this.patients.forEach((p)=>{
