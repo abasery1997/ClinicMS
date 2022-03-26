@@ -1,10 +1,9 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IPatient } from '../Model/patient';
 import { PatientService } from '../../Services/patient.service'
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common'
-
-declare var $: any;
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-patients',
@@ -14,11 +13,12 @@ declare var $: any;
 
 })
 
-export class PatientsComponent implements OnInit, AfterViewInit {
+export class PatientsComponent implements OnInit {
 
-  @ViewChild('dataTable', { static: false }) table: any;
-  dataTable: any;
+ 
 
+  dtTrigger: Subject<any> = new Subject<any>();
+  dtOptions: DataTables.Settings = {};
   constructor(private patientService: PatientService) { }
   
   public style:any={
@@ -35,18 +35,21 @@ export class PatientsComponent implements OnInit, AfterViewInit {
   updateTable() {
     this.patientService.getPatients().subscribe((res) => {
       this.patients = res;
+      this.dtTrigger.next();
     });
   }
 
   ngOnInit(): void {
+    this.dtOptions = {
+      searching:true,
+      paging:true,
+      responsive:true
+    };
     this.updateTable();
   }
 
 
-  ngAfterViewInit(): void {
-    this.dataTable = $(this.table.nativeElement);
-    this.dataTable.DataTable();
-  }
+  
 
   onFileSelected(event: any) {
 

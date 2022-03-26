@@ -7,12 +7,12 @@
     </button>
   </div>
   <div class="card-body">
-    <table #dataTable class="table table-bordered border-dark">
+    <div class="table-padding">
+      <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  class="table table-bordered text-center"> 
       <thead class="bg-dark text-white">
         <tr>
+          <th>Name</th>
           <th>Image</th>
-          <th>First Name</th>
-          <th>Last Name</th>
           <th>Phone</th>
           <th>Speciality</th>
           <th>Gender</th>
@@ -23,23 +23,22 @@
       </thead>
       <tbody>
         <tr *ngFor="let employee of employees">
+          <td>{{ employee.firstname }} {{ employee.lastname }}</td>
           <td>
             <a target="_blank" href="{{ employee.image }}"><img src="{{ employee.image }}" class="mx-auto" width="75px"
                 height="60px" alt="" /></a>
           </td>
-          <td>{{ employee.firstname }}</td>
-          <td>{{ employee.lastname }}</td>
           <td>{{ employee.phone }}</td>
           <td>Dermatology</td>
-          <td>{{ employee.gender }}</td>
+          <td>{{ employee.gender == "m" ? "Male" : "Female" }}</td>
           <td>{{calcAge(employee.birthDate)}}</td>
           <td>{{ employee.email }}</td>
           <td>
-            <button data-bs-toggle="modal" data-bs-target="#addForm" class="btn btn-success mx-1 my-auto"
+            <button data-bs-toggle="modal" data-bs-target="#addForm" class="btn btn-success m-1"
               (click)="onClick(employee)">
               Edit
             </button>
-            <button data-bs-toggle="modal" data-bs-target="#deleteForm" class="btn btn-danger mx-1 my-auto"
+            <button data-bs-toggle="modal" data-bs-target="#deleteForm" class="btn btn-danger m-1"
               (click)="onClick(employee)">
               Delete
             </button>
@@ -47,6 +46,7 @@
         </tr>
       </tbody>
     </table>
+  </div>
   </div>
 </div>
 <!-- End Table -->
@@ -100,8 +100,14 @@
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="age" class="form-label">Birth Date</label>
+<<<<<<< HEAD
               <input type="date" class="form-control" #birthDate id="age" required max="2000-01-01" min="1900-01-01"
                 value={{parseDate(employee?.birthDate)}} formControlName="birthDate" />
+=======
+              <input type="date" class="form-control" #birthDate id="age" required max="2000-01-01"
+              min="1940-01-01" [value]="parseDate(employee?.birthDate)"
+                value="{{calcAge(employee?.birthDate)}}" formControlName="birthDate" />
+>>>>>>> f9dacf6e76a94b532914a639980ec5df36db583d
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="email" class="form-label">Email address</label>
@@ -118,7 +124,7 @@
 
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="image" class="form-label" *ngIf="!edit">Image</label>
-              <input *ngIf="!edit" class="form-control" type="file" id="image" (change)="onFileSelected($event)" #image
+              <input *ngIf="!edit" class="form-control" type="file" accept=".jpg,.png,.jpeg" id="image" (change)="onFileSelected($event)" #image
                 multiple required formControlName="image" />
             </div>
           </div>

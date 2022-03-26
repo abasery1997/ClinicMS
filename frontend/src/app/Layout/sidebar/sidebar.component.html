@@ -100,32 +100,6 @@
     </li>
     <li class="nav-item">
       <a
-        routerLink="Prescriptions"
-        class="nav-link text-white"
-        (click)="active(Prescriptions)"
-        id="Prescriptions"
-        #Prescriptions
-        [ngClass]="{ 'fs-5': isToggle, 'text-center': isToggle }"
-      >
-        <i class="fa-solid fa-hospital-wide m-1"></i>
-        <span [ngClass]="{ 'd-none': isToggle }">Prescriptions</span>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a
-        routerLink="Invoices"
-        class="nav-link text-white"
-        (click)="active(Invoices)"
-        id="Invoices"
-        #Invoices
-        [ngClass]="{ 'fs-5': isToggle, 'text-center': isToggle }"
-      >
-        <i class="fa-solid fa-lg fa-file-invoice-dollar mx-2"></i>
-        <span [ngClass]="{ 'd-none': isToggle }">Invoices</span>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a
         routerLink="Reports"
         class="nav-link text-white"
         (click)="active(Reports)"
@@ -134,7 +108,7 @@
         [ngClass]="{ 'fs-5': isToggle, 'text-center': isToggle }"
       >
         <i class="fa-solid fa-scroll m-1"></i>
-        <span [ngClass]="{ 'd-none': isToggle }">Reports</span>
+        <span [ngClass]="{ 'd-none': isToggle }">Report</span>
       </a>
     </li>
   </ul>

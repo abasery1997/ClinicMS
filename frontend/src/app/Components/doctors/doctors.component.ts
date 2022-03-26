@@ -1,13 +1,14 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import {Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ClinicService } from 'src/app/Services/clinic.service';
 import { DatePipe } from '@angular/common'
+import { Subject } from 'rxjs';
+
 
 import { DoctorService } from 'src/app/Services/doctor.service';
 import { ClinicServiceClass } from '../Model/clinic-service';
 import { Doctor, Time } from '../Model/doctor';
 
-declare var $: any;
 
 @Component({
   selector: 'app-doctors',
@@ -15,24 +16,34 @@ declare var $: any;
   styleUrls: ['./doctors.component.css'],
   providers:[DatePipe]
 })
-export class DoctorsComponent implements OnInit, AfterViewInit {
+export class DoctorsComponent implements OnInit {
 
 
-  @ViewChild('dataTable', { static: false }) table: any;
-  dataTable: any;
+  dtTrigger: Subject<any> = new Subject<any>();
+  dtOptions: DataTables.Settings = {};
   constructor(private dataService: DoctorService, private clinicService: ClinicService) { }
 
   doctors: Doctor[] = [];
   doctor: Doctor = new Doctor('', "1", '', '', '', new Date(), '', '', '', '', '', new Time(1, 1), new Time(1, 1));
   ngOnInit(): void {
+    this.dtOptions = {
+      searching:true,
+      paging:true,
+      responsive:true
+    };
     this.dataService.getAllDoctors().subscribe((res) => {
       this.doctors = res;
+      this.dtTrigger.next();
     });
     this.clinicService.getAllServices().subscribe((res: any) => {
       this.clinicServices = res;
+      // this.dtTrigger.next();
     });
   }
-
+  ngOnDestroy(): void {
+    // Do not forget to unsubscribe the event
+    this.dtTrigger.unsubscribe();
+  }
   attendingDaysValues: string[] = ["sat", "sun", "mon", "tue", "wed", "thu", "fri"];
   parseWorkingDays(days: string) {
     this.attendingDaysString = days.split(',');
@@ -71,10 +82,7 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
     }
     return '';
   }
-  ngAfterViewInit(): void {
-    this.dataTable = $(this.table.nativeElement);
-    this.dataTable.DataTable();
-  }
+ 
 
 
   validateInputs: FormGroup = new FormGroup({
@@ -83,7 +91,7 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
     gender: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.email, Validators.required]),
     password: new FormControl('', [Validators.required]),
-    phone: new FormControl('', Validators.pattern(/^01[0-2,5]{1}[0-9]{8}$/)),
+    phone: new FormControl('', [Validators.pattern(/^01[0-2,5]{1}[0-9]{8}$/),Validators.required]),
     birthDate: new FormControl('', [Validators.required]),
     startTime: new FormControl('', [Validators.required]),
     endTime: new FormControl('', [Validators.required]),
@@ -178,6 +186,7 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
       startTime:new Time(0,0),
       _id:""
     }
+    this.formData = new FormData();
     this.attendingDays = [false, false, false, false, false, false, false];
   }
   ClinicServiceID: Object = '';
@@ -210,12 +219,13 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
     if (days.length > 1)
       days.splice(days.length - 1, 1);
     let index = -1;
-    for (let i = 0; i < this.attendingDaysString.length; i++) {
+    for (let i = 0; i < days.length; i++) {
       index = this.attendingDaysValues.indexOf(days[i]);
       if (index != -1) {
         this.attendingDays[index] = true;
       }
     }
+   this.parseWorkingDays(doctor.attendingDays);
   }
 
   fileName = '';

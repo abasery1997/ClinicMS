@@ -7,59 +7,50 @@
     </button>
   </div>
   <div class="card-body">
-    <table #dataTable class="table table-bordered border-dark">
+    <div class="table-padding">
+      <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  class="table table-bordered text-center"> 
       <thead class="bg-dark text-white">
         <tr>
-          <th>Image</th>
           <th>Name</th>
           <th>Phone</th>
           <th>Speciality</th>
-          <th>Gender</th>
-          <th>Age</th>
-          <th>Email</th>
           <th>Days</th>
           <th>Start Time</th>
-          <th>End Time</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let doctor of doctors">
-          <td>
-            <a target="_blank" href="{{ doctor.image }}"><img src="{{ doctor.image }}" class="mx-auto" width="75px"
-                height="60px" alt="" /></a>
-          </td>
           <td>{{ doctor.firstname }} {{ doctor.lastname }}</td>
           <td>{{ doctor.phone }}</td>
           <td>{{getClinicService(doctor.clinicServiceID)}}</td>
-          <td>{{ doctor.gender }}</td>
-          <td>{{calcAge(doctor.birthDate)}}</td>
-          <td>{{ doctor.email }}</td>
           <td class="text-capitalize">{{parseWorkingDays(doctor.attendingDays)}}
-            <ul>
-              <li *ngFor="let day of attendingDaysString">
-                {{day}}
-              </li>
-            </ul>
+            <span *ngFor="let day of attendingDaysString" class="badge bg-primary m-1">{{day}}</span>
           </td>
-          <td>{{ doctor.startTime.h }}:{{ doctor.startTime.m }}</td>
-          <td>{{ doctor.endTime.h }}:{{ doctor.endTime.m }}</td>
+          <td>{{parseTime(doctor.startTime)}}</td>
           <td>
-            <button data-bs-toggle="modal" data-bs-target="#addForm" class="btn btn-success mx-1 my-auto"
+            <button data-bs-toggle="modal" data-bs-target="#detailsModal" class="btn btn-primary m-1"
+              (click)="catchDoctor(doctor)">
+              Details
+            </button>
+            <button data-bs-toggle="modal" data-bs-target="#addForm" class="btn btn-success m-1"
               (click)="catchDoctor(doctor)">
               Edit
             </button>
-            <button data-bs-toggle="modal" data-bs-target="#deleteForm" class="btn btn-danger mx-1 my-auto"
+            <button data-bs-toggle="modal" data-bs-target="#deleteForm" class="btn btn-danger m-1"
               (click)="catchDoctor(doctor)">
               Delete
             </button>
           </td>
         </tr>
       </tbody>
-    </table>
+      </table>
+    </div>
   </div>
 </div>
 <!-- End Table -->
+
+
 <!-- Start Form Modal -->
 <div class="modal fade" id="addForm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
   aria-labelledby="addModalTitle" aria-hidden="true">
@@ -75,17 +66,17 @@
           <div class="row">
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="fname" class="form-label">First Name</label>
-              <input type="text" class="form-control" id="firstName" placeholder="Ex : Ahmed" #firstName
+              <input type="text" class="form-control" [ngClass]="validateInputs.get('firstName')?.valid||validateInputs.get('firstName')?.untouched?'':'errorClass'" id="firstName" placeholder="Ex : Ahmed" #firstName
                 [value]="doctor.firstname" formControlName="firstName" />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="lname" class="form-label">Last Name</label>
               <input type="text" class="form-control" #lastName id="lname" placeholder="Ex : Mohamed"
-                [value]="doctor.lastname" formControlName="lastName" />
+                [value]="doctor.lastname" [ngClass]="validateInputs.get('lastName')?.valid||validateInputs.get('lastName')?.untouched?'':'errorClass'" formControlName="lastName" />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="phone" class="form-label">Phone</label>
-              <input type="tel" class="form-control" [ngClass]="validateInputs.get('phone')?.valid?'':'errorClass'" #phone id="phone" [value]="doctor.phone" formControlName="phone" />
+              <input type="tel" class="form-control" [ngClass]="validateInputs.get('phone')?.valid||validateInputs.get('phone')?.untouched?'':'errorClass'" #phone id="phone" [value]="doctor.phone" formControlName="phone" />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="Speciality" class="form-label">Speciality</label>
@@ -104,7 +95,7 @@
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="age" class="form-label">BirthDate</label>
-              <input type="date" class="form-control" value="{{validateInputs.get('birthDate')?.value}}" [value]="parseDate(doctor.birthDate)" max="2000-01-01"#age id="age" formControlName="birthDate" />
+              <input type="date" class="form-control" value="{{validateInputs.get('birthDate')?.value}}" [value]="parseDate(doctor.birthDate)" max="2000-01-01" min="1940-01-01" #age id="age" formControlName="birthDate" />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="email" class="form-label">Email address</label>
@@ -118,7 +109,7 @@
 
             <div *ngIf="!edit" class="my-3 col-lg-4 col-md-6 col-12">
               <label for="image" class="form-label">Image</label>
-              <input class="form-control" type="file" formControlName="image" id="image" (change)="onFileSelected($event)" multiple required />
+              <input class="form-control" type="file" accept=".jpg,.png,.jpeg" formControlName="image" id="image" (change)="onFileSelected($event)" multiple required />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="Speciality" class="form-label">Available Days</label>
@@ -208,8 +199,9 @@
     </div>
   </div>
 </div>
-
 <!-- End Form Modal -->
+
+
 <!-- Start Delete Modal -->
 <div class="modal fade" id="deleteForm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
   aria-labelledby="modalTitle" aria-hidden="true">
@@ -239,3 +231,69 @@
   </div>
 </div>
 <!-- End Delete Modal -->
+
+
+<!-- Start Details Modal -->
+<div class="modal col-8 fade" id="detailsModal"  data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="detailsModalTitle" aria-hidden="true">
+  <div class="modal-dialog ">
+    <div class="modal-content">
+      <div class="modal-header px-5 bg-black text-white">
+        <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close" (click)="closeForm()"></button>
+      </div>
+      <div class="modal-body m-2 row">
+        <div class="detailsImg text-center">
+          <img src="{{ doctor.image }}" width="150px" class="rounded-circle" height="150px" alt="">
+        </div>
+        <h2 class="text-center">{{ doctor.firstname }} {{ doctor.lastname }}</h2>
+        <div class="row mx-auto">
+          
+          <div class="col-12 d-flex border-bottom mt-3 align-items-center justify-content-between">
+            <h6>Clinic Servic : </h6>
+            <h6> {{getClinicService(doctor.clinicServiceID)}}</h6>
+          </div>
+          <div class="col-12 d-flex border-bottom mt-3 align-items-center justify-content-between">
+            <h6>Phone : </h6>
+            <h6> {{doctor.phone}}</h6>
+          </div>
+          <div class="col-12 d-flex border-bottom mt-3 align-items-center justify-content-between">
+            <h6>Email : </h6>
+            <h6> {{doctor.email}}</h6>
+          </div>
+          <div class="col-12 d-flex border-bottom mt-3 align-items-center justify-content-between">
+            <h6>Age : </h6>
+            <h6> {{calcAge(doctor.birthDate)}}</h6>
+          </div>
+          <div class="col-12 d-flex border-bottom mt-3 align-items-center justify-content-between">
+            <h6>Gender : </h6>
+            <h6>{{ doctor.gender == "m" ? "Male" : "Female" }}</h6>
+          </div>
+          <div class="col-12 d-flex border-bottom mt-3 justify-content-between">
+            <h6 class="col-4">Days : </h6>
+            <h6 class="col-8 text-end"> <span *ngFor="let day of attendingDaysString" class="badge bg-primary m-1">{{day}}</span></h6>
+          </div>
+          <div class="col-12 d-flex border-bottom mt-3 align-items-center justify-content-between">
+            <div class="col-5 d-flex align-items-center justify-content-between">
+              <h6>Start Time : </h6>
+              <h6>{{ doctor.startTime.h > 12 ?  doctor.startTime.h - 12:  doctor.startTime.h  }}:{{ doctor.startTime.m }} {{ doctor.startTime.h > 12 ?  "PM" : "AM"}}</h6>
+            </div>
+            <div class="col-5 d-flex align-items-center justify-content-between">
+              <h6>End Time : </h6>
+              <h6>{{ doctor.endTime.h > 12 ?  doctor.endTime.h - 12:  doctor.endTime.h  }}:{{ doctor.endTime.m }} {{ doctor.endTime.h > 12 ?  "PM" : "AM"}}</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <!-- <th>Image</th> -->
+    <!-- <th>Phone</th> -->
+    <!-- <th>Speciality</th> -->
+    <!-- <th>Gender</th> -->
+    <!-- <th>Age</th> -->
+    <!-- <th>Email</th> -->
+    <!-- <th>Days</th> -->
+    <!-- <th>Start Time</th> -->
+    <!-- <th>End Time</th> -->
+<!-- End Details Modal -->

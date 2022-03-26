@@ -80,6 +80,9 @@ app.use ((req,res,next)=>{
   if (req.hasOwnProperty('body')){
   console.log("request body object ",req.body);
   }
+  if (req.hasOwnProperty('file')){
+    console.log("request file object ",req.file);
+    }
   next();
   
   });
