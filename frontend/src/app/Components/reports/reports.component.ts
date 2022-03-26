@@ -4,6 +4,8 @@ import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { PatientService } from 'src/app/Services/patient.service';
 import { IPatient } from 'src/app/Components/Model/patient';
+import { InvoicesService } from 'src/app/Services/invoices.service';
+import { Invoice } from '../Model/invoice';
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',
@@ -11,7 +13,8 @@ import { IPatient } from 'src/app/Components/Model/patient';
 })
 export class ReportsComponent implements OnInit {
 
-  constructor(private patient:PatientService){}
+  constructor(private patient:PatientService,private invoiceService:InvoicesService){}
+  invoices:Invoice[]=[];
   ngOnInit(): void {
     this.patient.getPatients().subscribe(res=>{
       this.patients=res;
@@ -21,6 +24,11 @@ export class ReportsComponent implements OnInit {
         else
           this.femalesNumber++;
       })
+    });
+    this.invoiceService.getAllInvoices().subscribe({
+      next:res=>{
+        this.invoices=res;
+      }
     });
   }
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
