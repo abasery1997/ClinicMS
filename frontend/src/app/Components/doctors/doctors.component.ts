@@ -1,4 +1,4 @@
-import {Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ClinicService } from 'src/app/Services/clinic.service';
 import { DatePipe } from '@angular/common'
@@ -14,7 +14,7 @@ import { Doctor, Time } from '../Model/doctor';
   selector: 'app-doctors',
   templateUrl: './doctors.component.html',
   styleUrls: ['./doctors.component.css'],
-  providers:[DatePipe]
+  providers: [DatePipe]
 })
 export class DoctorsComponent implements OnInit {
 
@@ -27,9 +27,9 @@ export class DoctorsComponent implements OnInit {
   doctor: Doctor = new Doctor('', "1", '', '', '', new Date(), '', '', '', '', '', new Time(1, 1), new Time(1, 1));
   ngOnInit(): void {
     this.dtOptions = {
-      searching:true,
-      paging:true,
-      responsive:true
+      searching: true,
+      paging: true,
+      responsive: true
     };
     this.dataService.getAllDoctors().subscribe((res) => {
       this.doctors = res;
@@ -46,24 +46,30 @@ export class DoctorsComponent implements OnInit {
   }
   attendingDaysValues: string[] = ["sat", "sun", "mon", "tue", "wed", "thu", "fri"];
   parseWorkingDays(days: string) {
-    this.attendingDaysString = days.split(',');
+    if (days.length > 3) {
+      this.attendingDaysString = days.split(',');
+    }
     if (this.attendingDaysString.length > 1)
       this.attendingDaysString.splice(this.attendingDaysString.length - 1, 1);
-    for (let i = 0; i < this.attendingDaysString.length; i++) {
-      if (this.attendingDaysString[i] == "mon")
-        this.attendingDaysString[i] = "Monday";
-      else if (this.attendingDaysString[i] == "sat")
-        this.attendingDaysString[i] = "Saturday";
-      else if (this.attendingDaysString[i] == "sun")
-        this.attendingDaysString[i] = "Sunday";
-      else if (this.attendingDaysString[i] == "tue")
-        this.attendingDaysString[i] = "Tuesday";
-      else if (this.attendingDaysString[i] == "wed")
-        this.attendingDaysString[i] = "Wednesday";
-      else if (this.attendingDaysString[i] == "thu")
-        this.attendingDaysString[i] = "Thursday";
-      else
-        this.attendingDaysString[i] = "Friday";
+
+    else {
+
+      for (let i = 0; i < this.attendingDaysString.length; i++) {
+        if (this.attendingDaysString[i] == "mon")
+          this.attendingDaysString[i] = "Monday";
+        else if (this.attendingDaysString[i] == "sat")
+          this.attendingDaysString[i] = "Saturday";
+        else if (this.attendingDaysString[i] == "sun")
+          this.attendingDaysString[i] = "Sunday";
+        else if (this.attendingDaysString[i] == "tue")
+          this.attendingDaysString[i] = "Tuesday";
+        else if (this.attendingDaysString[i] == "wed")
+          this.attendingDaysString[i] = "Wednesday";
+        else if (this.attendingDaysString[i] == "thu")
+          this.attendingDaysString[i] = "Thursday";
+        else
+          this.attendingDaysString[i] = "Friday";
+      }
     }
   }
   calcAge(birthDate: Date): number {
@@ -82,7 +88,7 @@ export class DoctorsComponent implements OnInit {
     }
     return '';
   }
- 
+
 
 
   validateInputs: FormGroup = new FormGroup({
@@ -91,22 +97,22 @@ export class DoctorsComponent implements OnInit {
     gender: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.email, Validators.required]),
     password: new FormControl('', [Validators.required]),
-    phone: new FormControl('', [Validators.pattern(/^01[0-2,5]{1}[0-9]{8}$/),Validators.required]),
+    phone: new FormControl('', [Validators.pattern(/^01[0-2,5]{1}[0-9]{8}$/), Validators.required]),
     birthDate: new FormControl('', [Validators.required]),
     startTime: new FormControl('', [Validators.required]),
     endTime: new FormControl('', [Validators.required]),
-    image:new FormControl('', [Validators.required]),
+    image: new FormControl('', [Validators.required]),
   });
-  parseTime(time:Time):string{
-    let s:string='';
-    if(time.h<10)
-      s='0'+time.h;
-    else 
-      s=time.h.toString();
-    if(time.m<10)
-      s+=':'+'0'+time.m;
+  parseTime(time: Time): string {
+    let s: string = '';
+    if (time.h < 10)
+      s = '0' + time.h;
     else
-      s+=':'+time.m;
+      s = time.h.toString();
+    if (time.m < 10)
+      s += ':' + '0' + time.m;
+    else
+      s += ':' + time.m;
     return s;
   }
   show() {
@@ -134,7 +140,7 @@ export class DoctorsComponent implements OnInit {
     this.formData.append(`endTime[h]`, et.h.toString());
     this.formData.append(`endTime[m]`, et.m.toString());
     console.log(this.validateInputs.value)
-    console.log(this.ClinicServiceID.toString(),"ddd"+this.gender)
+    console.log(this.ClinicServiceID.toString(), "ddd" + this.gender)
     if (!this.edit) {
       this.dataService.addDoctor(this.formData).subscribe((docID) => {
         this.dataService.getAllDoctors().subscribe((res) => {
@@ -142,20 +148,22 @@ export class DoctorsComponent implements OnInit {
           this.closeForm();
           this.formData = new FormData();
         })
-      },()=>{this.formData = new FormData();
+      }, () => {
+        this.formData = new FormData();
         if (this.file) {
           this.fileName = this.file.name;
           this.formData.append("image", this.file);
-        }})
+        }
+      })
     }
     else {
       this.formData.append('_id', this.doctor._id);
       this.dataService.updateDoctor(this.formData).subscribe((docID) => {
         this.dataService.getAllDoctors().subscribe((res) => {
           this.doctors = res;
-          this.closeForm();this.validateInputs.reset();
+          this.closeForm(); this.validateInputs.reset();
         })
-      },()=>{this.closeForm()},()=>{this.formData = new FormData();this.closeForm()})
+      }, () => { this.closeForm() }, () => { this.formData = new FormData(); this.closeForm() })
     }
 
   }
@@ -164,27 +172,27 @@ export class DoctorsComponent implements OnInit {
     if (index != -1)
       this.attendingDays[index] = !this.attendingDays[index];
   }
-  g(e:any){
+  g(e: any) {
     e.reset();
   }
   closeForm() {
     this.validateInputs.reset()
-    
+
     this.edit = false;
     this.doctor = {
-      firstname:"",
-      lastname:"",
-      attendingDays:"",
-      clinicServiceID:"",
-      birthDate:new Date(),
-      email:"",
-      endTime:new Time(0,0),
-      gender:"",
-      image:"",
-      password:"",
-      phone:"",
-      startTime:new Time(0,0),
-      _id:""
+      firstname: "",
+      lastname: "",
+      attendingDays: "",
+      clinicServiceID: "",
+      birthDate: new Date(),
+      email: "",
+      endTime: new Time(0, 0),
+      gender: "",
+      image: "",
+      password: "",
+      phone: "",
+      startTime: new Time(0, 0),
+      _id: ""
     }
     this.formData = new FormData();
     this.attendingDays = [false, false, false, false, false, false, false];
@@ -210,10 +218,10 @@ export class DoctorsComponent implements OnInit {
   }
   edit: boolean = false;
   catchDoctor(doctor: Doctor) {
-    
+
     this.closeForm();
     this.doctor = doctor;
-    this.ClinicServiceID=this.doctor.clinicServiceID;
+    this.ClinicServiceID = this.doctor.clinicServiceID;
     this.edit = true;
     let days = doctor.attendingDays.split(',');
     if (days.length > 1)
@@ -254,16 +262,16 @@ export class DoctorsComponent implements OnInit {
     let startTimeA: string[] = st.split(':');
     this.startTime = new Time(Number(startTimeA[0]), Number(startTimeA[1]));
   }
-  endTimeFlag:boolean=true;
-  emailFlag:boolean=true;
+  endTimeFlag: boolean = true;
+  emailFlag: boolean = true;
   validateTime(et: string) {
     let endTimeA: string[] = et.split(':');
     let etTime: Time = new Time(Number(endTimeA[0]), Number(endTimeA[1]));
     if (etTime.h > (this.startTime.h + 1)) {
-      this.endTimeFlag= true;
+      this.endTimeFlag = true;
     }
-    else 
-     this.endTimeFlag= false;
+    else
+      this.endTimeFlag = false;
   }
 
   selectSpeciality(id: Object): boolean {
@@ -271,11 +279,10 @@ export class DoctorsComponent implements OnInit {
     let i = this.doctor.clinicServiceID.toString();
     return _id == i;
   }
-  selectGender(s:string):boolean{
-    return s==this.doctor.gender;
+  selectGender(s: string): boolean {
+    return s == this.doctor.gender;
   }
-  parseDate(d:Date):any
-  {
+  parseDate(d: Date): any {
     const datepipe: DatePipe = new DatePipe('en-US');
     return datepipe.transform(d, 'yyyy-MM-dd');
 

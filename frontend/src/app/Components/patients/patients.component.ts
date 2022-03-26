@@ -40,6 +40,7 @@ export class PatientsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
     this.dtOptions = {
       searching:true,
       paging:true,

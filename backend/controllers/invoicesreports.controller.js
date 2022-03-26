@@ -20,14 +20,11 @@ exports.getInovoicesReport = (req, res, next) => {
             const patData = await Patient.findById(element.patientID);
             
             const clinicServiceData = await ClinicService.findById(docData.clinicServiceID);
-            respones[i]['doctorFirstName'] = docData.firstname;
-            respones[i]['doctorLastName'] = docData.lastname;
+            respones[i]['doctorName'] = docData.firstname+" "+docData.lastname;
             respones[i]['clinicServiceName'] = clinicServiceData.name;
             respones[i]['clinicServiceAmount'] = clinicServiceData.invoiceAmount;
-            respones[i]['employeeFirstName'] = empData.firstname;
-            respones[i]['employeeLastName'] = empData.lastname;
-            respones[i]['patientFirstName'] = patData.firstname;
-            respones[i]['patientLastName'] = patData.lastname;
+            respones[i]['employeeName'] = empData.firstname+" "+empData.lastname;
+            respones[i]['patientName'] = patData.firstname+" "+patData.lastname;
 
             i++;
             console.log(respones);
