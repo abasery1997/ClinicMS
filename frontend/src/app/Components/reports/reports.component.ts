@@ -1,16 +1,34 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { } from 'chartjs-plugin-datalabels';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { PatientService } from 'src/app/Services/patient.service';
+import { IPatient } from 'src/app/Components/Model/patient';
 @Component({
   selector: 'app-reports',
   templateUrl: './reports.component.html',
   styleUrls: ['./reports.component.css']
 })
-export class ReportsComponent {
+export class ReportsComponent implements OnInit {
 
+  constructor(private patient:PatientService){}
+  ngOnInit(): void {
+    this.patient.getPatients().subscribe(res=>{
+      this.patients=res;
+      this.patients.forEach((p)=>{
+        if(p.gender=='m')
+          this.malesNumber++;
+        else
+          this.femalesNumber++;
+      })
+    console.log(this.femalesNumber,this.malesNumber)
+    });
+  }
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
-
+  
+  patients:IPatient[]=[];
+  malesNumber:number=0;
+  femalesNumber:number=0;
   public chartOptions: ChartConfiguration['options'] = {
     responsive: true,
     plugins: {
@@ -27,11 +45,20 @@ export class ReportsComponent {
       },
     }
   };
+  
+  show():ChartData<'pie', number[], string | string[]>{
+    return this.genderChartData = {
+      labels: ['Females', 'Males'],
+      datasets: [{
+        data: [this.femalesNumber, this.malesNumber]
+      }]
+    };
+  }
   // Gender Report
   public genderChartData: ChartData<'pie', number[], string | string[]> = {
-    labels: ['Females', 'Males', 'Engineers'],
+    labels: ['Females', 'Males'],
     datasets: [{
-      data: [300, 500, 100]
+      data: [15, 15]
     }]
   };
   public genderChartType: ChartType = 'pie';
