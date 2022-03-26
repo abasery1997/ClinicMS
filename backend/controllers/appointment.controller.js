@@ -17,6 +17,49 @@ exports.getAppointments = (req, res, next) => {
             next(error.message);
         })
 }
+//get appointemnts by doctor id or patient id 
+exports.getAppointmentsById = (req, res, next) => {
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        let error = new Error();
+        error.status = 422;
+        error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
+        throw error;
+    }
+    const {doctorID}=req.body;
+    const {patientID}=req.body;
+if (doctorID!=null){
+   console.log("two",doctorID);
+
+    Appointment.find({ 'doctorID': doctorID })
+        .then(data => {
+            if (data == null) {
+                throw new Error("there are no appointments for this doctor")
+            } else {
+                res.status(200).json({ data })
+            }
+        })
+        .catch(error => {
+            error.status = 500;
+            next(error.message);
+        })
+}
+
+if (patientID!=null){
+    Appointment.find({ 'patientID': patientID })
+        .then(data => {
+            if (data == null) {
+                throw new Error("there are no appointments for this patient")
+            } else {
+                res.status(200).json({ data })
+            }
+        })
+        .catch(error => {
+            error.status = 500;
+            next(error.message);
+        })
+}
+}
 
 //get specific Appointment 
 exports.getAAppointment = (req, res, next) => {

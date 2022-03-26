@@ -1,7 +1,7 @@
 const express = require("express");
 const { body, query, param } = require("express-validator")
 const router = express.Router();
-const {getAppointments,getAAppointment,addAppointment,updateAppointment,deleteAppointment} = require("./../Controllers/appointment.controller")
+const {getAppointments,getAAppointment,addAppointment,updateAppointment,deleteAppointment,getAppointmentsById} = require("./../Controllers/appointment.controller")
 
 
 //get all Appointments
@@ -10,6 +10,9 @@ router.get("", getAppointments);
 
 //get a Appointment data
 router.get("/one", getAAppointment);
+
+//get a Appointments data by id
+router.get("/id", getAppointmentsById);
 
 //add new Appointment route
 router.post("", [

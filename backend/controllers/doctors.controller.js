@@ -53,7 +53,6 @@ exports.getDoctorsByClinciService = (req, res, next) => {
         error.message = errors.array().reduce((current, object) => current + object.msg + " ", "")
         throw error;
     }
-    //let projection = { _id:1,password: 1 };
 
     Doctor.find({ 'clinicServiceID': clinicServiceID })
         .then(data => {
