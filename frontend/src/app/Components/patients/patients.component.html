@@ -83,7 +83,7 @@
   >
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
-        <div class="modal-header px-5 bg-black text-white" (click)="closeForm()" >
+        <div class="modal-header px-5 bg-black text-white" >
           <h2 *ngIf="!edit" class="modal-title" id="addModalTitle">Add Patient</h2>
           <h2 *ngIf="edit" class="modal-title" id="addModalTitle">Edit Patient</h2>
           <button
@@ -91,6 +91,7 @@
             class="btn-close bg-white"
             data-bs-dismiss="modal"
             aria-label="Close"
+            (click)="closeForm()"
           ></button>
         </div>
         <form

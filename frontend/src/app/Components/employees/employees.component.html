@@ -55,10 +55,10 @@
   aria-labelledby="addModalTitle" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
-      <div class="modal-header px-5 bg-black text-white" (click)="closeForm()">
+      <div class="modal-header px-5 bg-black text-white" >
         <h2 *ngIf="!edit" class="modal-title" id="addModalTitle">Add Employee</h2>
         <h2 *ngIf="edit" class="modal-title" id="addModalTitle">Edit Employee</h2>
-        <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close" (click)="closeForm()"></button>
       </div>
       <form 
           [formGroup]="validateInputs" 
