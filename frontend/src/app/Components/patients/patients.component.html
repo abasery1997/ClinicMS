@@ -94,6 +94,7 @@
           ></button>
         </div>
         <form
+          [formGroup]="validateInputs"
           action=""
           (submit)="addPatient(
             firstName.value,
@@ -119,6 +120,7 @@
                   #firstName
                   required
                   value={{patient?.firstname}}
+                  formControlName="firstName"
                 />
               </div>
               <div class="my-3 col-lg-4 col-md-6 col-12">
@@ -131,6 +133,7 @@
                   placeholder="Ex : Mohamed"
                   required
                   value={{patient?.lastname}}
+                  formControlName="lastName"
                 />
               </div>
               <div class="my-3 col-lg-4 col-md-6 col-12">
@@ -140,8 +143,9 @@
                   class="form-control"
                   #phone
                   id="phone"
-                  required
                   value={{patient?.phone}}
+                  formControlName="phone"
+                  [ngStyle]="validateInputs.get('phone')?.valid||validateInputs.get('phone')?.untouched?{}:style"
                 />
               </div>
               <div class="my-3 col-lg-4 col-md-6 col-12">
@@ -151,8 +155,9 @@
                   class="form-control"
                   #emergencyPhone
                   id="emergencyPhone"
-                  required
                   value={{patient?.emergencyPhone}}
+                  formControlName="emergencyPhone"
+                  [ngStyle]="validateInputs.get('emergencyPhone')?.valid||validateInputs.get('emergencyPhone')?.untouched?{}:style"
                 />
               </div>
               <div class="my-3 col-lg-4 col-md-6 col-12">
@@ -164,6 +169,7 @@
                   required
                   #gender
                   value={{patient?.gender}}
+                  formControlName="gender"
                 > 
                   <option selected value="m">Male</option>
                   <option value="f">Female</option>
@@ -176,8 +182,11 @@
                   class="form-control"
                   #bdate
                   id="bdate"
+                  max="2000-01-01"
+                  min="1900-01-01"
                   required
                   value={{calcAge(patient?.birthDate)}}
+                  formControlName="birthDate"
                 />
               </div>
               <div class="my-3 col-lg-4 col-md-6 col-12">
@@ -188,8 +197,9 @@
                   id="email"
                   placeholder="name@example.com"
                   #email
-                  required
                   value={{patient?.email}}
+                  formControlName="email"
+                  [ngStyle]="validateInputs.get('email')?.valid||validateInputs.get('email')?.untouched?{}:style"
                 />
               </div>
               <div class="my-3 col-lg-4 col-md-6 col-12">
@@ -201,6 +211,7 @@
                   #password
                   required
                   value={{patient?.password}}
+                  formControlName="password"
                 />
               </div>
   
@@ -215,6 +226,7 @@
                   #image
                   multiple
                   required
+                  formControlName="image"
                 />
               </div>
             </div>
@@ -223,7 +235,8 @@
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="closeForm()">
               Cancel
             </button>
-            <button *ngIf="!edit" type="submit" class="btn btn-success" data-bs-dismiss="modal">
+            <button *ngIf="!edit" type="submit" class="btn btn-success" data-bs-dismiss="modal"
+            [disabled]="validateInputs.invalid">
               Add
             </button>
             <button *ngIf="edit" type="submit" class="btn btn-success" data-bs-dismiss="modal">

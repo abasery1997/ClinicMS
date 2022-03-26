@@ -4,7 +4,7 @@ export interface IPatient
     firstname: string,
     lastname: string,
     image: string,
-    birthDate: string,
+    birthDate: Date,
     email: string,
     password: string,
     gender: string,

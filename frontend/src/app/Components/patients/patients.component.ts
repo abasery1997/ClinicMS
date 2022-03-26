@@ -1,6 +1,8 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { IPatient } from './patient';
 import { PatientService } from '../../Services/patient.service'
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { reduce } from 'rxjs-compat/operator/reduce';
 
 declare var $: any;
 
@@ -16,7 +18,10 @@ export class PatientsComponent implements OnInit, AfterViewInit {
   dataTable: any;
 
   constructor(private patientService: PatientService) { }
-
+  
+  public style:any={
+    border: "2px solid red"
+  }
   patients: IPatient[] = [];
   patient: IPatient | null = null;
   edit: boolean = false;
@@ -50,7 +55,20 @@ export class PatientsComponent implements OnInit, AfterViewInit {
     }
   }
 
+  validateInputs:FormGroup=new FormGroup({
 
+    firstName: new FormControl('', [Validators.required]),
+    lastName: new FormControl('', [Validators.required]),
+    gender: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.email, Validators.required]),
+    password: new FormControl('', [Validators.required]),
+    phone: new FormControl('', [Validators.pattern(/^01[0-2,5]{1}[0-9]{8}$/),Validators.required]),
+    birthDate: new FormControl('', [Validators.required]),
+    image:new FormControl('', [Validators.required]),
+    emergencyPhone:new FormControl('',[Validators.pattern(/^01[0-2,5]{1}[0-9]{8}$/),Validators.required])
+
+  });
+  
   addPatient(firstname: string, lastname: string, phone: string, emergencyPhone: string, gender: string, bdate: string, email: string, password: string) {
 
     this.formData.append('firstname', firstname);
@@ -75,6 +93,7 @@ export class PatientsComponent implements OnInit, AfterViewInit {
   }
 
   onClick(patient: IPatient) {
+    this.formData=new FormData();
     this.patient = patient;
     this.id=this.patient._id;
     this.edit = true;
@@ -94,22 +113,14 @@ export class PatientsComponent implements OnInit, AfterViewInit {
 
   closeForm() {
     this.edit = false;
+    this.formData=new FormData();
   }
 
-  addButton() {
-    this.closeForm();
-    this.patient = {
-      _id: "",
-      firstname: "",
-      lastname: "",
-      image: "",
-      birthDate: "",
-      email: "",
-      password: "",
-      gender: "",
-      phone: "",
-      emergencyPhone: ""
-    }
+  addButton(){
+    this.edit = false;
+    this.validateInputs.reset();
+    this.formData=new FormData();
   }
+
 
 }

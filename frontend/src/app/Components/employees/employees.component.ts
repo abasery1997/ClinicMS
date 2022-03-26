@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { EmployeeService } from '../../Services/employee.service';
 import { IEmployee } from './employee';
 
@@ -19,6 +20,7 @@ export class EmployeesComponent implements OnInit, AfterViewInit {
   file: File | null = null;
 
   constructor(private employeeService: EmployeeService) { }
+  
   @ViewChild('dataTable', { static: false }) table: any;
   dataTable: any;
 
@@ -33,8 +35,10 @@ export class EmployeesComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.dataTable = $(this.table.nativeElement);
-    this.dataTable.DataTable();
+      
+      this.dataTable = $(this.table.nativeElement);
+      this.dataTable.DataTable();
+    
   }
 
   onFileSelected(event: any) {
@@ -45,20 +49,17 @@ export class EmployeesComponent implements OnInit, AfterViewInit {
     }
   }
 
-  addButton() {
-    this.closeForm();
-    this.employee = {
-      _id: "",
-      firstname: "",
-      lastname: "",
-      image: "",
-      birthDate: new Date(),
-      email: "",
-      password: "",
-      gender: "",
-      phone: "",
-    }
-  }
+  validateInputs:FormGroup=new FormGroup({
+
+    firstName: new FormControl('', [Validators.required]),
+    lastName: new FormControl('', [Validators.required]),
+    gender: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.email, Validators.required]),
+    password: new FormControl('', [Validators.required]),
+    phone: new FormControl('', [Validators.pattern(/^01[0-2,5]{1}[0-9]{8}$/),Validators.required]),
+    birthDate: new FormControl('', [Validators.required]),
+    image:new FormControl('', [Validators.required]),
+  });
 
   addEmployee(firstName: string, lastName: string, phone: string, birthDate: string, email: string, password: string, gender: string) {
 
@@ -70,6 +71,7 @@ export class EmployeesComponent implements OnInit, AfterViewInit {
     this.formData.append("password", password);
     this.formData.append("gender", gender);
 
+
     if (!this.edit) {
       this.employeeService.addEmployee(this.formData).subscribe((res: any) => {
         this.updateTable();
@@ -80,14 +82,15 @@ export class EmployeesComponent implements OnInit, AfterViewInit {
         this.updateTable();
       });
     }
+
   }
 
   onClick(employee: IEmployee) {
+    this.formData=new FormData();
     this.edit = true;
     this.employee = employee;
     this.id=employee._id;
   }
-
 
 
   deleteEmployee() {
@@ -104,5 +107,12 @@ export class EmployeesComponent implements OnInit, AfterViewInit {
 
   closeForm() {
     this.edit = false;
+    this.formData=new FormData();
+  }
+
+  addButton(){
+    this.edit = false;
+    this.validateInputs.reset();
+    this.formData=new FormData();
   }
 }

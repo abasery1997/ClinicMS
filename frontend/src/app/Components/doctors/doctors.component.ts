@@ -182,6 +182,7 @@ export class DoctorsComponent implements OnInit, AfterViewInit {
   }
   edit: boolean = false;
   catchDoctor(doctor: Doctor) {
+    this.formData=new FormData();
     this.doctor = doctor;
     this.edit = true;
     let days = doctor.attendingDays.split(',');
