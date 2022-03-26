@@ -1,10 +1,10 @@
-import { Component, OnInit ,OnDestroy } from '@angular/core';
+import { Component, OnInit  } from '@angular/core';
 import { ClinicService } from 'src/app/Services/clinic.service';
 import { ClinicServiceClass } from '../Model/clinic-service';
 import { Subject } from 'rxjs';
 
 
-declare var $:any;
+
 
 @Component({
   selector: 'app-clinic-services',
