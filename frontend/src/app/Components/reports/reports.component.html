@@ -4,16 +4,18 @@
     <div class="card-header">Invoices</div>
     <div class="card-body">
       <div class="table-padding">
-        <table datatable [dtOptions]="dtOptions"   class="table table-bordered text-center"> 
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered text-center"> 
         <thead class="table-dark">
-            <tr>
-              <th>
-                Name
-              </th>
-              <th>Amount</th>
-            </tr>
+          <tr>
+            <th>Doctor Name</th>
+            <th>Patient Name</th>
+            <th>Clinic Service</th>
+            <th>Amount</th>
+            <th>Date</th>
+          </tr>
         </thead>
         <tbody>
+      
           <tr *ngFor="let doc of doctorInvoices">
             <td>{{doc.doctorName}}</td>
             <td>{{doc.clinicServiceAmount}}</td>

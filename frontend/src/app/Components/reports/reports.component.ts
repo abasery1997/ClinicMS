@@ -7,7 +7,7 @@ import { IPatient } from 'src/app/Components/Model/patient';
 import { InvoicesService } from 'src/app/Services/invoices.service';
 import { Invoice } from '../Model/invoice';
 import { Subject } from 'rxjs';
-import { DataTablesModule } from "angular-datatables";
+
 
 @Component({
   selector: 'app-reports',
@@ -42,6 +42,7 @@ export class ReportsComponent implements OnInit {
     this.invoiceService.getAllInvoices().subscribe({
       next:res=>{
         this.invoices=this.patientInvoices=this.doctorInvoices=res;
+        this.dtTrigger.next();
       }
     });
   }
@@ -52,6 +53,7 @@ export class ReportsComponent implements OnInit {
   femalesNumber:number=0;
   public chartOptions: ChartConfiguration['options'] = {
     responsive: true,
+    
     plugins: {
       legend: {
         display: true,

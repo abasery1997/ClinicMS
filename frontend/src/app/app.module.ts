@@ -17,6 +17,7 @@ import { ReportsComponent } from './Components/reports/reports.component';
 import { PatientsComponent } from './Components/patients/patients.component';
 import { ClinicServicesComponent } from './Components/clinic-services/clinic-services.component';
 import { DataTablesModule } from "angular-datatables";
+import { LoginComponent } from './Components/login/login.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,6 +30,7 @@ import { DataTablesModule } from "angular-datatables";
     ReportsComponent,
     PatientsComponent,
     ClinicServicesComponent,
+    LoginComponent,
 
   ],
   imports: [
