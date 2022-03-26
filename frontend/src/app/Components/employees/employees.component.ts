@@ -1,13 +1,16 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DatePipe } from '@angular/common'
+
 import { EmployeeService } from '../../Services/employee.service';
-import { IEmployee } from './employee';
+import { IEmployee } from '../Model/employee';
 
 declare var $: any;
 @Component({
   selector: 'app-employees',
   templateUrl: './employees.component.html',
-  styleUrls: ['./employees.component.css']
+  styleUrls: ['./employees.component.css'],
+  providers:[DatePipe]
 })
 export class EmployeesComponent implements OnInit, AfterViewInit {
 
@@ -114,5 +117,11 @@ export class EmployeesComponent implements OnInit, AfterViewInit {
     this.edit = false;
     this.validateInputs.reset();
     this.formData=new FormData();
+  }
+  parseDate(d:Date|any):any
+  {
+    const datepipe: DatePipe = new DatePipe('en-US');
+    return datepipe.transform(d, 'yyyy-MM-dd');
+
   }
 }

@@ -186,6 +186,7 @@
                   min="1900-01-01"
                   required
                   value={{calcAge(patient?.birthDate)}}
+                  [value]="parseDate(patient?.birthDate)"
                   formControlName="birthDate"
                 />
               </div>

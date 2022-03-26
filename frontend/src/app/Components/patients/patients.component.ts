@@ -2,14 +2,16 @@ import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { IPatient } from '../Model/patient';
 import { PatientService } from '../../Services/patient.service'
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { reduce } from 'rxjs-compat/operator/reduce';
+import { DatePipe } from '@angular/common'
 
 declare var $: any;
 
 @Component({
   selector: 'app-patients',
   templateUrl: './patients.component.html',
-  styleUrls: ['./patients.component.css']
+  styleUrls: ['./patients.component.css'],
+  providers:[DatePipe]
+
 })
 
 export class PatientsComponent implements OnInit, AfterViewInit {
@@ -120,6 +122,12 @@ export class PatientsComponent implements OnInit, AfterViewInit {
     this.edit = false;
     this.validateInputs.reset();
     this.formData=new FormData();
+  }
+  parseDate(d:Date|any):any
+  {
+    const datepipe: DatePipe = new DatePipe('en-US');
+    return datepipe.transform(d, 'yyyy-MM-dd');
+
   }
 
 
