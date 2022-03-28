@@ -15,6 +15,10 @@ export class AppointmentService {
     return this.http.get<Appointment[]>(this.appointmentsUrl)
       .pipe(catchError(this.handleError));
   }
+
+  deleteAppointment(appID:any){
+    return this.http.delete(this.appointmentsUrl,{ body: { _id: appID }, }).pipe(catchError(this.handleError));
+  }
  
   
  

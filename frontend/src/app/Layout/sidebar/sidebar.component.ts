@@ -20,7 +20,6 @@ export class SidebarComponent implements OnInit {
     //active navbar buttons
     let path = location.pathname.slice(1);
     this.active(document.getElementById((path == '') ? 'Home' : path)!);
-    this.type=JSON.parse(localStorage.getItem('userData')||'').type;
   }
   toggle(): void {
     this.isToggle = !this.isToggle;

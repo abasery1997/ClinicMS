@@ -39,7 +39,7 @@
                     <button data-bs-toggle="modal" data-bs-target="#addForm"  class="btn btn-success mx-1 my-auto">
                         Edit
                     </button>
-                    <button data-bs-toggle="modal" data-bs-target="#deleteForm"  class="btn btn-danger mx-1 my-auto">
+                    <button data-bs-toggle="modal" data-bs-target="#deleteForm"  class="btn btn-danger mx-1 my-auto" (click)="onClick(appointment)">
                         Delete
                     </button>
                 </td>
@@ -150,11 +150,10 @@
           aria-label="Close"
         ></button>
       </div>
-      <!-- <form action="" (submit)="delete()" method="get">
+      <form action="" (submit)="deleteApp()" method="get">
           <div class="modal-body">
-            <h4>
-              Are You Sure You Want to Delete Appointment {{ doctor.firstname }}
-              {{ doctor.lastname }} ?
+            <h4> 
+              Are You Sure You Want to Delete Appointment With Doctor {{ getName(appointment.doctorID , doctors) }}
             </h4>
           </div>
           <div class="modal-footer">
@@ -165,7 +164,7 @@
               Delete
             </button>
           </div>
-        </form> -->
+        </form>
     </div>
   </div>
 </div>

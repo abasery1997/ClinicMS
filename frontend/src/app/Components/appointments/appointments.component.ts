@@ -21,6 +21,7 @@ import { Subject } from 'rxjs';
 export class AppointmentsComponent implements OnInit  {
   dtTrigger: Subject<any> = new Subject<any>();
   dtOptions: DataTables.Settings = {};
+
   constructor(
     private appointmentService:AppointmentService,
     private doctorService:DoctorService,
@@ -109,5 +110,14 @@ export class AppointmentsComponent implements OnInit  {
     
   }
 
+  onClick(appointment:any){
+    this.appointment=appointment;
+  }
+
+  deleteApp(){
+    this.appointmentService.deleteAppointment(this.appointment._id).subscribe(()=>{
+      this.ngOnInit();
+    });
+  }
 
 }
