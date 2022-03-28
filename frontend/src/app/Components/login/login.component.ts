@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { AuthServiceService } from 'src/app/Services/auth-service.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 
 @Component({
@@ -14,14 +14,6 @@ export class LoginComponent implements OnInit {
   email: string = ''
   password: string = '';
   type: String = '';
-
-
-
-  style = {
-    border: "2px solid red"
-  }
-
-
   ngOnInit(): void {
   }
 
@@ -33,11 +25,11 @@ export class LoginComponent implements OnInit {
       window.localStorage.setItem('token', `${data.accessToken}`)
       window.localStorage.setItem('user', JSON.stringify(data.user))
 
-      //   let oldHref = window.location.href;
-      //  let newHref = oldHref.replace("Login", "Home");
-      //   window.location.href = newHref;
+        //need to be checked 
+        let oldHref = window.location.href;
+        let newHref = oldHref.replace("Login", "Home");
+        window.location.href = newHref;
     });
-
 
 
 

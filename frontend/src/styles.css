@@ -1,18 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
 @import url("../node_modules/bootstrap/dist/css/bootstrap.css");
-label{
-    font-weight: bold;
+@import url("../node_modules/ngx-toastr/toastr.css");
+@import url("../node_modules/ngx-toastr/toastr-old.css");
+
+label {
+  font-weight: bold;
 }
-.form-check-label{
-    font-weight: 400;
+.form-check-label {
+  font-weight: 400;
 }
-.table-padding table{
-    padding-top: 20px;
-} 
-.table-padding table td{
-    border: 1px solid rgb(66, 66, 66);
+.table-padding table {
+  padding-top: 20px;
+}
+.table-padding table td {
+  border: 1px solid rgb(66, 66, 66);
 }
 
-.errorClass{
-    border: 2px solid red;
+.errorClass {
+  border: 2px solid red;
 }

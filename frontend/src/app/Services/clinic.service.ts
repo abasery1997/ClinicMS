@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/Operators';
 import { ClinicServiceClass } from '../Components/Model/clinic-service';
+import { Doctor } from '../Components/Model/doctor';
 
 @Injectable({
   providedIn: 'root'
@@ -31,10 +32,10 @@ export class ClinicService {
       body:{_id:id},
     })
   }
-  getOneServices(id:string){
+  getOneServices(id:Object){
     return this.http.post(this.clinicServiceUrl+"/one",{
-      body:{_id:id},
-    })
+      _id:id
+    }).pipe(catchError(this.handleError));
   }
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {

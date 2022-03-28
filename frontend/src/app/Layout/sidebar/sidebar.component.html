@@ -46,7 +46,7 @@
         <span [ngClass]="{ 'd-none': isToggle }">Doctors</span>
       </a>
     </li>
-    <li class="nav-item">
+    <li *ngIf="type=='e'" class="nav-item">
       <a
         routerLink="Employees"
         class="nav-link text-white"
@@ -72,7 +72,7 @@
         <span [ngClass]="{ 'd-none': isToggle }">Appointments</span>
       </a>
     </li>
-    <li class="nav-item" >
+    <li *ngIf="type=='p'" class="nav-item">
       <a
         routerLink="Patients"
         class="nav-link text-white"
@@ -81,8 +81,8 @@
         #Patients
         [ngClass]="{ 'fs-5': isToggle, 'text-center': isToggle }"
       >
-        <i class="fa-solid fa-hospital-user m-1"></i>
-        <span [ngClass]="{ 'd-none': isToggle }">Patients</span>
+        <i class="fa-solid fa-hospital-user m-1" ></i>
+        <span [ngClass]="{ 'd-none': isToggle }" >Patients</span>
       </a>
     </li>
     <li class="nav-item">
