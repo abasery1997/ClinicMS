@@ -5,7 +5,11 @@ const cors = require("cors");
 const multer = require("multer");
 const bodyParser = require('body-parser');
 const path = require("path");
+const bcrypt = require("bcrypt")
 
+
+//admin
+const Admin = require('./models/admin');
 
 //routes
 const authRouter = require('./routes/auth.router');
@@ -15,7 +19,7 @@ const employeeRoute = require('./routes/employee.router');
 const patientRoute = require('./routes/patient.router');
 const ClinicService = require('./routes/ClinicService.router');
 const appointmentRouter = require('./routes/appointment.router');
-const invoicesreportsRouter=require('./routes/invoicesreports.router');
+const invoicesreportsRouter = require('./routes/invoicesreports.router');
 
 const corsOptions = {
   origin: '*',
@@ -54,6 +58,8 @@ mongoose.connect("mongodb://localhost:27017/ClinicMS")
     // listen on port Number
     app.listen(process.env.PORT || 8080, () => {
       console.log(`listening to port 8080 `)
+      //add admin if not exists
+      InsertAdmin();
     });
 
 
@@ -61,6 +67,7 @@ mongoose.connect("mongodb://localhost:27017/ClinicMS")
   .catch(error => {
     console.log(" DB Problem" + error)
   })
+
 
 
 
@@ -73,16 +80,18 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 app.use(multer({ storage, fileFilter }).single("image"));
 
 
+
+
 // to see request body 
-app.use ((req,res,next)=>{
-  if (req.hasOwnProperty('body')){
-  console.log("request body object ",req.body);
+app.use((req, res, next) => {
+  if (req.hasOwnProperty('body')) {
+    console.log("request body object ", req.body);
   }
-  if (req.hasOwnProperty('file')){
-    console.log("request file object ",req.file);
-    }
+  if (req.hasOwnProperty('file')) {
+    console.log("request file object ", req.file);
+  }
   next();
-  });
+});
 
 app.use((req, res, next) => {
   if (req.hasOwnProperty('file')) {
@@ -134,4 +143,24 @@ app.use((error, req, res, next) => {
   res.status(500).json({ error });
 
 })
+
+
+let InsertAdmin = async () => {
+  let data = await Admin.findOne({ email: "admin@gmail.com" }, { password: 0, __v: 0 });
+  try {
+    if (data == null) {
+      let admin = new Admin({
+        email: "admin@gmail.com",
+        password: bcrypt.hashSync("admin12345", 10)
+      });
+    await  admin.save();
+      console.log("inserted")
+    } else {
+      console.log("exists")
+    }
+  }
+  catch (error) {
+    error.status = 500;
+  }
+}
 

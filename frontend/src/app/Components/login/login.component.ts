@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms'
-import { LoginService } from 'src/app/Services/login.service';
+import { AuthServiceService } from 'src/app/Services/auth-service.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'app-login',
@@ -9,30 +10,39 @@ import { LoginService } from 'src/app/Services/login.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private loginService:LoginService) { }
+  constructor(private auth: AuthServiceService) { }
+  email: string = ''
+  password: string = '';
+  type: String = '';
 
-  style={
-    border:"2px solid red"
+
+
+  style = {
+    border: "2px solid red"
   }
 
-  
+
   ngOnInit(): void {
   }
 
   form : FormGroup = new FormGroup({
     email: new FormControl('', [Validators.email, Validators.required]),
     password: new FormControl('', [Validators.required]) ,
-    type:new FormControl('', [Validators.required])
+    type:new FormControl('', [Validators.required])});
+  chooseType(e: any) {
+    this.type = e.target.value;
+  }
+  goHome() {
+    this.auth.login(this.email, this.password, this.type).subscribe(data => {
+      window.localStorage.setItem('token', `${data.accessToken}`)
+      window.localStorage.setItem('user', JSON.stringify(data.user))
 
-  });
-
-  goHome(){
-    console.log(this.form)
-    this.loginService.checkUser(this.form).subscribe((res: any) => {
-      let oldHref= window.location.href;
-      let newHref = oldHref.replace("Login","Home");
-      window.location.href = newHref;
-      localStorage.setItem('userData',JSON.stringify(this.form.value));
+      //   let oldHref = window.location.href;
+      //  let newHref = oldHref.replace("Login", "Home");
+      //   window.location.href = newHref;
     });
+
+
+
   }
 }
