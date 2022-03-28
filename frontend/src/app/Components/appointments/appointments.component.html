@@ -1,4 +1,3 @@
-<!-- Start Table -->
 <div class="card m-3" style="min-width: fit-content">
   <div class="card-header d-flex justify-content-between">
     <h1 class="fw-bold">Appointment Manage</h1>
@@ -11,46 +10,142 @@
     </button>
   </div>
   <div class="card-body">
+    <!-- Start Table -->
     <div class="table-padding">
-      <div class="table-padding">
-        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered text-center"> 
-            <thead class="bg-dark mt-5 text-white">
-                <tr>
-                    <th>Doctor Name</th>
-                    <th>Patient Name</th>
-                    <th>Employee Name</th>
-                    <th>Service</th>
-                    <th>Date</th>
-                    <!-- <th>Time</th> -->
-                    <!-- <th>Actions</th> -->
-                    <th>Actions</th>
-                </tr>
+      <table
+        datatable
+        [dtOptions]="dtOptions"
+        [dtTrigger]="dtTrigger"
+        class="table table-bordered text-center"
+      >
+        <thead class="bg-dark mt-5 text-white">
+          <tr>
+            <th>Doctor Name</th>
+            <th>Patient Name</th>
+            <th>Employee Name</th>
+            <th>Service</th>
+            <th>Date</th>
+            <!-- <th>Time</th> -->
+            <!-- <th>Actions</th> -->
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let appointment of appointments">
+            <!-- <td>{{appointment.doctorID }}</td> -->
+            <td>{{ getName(appointment.doctorID, doctors) }}</td>
+            <td>{{ getName(appointment.patientID, patients) }}</td>
+            <td>{{ getName(appointment.employeeID, employees) }}</td>
+            <!-- <td>{{getServiceName()}}</td> -->
+            <td>{{ getServiceName(appointment.doctorID.toString()) }}</td>
+            <td>{{ appointment.appDate }}</td>
+            <td>
+              <button
+                data-bs-toggle="modal"
+                data-bs-target="#addForm"
+                class="btn btn-success mx-1 my-auto"
+              >
+                Edit
+              </button>
+              <button
+                data-bs-toggle="modal"
+                data-bs-target="#deleteForm"
+                class="btn btn-danger mx-1 my-auto"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- End Table -->
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-primary m-1 p-2">Confirm Invoice</button>
+      <button
+        data-bs-toggle="modal"
+        data-bs-target="#perceptionModal"
+        class="btn btn-primary m-1 p-2"
+      >
+        Add Perception
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Start Perception Moal -->
+<div
+  class="modal fade"
+  id="perceptionModal"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="addModalTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header px-5 bg-black text-white">
+        <h2 class="modal-title">Add Perception</h2>
+        <button
+          type="button"
+          class="btn-close bg-white"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form class="container p-3" action="#">
+        <div class="mb-3">
+          <label for="notes" class="form-label">Notes</label>
+          <textarea class="form-control" name="notes"></textarea>
+        </div>
+        <div class="mb-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Medicine Name</th>
+                <th>Doses</th>
+                <th class="text-center">Action</th>
+              </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let appointment of appointments">
-                  <!-- <td>{{appointment.doctorID }}</td> -->
-                  <td>{{getName(appointment.doctorID , doctors)}}</td>
-                  <td>{{getName(appointment.patientID , patients)}}</td>
-                  <td>{{getName(appointment.employeeID , employees)}}</td>
-                  <!-- <td>{{getServiceName()}}</td> -->
-                  <td>{{getServiceName(appointment.doctorID.toString())}}</td>
-                  <td>{{appointment.appDate}}</td>
-                  <td>
-                    <button data-bs-toggle="modal" data-bs-target="#addForm"  class="btn btn-success mx-1 my-auto">
-                        Edit
-                    </button>
-                    <button data-bs-toggle="modal" data-bs-target="#deleteForm"  class="btn btn-danger mx-1 my-auto">
-                        Delete
-                    </button>
+              <tr *ngFor="let dynamic of dynamicArray; let i = index">
+                <td>
+                  <input
+                    [(ngModel)]="dynamicArray[i].MedicineName"
+                    class="form-control"
+                    type="text"
+                  />
+                </td>
+                <td>
+                  <input
+                    [(ngModel)]="dynamicArray[i].Doses"
+                    class="form-control"
+                    type="text"
+                  />
+                </td>
+                <td class="text-center" (click)="deleteRow(i)">
+                  <i class="fa fa-trash m-1" style="font-size: 23px"></i>
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td class="text-center" (click)="addRow()">
+                  <i class="fa fa-plus m-1" style="font-size: 23px"></i>
                 </td>
               </tr>
             </tbody>
-        </table> 
+          </table>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button class="btn btn-success px-4 py-2">Save</button>
+        </div>
+      </form>
     </div>
   </div>
-  </div>
 </div>
-<!-- End Table -->
+<!-- End Perception Moal -->
 <!-- Start Form Modal -->
 <div
   class="modal fade"
