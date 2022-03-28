@@ -9,7 +9,9 @@ const { getDoctors, getADoctor, addDoctor, updateDoctor, deleteDoctor ,getDoctor
 router.get("",AuthRequired,getDoctors);
 
 //get a doctor data
-router.get("/one",AuthRequired,getADoctor);
+router.post("/one",[
+    body('_id').isString().withMessage("doctor id is incorrect")
+], getADoctor);
 
 router.post("/ClinicService", AuthRequired,getDoctorsByClinciService);
 

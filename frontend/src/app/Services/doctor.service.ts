@@ -24,6 +24,11 @@ export class DoctorService {
     .pipe(catchError(this.handleError));
   }
 
+  getDoctorById(id:Object){
+    return this.http.post(this.doctorsUrl+"/one",{
+    _id:id
+    }).pipe(catchError(this.handleError));
+  }
   deleteDoctor(id:string){
     return this.http.delete(this.doctorsUrl,{
       body:{_id:id},

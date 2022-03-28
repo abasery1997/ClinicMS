@@ -24,6 +24,10 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  form : FormGroup = new FormGroup({
+    email: new FormControl('', [Validators.email, Validators.required]),
+    password: new FormControl('', [Validators.required]) ,
+    type:new FormControl('', [Validators.required])});
   chooseType(e: any) {
     this.type = e.target.value;
   }
@@ -36,7 +40,6 @@ export class LoginComponent implements OnInit {
       //  let newHref = oldHref.replace("Login", "Home");
       //   window.location.href = newHref;
     });
-
 
 
 

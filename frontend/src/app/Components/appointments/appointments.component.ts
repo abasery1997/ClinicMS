@@ -28,7 +28,6 @@ export class AppointmentsComponent implements OnInit  {
     private patientService:PatientService,
     private employeeService:EmployeeService,
     ) { }
-  appointment:Appointment=new Appointment("",{},{},{},new Date(),false);
   appointments:Appointment[]=[]; 
   employees:IEmployee[]=[]; 
   patients:IPatient[]=[]; 
@@ -80,7 +79,7 @@ export class AppointmentsComponent implements OnInit  {
     }    
     return "";
   }
-  getServiceName(id:string) : string {
+  getServiceName(id:Object) : string {
     let doc :Doctor = new Doctor('', "2", '', '', '', new Date(), '', '', '', '', '', new Time(1, 1), new Time(1, 1));; 
     for (let obj of this.doctors) {
       if (obj._id == id) {
