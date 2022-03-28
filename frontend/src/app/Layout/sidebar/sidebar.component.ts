@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,7 +10,7 @@ export class SidebarComponent implements OnInit {
   activeElement: HTMLElement | undefined;
 
   type :string='';
-  constructor() {
+  constructor( private router:Router) {
   }
   ngAfterViewInit(): void {
 
@@ -33,6 +34,8 @@ export class SidebarComponent implements OnInit {
     }
   }
   logout() {
-
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    this.router.navigate(['/Login']);
   }
 }
