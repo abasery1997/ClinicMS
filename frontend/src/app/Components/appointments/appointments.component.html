@@ -27,13 +27,13 @@
                 </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let appointment of appointments">
+              <tr *ngFor="let appointment of appointments; let i=index">
                   <!-- <td>{{appointment.doctorID }}</td> -->
-                  <td>{{getName(appointment.doctorID , doctors)}}</td>
+                  <td>{{getName(appointment.doctorID,doctors)}}</td>
                   <td>{{getName(appointment.patientID , patients)}}</td>
                   <td>{{getName(appointment.employeeID , employees)}}</td>
                   <!-- <td>{{getServiceName()}}</td> -->
-                  <td>{{getServiceName(appointment.doctorID.toString())}}</td>
+                  <td>{{getServiceName(appointment.doctorID)}}</td>
                   <td>{{appointment.appDate}}</td>
                   <td>
                     <button data-bs-toggle="modal" data-bs-target="#addForm"  class="btn btn-success mx-1 my-auto">
@@ -72,25 +72,35 @@
           aria-label="Close"
         ></button>
       </div>
-      <form action="" method="post">
+      <form [formGroup]="formData" action="" method="post">
         <div class="modal-body px-5">
           <div class="row">
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="PatientName" class="form-label">Patient Name</label>
               <select class="form-select" id="PatientName" required>
                 <option value="0" selected>select patient name</option>
+                <option *ngFor="let patient of patients" value={{patient._id}}>{{patient.firstname}} {{patient.lastname}}<option></option>
               </select>
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="DoctorName" class="form-label">Doctor Name</label>
-              <select class="form-select" id="DoctorName" required>
-                <option value="0" selected>select doctor name</option>
+              <select class="form-select" id="DoctorName" (change)="showWorkinDays($event.target)" required>
+                <option value="0" selected disabled>select doctor name</option>
+                <option *ngFor="let doc of doctors" value={{doc._id}}>{{doc.firstname}} {{doc.lastname}}<option></option>
               </select>
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="EmployeeName" class="form-label">Employee Name</label>
               <select class="form-select" id="EmployeeName" required>
                 <option value="0" selected>select employee name</option>
+                <option *ngFor="let emp of employees" value={{emp._id}}>{{emp.firstname}} {{emp.lastname}}<option></option>
+              </select>
+            </div>
+            <div *ngIf="availableDays" class="my-3 col-lg-4 col-md-6 col-12">
+              <label for="availableDays" class="form-label">Avialable Days</label>
+              <select class="form-select" (change)="setDay($event.target)" id="availableDays" required>
+                <option value="0" selected disabled>select a day</option>
+                <option *ngFor="let day of doctor.attendingDaysArray" value={{day}}>{{day}}<option></option>
               </select>
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">

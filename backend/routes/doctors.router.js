@@ -9,7 +9,9 @@ router.get("", getDoctors);
 
 
 //get a doctor data
-router.post("/one", getADoctor);
+router.post("/one",[
+    body('_id').isString().withMessage("doctor id is incorrect")
+], getADoctor);
 
 router.get("/ClinicService", getDoctorsByClinciService);
 
