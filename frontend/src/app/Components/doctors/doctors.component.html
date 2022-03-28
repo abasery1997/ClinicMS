@@ -27,7 +27,7 @@
           <td class="text-capitalize">
             <span  *ngFor="let day of doctor.attendingDaysArray" class="badge bg-primary m-1">{{day}}</span>
           </td>
-          <td>{{parseTime(doctor.startTime)}}</td>
+          <td>{{doctor.parsedStartTime}}</td>
           <td>
             <button data-bs-toggle="modal" data-bs-target="#detailsModal" class="btn btn-primary m-1"
               (click)="catchDoctor(doctor)">
@@ -95,7 +95,7 @@
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="age" class="form-label">BirthDate</label>
-              <input type="date" class="form-control" value="{{validateInputs.get('birthDate')?.value}}" [value]="parseDate(doctor.birthDate)" max="2000-01-01" min="1940-01-01" #age id="age" formControlName="birthDate" />
+              <input type="date" class="form-control" [value]="parseDate(doctor.birthDate)" max="2000-01-01" min="1940-01-01" #age id="age" formControlName="birthDate" />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="email" class="form-label">Email address</label>
@@ -153,12 +153,12 @@
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="startTime" class="form-label">Start Time</label>
-              <input type="time" id="startTime" value="{{parseTime(doctor.startTime)}}" #sTime (blur)="show()"
+              <input type="time" id="startTime" value="{{parseTime(doctor.startTime,true)}}" #sTime
                 formControlName="startTime" />
             </div>
             <div class="my-3 col-lg-4 col-md-6 col-12">
               <label for="endTime" class="form-label">End Time</label>
-              <input type="time" #eTime id="endTime" [ngClass]="endTimeFlag?'':'errorClass'" value="{{parseTime(doctor.endTime)}}" (blur)="validateTime(eTime.value)" formControlName="endTime" />
+              <input type="time" #eTime id="endTime" [ngClass]="endTimeFlag?'':'errorClass'" value="{{parseTime(doctor.endTime,true)}}" (blur)="validateTime(eTime.value)" formControlName="endTime" />
             </div>
           </div>
         </div>
@@ -270,16 +270,16 @@
           </div>
           <div class="col-12 d-flex border-bottom mt-3 justify-content-between">
             <h6 class="col-4">Days : </h6>
-            <h6 class="col-8 text-end"> <span *ngFor="let day of attendingDaysString" class="badge bg-primary m-1">{{day}}</span></h6>
+            <h6 class="col-8 text-end"> <span *ngFor="let day of doctor.attendingDaysArray" class="badge bg-primary m-1">{{day}}</span></h6>
           </div>
           <div class="col-12 d-flex border-bottom mt-3 align-items-center justify-content-between">
             <div class="col-5 d-flex align-items-center justify-content-between">
               <h6>Start Time : </h6>
-              <h6>{{ doctor.startTime.h > 12 ?  doctor.startTime.h - 12:  doctor.startTime.h  }}:{{ doctor.startTime.m }} {{ doctor.startTime.h > 12 ?  "PM" : "AM"}}</h6>
+              <h6>{{parseTime(doctor.startTime)}}</h6>
             </div>
             <div class="col-5 d-flex align-items-center justify-content-between">
               <h6>End Time : </h6>
-              <h6>{{ doctor.endTime.h > 12 ?  doctor.endTime.h - 12:  doctor.endTime.h  }}:{{ doctor.endTime.m }} {{ doctor.endTime.h > 12 ?  "PM" : "AM"}}</h6>
+              <h6>{{parseTime(doctor.endTime)}}</h6>
             </div>
           </div>
         </div>

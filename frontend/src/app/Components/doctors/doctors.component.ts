@@ -38,9 +38,9 @@ export class DoctorsComponent implements OnInit {
       this.doctors = res;
       this.dtTrigger.next();
       this.doctors.forEach((d: Doctor) => {
-        console.log(d.attendingDays, "dssssssssssssss")
         d.attendingDaysArray = this.parseWorkingDays(d.attendingDays);
-
+        d.parsedStartTime=this.parseTime(d.startTime);
+        d.parsedEndTime=this.parseTime(d.endTime);
       })
     });
     this.clinicService.getAllServices().subscribe((res: any) => {
@@ -56,11 +56,9 @@ export class DoctorsComponent implements OnInit {
   parseWorkingDays(days: string): string[] {
     if (days.length > 3) {
       this.attendingDaysString = days.split(',');
-      console.log(this.attendingDaysString);
     }
     if (this.attendingDaysString.length > 1) {
       this.attendingDaysString.splice(this.attendingDaysString.length - 1, 1);
-      console.log(this.attendingDaysString);
     }
 
     for (let i = 0; i < this.attendingDaysString.length; i++) {
@@ -113,8 +111,15 @@ export class DoctorsComponent implements OnInit {
     endTime: new FormControl('', [Validators.required]),
     image: new FormControl('', [Validators.required]),
   });
-  parseTime(time: Time): string {
+  parseTime(time: Time,flag:boolean=false): string {
     let s: string = '';
+    let greater:Boolean=false;
+    if(time.h>12)
+    {
+      time.h-=12;
+      greater=true;
+    }
+    else if(time.h==12)greater=true;
     if (time.h < 10)
       s = '0' + time.h;
     else
@@ -123,7 +128,8 @@ export class DoctorsComponent implements OnInit {
       s += ':' + '0' + time.m;
     else
       s += ':' + time.m;
-    return s;
+      if(flag) return s;
+    return s+=greater?' PM':' AM';
   }
   show() {
     console.log(this.validateInputs.get('email'))
@@ -156,7 +162,6 @@ export class DoctorsComponent implements OnInit {
         this.dataService.getAllDoctors().subscribe((res) => {
           this.doctors = res;
           this.doctors.forEach((d: Doctor) => {
-            console.log(d.attendingDays, "dssssssssssssss")
             d.attendingDaysArray = this.parseWorkingDays(d.attendingDays);
           })
           this.closeForm();
@@ -176,7 +181,6 @@ export class DoctorsComponent implements OnInit {
         this.dataService.getAllDoctors().subscribe((res) => {
           this.doctors = res;
           this.doctors.forEach((d: Doctor) => {
-            console.log(d.attendingDays, "dssssssssssssss")
             d.attendingDaysArray = this.parseWorkingDays(d.attendingDays);
 
           })
@@ -212,7 +216,9 @@ export class DoctorsComponent implements OnInit {
       password: "",
       phone: "",
       startTime: new Time(0, 0),
-      _id: ""
+      _id: "",
+      parsedStartTime:'',
+      parsedEndTime:'',
     }
     this.formData = new FormData();
     this.attendingDays = [false, false, false, false, false, false, false];
@@ -254,7 +260,7 @@ export class DoctorsComponent implements OnInit {
         birthDate: doctor.birthDate,
         startTime: doctor.startTime,
         endTime: doctor.endTime,
-        
+        image:''
       });
     }
     let days = doctor.attendingDays.split(',');
