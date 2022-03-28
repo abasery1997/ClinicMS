@@ -1,4 +1,5 @@
 export class Doctor {
+    public attendingDaysArray:string[]=[];
     constructor(
         public attendingDays:string,
         public clinicServiceID:Object,

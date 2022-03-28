@@ -3,6 +3,8 @@ import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ClinicService } from 'src/app/Services/clinic.service';
 import { DatePipe } from '@angular/common'
 import { Subject } from 'rxjs';
+import { delay } from 'rxjs/operators';
+
 
 
 import { DoctorService } from 'src/app/Services/doctor.service';
@@ -26,14 +28,20 @@ export class DoctorsComponent implements OnInit {
   doctors: Doctor[] = [];
   doctor: Doctor = new Doctor('', "1", '', '', '', new Date(), '', '', '', '', '', new Time(1, 1), new Time(1, 1));
   ngOnInit(): void {
+
     this.dtOptions = {
       searching: true,
       paging: true,
       responsive: true
     };
-    this.dataService.getAllDoctors().subscribe((res) => {
+    this.dataService.getAllDoctors().pipe(delay(0)).subscribe((res) => {
       this.doctors = res;
       this.dtTrigger.next();
+      this.doctors.forEach((d: Doctor) => {
+        console.log(d.attendingDays, "dssssssssssssss")
+        d.attendingDaysArray = this.parseWorkingDays(d.attendingDays);
+
+      })
     });
     this.clinicService.getAllServices().subscribe((res: any) => {
       this.clinicServices = res;
@@ -45,32 +53,34 @@ export class DoctorsComponent implements OnInit {
     this.dtTrigger.unsubscribe();
   }
   attendingDaysValues: string[] = ["sat", "sun", "mon", "tue", "wed", "thu", "fri"];
-  parseWorkingDays(days: string) {
+  parseWorkingDays(days: string): string[] {
     if (days.length > 3) {
       this.attendingDaysString = days.split(',');
+      console.log(this.attendingDaysString);
     }
-    if (this.attendingDaysString.length > 1)
+    if (this.attendingDaysString.length > 1) {
       this.attendingDaysString.splice(this.attendingDaysString.length - 1, 1);
-
-    else {
-
-      for (let i = 0; i < this.attendingDaysString.length; i++) {
-        if (this.attendingDaysString[i] == "mon")
-          this.attendingDaysString[i] = "Monday";
-        else if (this.attendingDaysString[i] == "sat")
-          this.attendingDaysString[i] = "Saturday";
-        else if (this.attendingDaysString[i] == "sun")
-          this.attendingDaysString[i] = "Sunday";
-        else if (this.attendingDaysString[i] == "tue")
-          this.attendingDaysString[i] = "Tuesday";
-        else if (this.attendingDaysString[i] == "wed")
-          this.attendingDaysString[i] = "Wednesday";
-        else if (this.attendingDaysString[i] == "thu")
-          this.attendingDaysString[i] = "Thursday";
-        else
-          this.attendingDaysString[i] = "Friday";
-      }
+      console.log(this.attendingDaysString);
     }
+
+    for (let i = 0; i < this.attendingDaysString.length; i++) {
+      if (this.attendingDaysString[i] == "mon")
+        this.attendingDaysString[i] = "Monday";
+      else if (this.attendingDaysString[i] == "sat")
+        this.attendingDaysString[i] = "Saturday";
+      else if (this.attendingDaysString[i] == "sun")
+        this.attendingDaysString[i] = "Sunday";
+      else if (this.attendingDaysString[i] == "tue")
+        this.attendingDaysString[i] = "Tuesday";
+      else if (this.attendingDaysString[i] == "wed")
+        this.attendingDaysString[i] = "Wednesday";
+      else if (this.attendingDaysString[i] == "thu")
+        this.attendingDaysString[i] = "Thursday";
+      else
+        this.attendingDaysString[i] = "Friday";
+
+    }
+    return this.attendingDaysString;
   }
   calcAge(birthDate: Date): number {
     let age = 0;
@@ -145,6 +155,10 @@ export class DoctorsComponent implements OnInit {
       this.dataService.addDoctor(this.formData).subscribe((docID) => {
         this.dataService.getAllDoctors().subscribe((res) => {
           this.doctors = res;
+          this.doctors.forEach((d: Doctor) => {
+            console.log(d.attendingDays, "dssssssssssssss")
+            d.attendingDaysArray = this.parseWorkingDays(d.attendingDays);
+          })
           this.closeForm();
           this.formData = new FormData();
         })
@@ -161,6 +175,11 @@ export class DoctorsComponent implements OnInit {
       this.dataService.updateDoctor(this.formData).subscribe((docID) => {
         this.dataService.getAllDoctors().subscribe((res) => {
           this.doctors = res;
+          this.doctors.forEach((d: Doctor) => {
+            console.log(d.attendingDays, "dssssssssssssss")
+            d.attendingDaysArray = this.parseWorkingDays(d.attendingDays);
+
+          })
           this.closeForm(); this.validateInputs.reset();
         })
       }, () => { this.closeForm() }, () => { this.formData = new FormData(); this.closeForm() })
@@ -183,6 +202,7 @@ export class DoctorsComponent implements OnInit {
       firstname: "",
       lastname: "",
       attendingDays: "",
+      attendingDaysArray: [],
       clinicServiceID: "",
       birthDate: new Date(),
       email: "",
@@ -210,9 +230,7 @@ export class DoctorsComponent implements OnInit {
       if (this.attendingDays[i] && i != 6) {
         days += this.attendingDaysValues[i] + ',';
       }
-      else if (this.attendingDays[i] && i == 6) {
-        days += this.attendingDaysValues[i];
-      }
+
     }
     return days;
   }
@@ -223,16 +241,34 @@ export class DoctorsComponent implements OnInit {
     this.doctor = doctor;
     this.ClinicServiceID = this.doctor.clinicServiceID;
     this.edit = true;
+    this.validateInputs.valid
+    if (this.edit) {
+
+      this.validateInputs.setValue({
+        firstName: doctor.firstname,
+        lastName: doctor.lastname,
+        gender: doctor.gender,
+        email: doctor.email,
+        password: '',
+        phone: doctor.phone,
+        birthDate: doctor.birthDate,
+        startTime: doctor.startTime,
+        endTime: doctor.endTime,
+        
+      });
+    }
     let days = doctor.attendingDays.split(',');
     if (days.length > 1)
       days.splice(days.length - 1, 1);
     let index = -1;
     for (let i = 0; i < days.length; i++) {
       index = this.attendingDaysValues.indexOf(days[i]);
+      console.log(index)
       if (index != -1) {
         this.attendingDays[index] = true;
       }
     }
+    console.log(this.attendingDays)
     this.parseWorkingDays(this.doctor.attendingDays);
   }
 
