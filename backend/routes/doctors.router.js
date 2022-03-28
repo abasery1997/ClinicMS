@@ -11,7 +11,7 @@ router.get("", getDoctors);
 //get a doctor data
 router.post("/one", getADoctor);
 
-router.get("/ClinicService", getDoctorsByClinciService);
+router.post("/ClinicService", getDoctorsByClinciService);
 
 
 //add new doctor route
