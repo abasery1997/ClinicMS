@@ -10,7 +10,7 @@ import { IEmployee } from '../Model/employee';
 import { AppointmentService } from 'src/app/Services/appointment.service';
 import { Appointment } from '../Model/appointment';
 import { ToastrService } from 'ngx-toastr';
-import { DynamicGrid } from '../../grid.model';
+import { DynamicGrid } from 'src/app/grid.model';
 import { Subject } from 'rxjs';
 
 
