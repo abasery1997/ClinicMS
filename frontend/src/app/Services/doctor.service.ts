@@ -11,24 +11,38 @@ export class DoctorService {
 
   doctorsUrl:string='http://localHost:8080/doctors';
   constructor(private http:HttpClient) { }
+  setHeaders() {
+    return {
+      headers: {
+        authorization: this.getToken()!
+      }
+    }
+  }
+  getToken(){
+    return window.localStorage.getItem('token');
+  }
   getAllDoctors(){
-    return this.http.get<Doctor[]>(this.doctorsUrl)
-      .pipe(catchError(this.handleError));
+    return this.http.get<Doctor[]>(this.doctorsUrl,this.setHeaders())
+      .pipe(catchError(this.handleError, ));
   }
   addDoctor(doc:any){
-    return this.http.post<any>(this.doctorsUrl, doc)
+    return this.http.post<any>(this.doctorsUrl, doc,this.setHeaders())
     .pipe(catchError(this.handleError));
   }
-  
   updateDoctor(doc:any){
-    return this.http.put<any>(this.doctorsUrl, doc)
+    return this.http.put<any>(this.doctorsUrl, doc,this.setHeaders())
     .pipe(catchError(this.handleError));
   }
 
+  getDoctorById(id:Object){
+    return this.http.post(this.doctorsUrl+"/one",{
+    _id:id
+    }).pipe(catchError(this.handleError));
+  }
   deleteDoctor(id:string){
     return this.http.delete(this.doctorsUrl,{
       body:{_id:id},
-    })
+    },/* this.setHeaders()*/)
   }
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {

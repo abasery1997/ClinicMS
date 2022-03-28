@@ -36,7 +36,7 @@ if (doctorID!=null){
             if (data == null) {
                 throw new Error("there are no appointments for this doctor")
             } else {
-                res.status(200).json({ data })
+                res.status(200).json( data )
             }
         })
         .catch(error => {

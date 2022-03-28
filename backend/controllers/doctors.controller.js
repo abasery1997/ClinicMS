@@ -32,7 +32,7 @@ exports.getADoctor = (req, res, next) => {
             if (data == null) {
                 throw new Error("Doctor not Found!")
             } else {
-                res.status(200).json({ data })
+                res.status(200).json( data )
             }
         })
         .catch(error => {

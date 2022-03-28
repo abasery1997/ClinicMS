@@ -1,21 +1,23 @@
 const express = require("express");
 const { body, query, param } = require("express-validator")
 const router = express.Router();
+const {AuthRequired,DoctorAuthRequired,AdminAuthRequired,EmpAuthRequired} = require('../Middlewares/auth.middleware')
 const { getDoctors, getADoctor, addDoctor, updateDoctor, deleteDoctor ,getDoctorsByClinciService} = require("./../Controllers/doctors.controller")
 
 
 //get all doctors
-router.get("", getDoctors);
-
+router.get("",AuthRequired,DoctorAuthRequired,getDoctors);
 
 //get a doctor data
-router.post("/one", getADoctor);
+router.post("/one",[
+    body('_id').isString().withMessage("doctor id is incorrect")
+], getADoctor);
 
-router.get("/ClinicService", getDoctorsByClinciService);
+router.post("/ClinicService", getDoctorsByClinciService);
 
 
 //add new doctor route
-router.post("", [
+router.post("", AuthRequired,[
     body("firstname").isString().withMessage("Doctor First Name should be String"),
     body("lastname").isString().withMessage("Doctor Last Name should be String"),
     body("email").isEmail().withMessage("email format not correct"),
@@ -27,7 +29,7 @@ router.post("", [
 ], addDoctor);
 
 //update doctor route
-router.put("", [
+router.put("", AuthRequired,[
     body("firstname").isString().withMessage("Doctor First Name should be String"),
     body("lastname").isString().withMessage("Doctor Last Name should be String"),
     body("email").isEmail().withMessage("email format not correct"),
@@ -38,5 +40,5 @@ router.put("", [
     body("endTime").isObject().withMessage("endTime should be object")
 ], updateDoctor);
 
-router.delete("", deleteDoctor);
+router.delete("", AuthRequired,deleteDoctor);
 module.exports = router;

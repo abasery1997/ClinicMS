@@ -151,6 +151,7 @@ export class DoctorsComponent implements OnInit {
     this.formData.append('birthDate', birthDate.toString());
     this.formData.append('clinicServiceID', this.ClinicServiceID.toString());
     this.formData.append('attendingDays', this.getDays());
+    console.log("form data ", this.getDays());
     this.formData.append(`startTime[h]`, st.h.toString());
     this.formData.append(`startTime[m]`, st.m.toString());
     this.formData.append(`endTime[h]`, et.h.toString());
@@ -192,8 +193,11 @@ export class DoctorsComponent implements OnInit {
   }
   setday(d: string) {
     let index = this.attendingDaysValues.findIndex(day => day == d);
+    
     if (index != -1)
       this.attendingDays[index] = !this.attendingDays[index];
+
+      console.log(this.attendingDays,"from set day ");
   }
   g(e: any) {
     e.reset();
@@ -233,8 +237,9 @@ export class DoctorsComponent implements OnInit {
   getDays(): string {
     let days: string = "";
     for (let i = 0; i < 7; i++) {
-      if (this.attendingDays[i] && i != 6) {
+      if (this.attendingDays[i] && i != 7) {
         days += this.attendingDaysValues[i] + ',';
+        console.log("from get days ",days)
       }
 
     }
@@ -274,7 +279,7 @@ export class DoctorsComponent implements OnInit {
         this.attendingDays[index] = true;
       }
     }
-    console.log(this.attendingDays)
+    console.log(this.doctor.attendingDays,"catch doctor")
     this.parseWorkingDays(this.doctor.attendingDays);
   }
 

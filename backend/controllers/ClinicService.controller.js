@@ -30,7 +30,7 @@ exports.getAClinicService = (req, res, next) => {
             if (data == null) {
                 throw new Error("Clinic Service not Found!")
             } else {
-                res.status(200).json({ data })
+                res.status(200).json( data)
             }
         })
         .catch(error => {

@@ -6,7 +6,7 @@ export class Appointment {
         public patientID:Object,
         public appDate:Date,
         public status:boolean,
-      
+        public serviceId:Object
     ){}
 }
 

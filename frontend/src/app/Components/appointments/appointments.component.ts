@@ -29,7 +29,7 @@ export class AppointmentsComponent implements OnInit {
     private patientService: PatientService,
     private employeeService: EmployeeService,
     private toastr: ToastrService) { }
-  appointment: Appointment = new Appointment("", {}, {}, {}, new Date(), false);
+  appointment: Appointment = new Appointment("", {}, {}, {}, new Date(), false, {});
   appointments: Appointment[] = [];
   employees: IEmployee[] = [];
   patients: IPatient[] = [];
@@ -99,6 +99,8 @@ export class AppointmentsComponent implements OnInit {
     // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe();
   }
+  docTimesEnable: boolean = false;
+
   getName(id: Object, dataArray: any): string {
     for (let obj of dataArray) {
       if (obj._id == id) {
@@ -108,7 +110,7 @@ export class AppointmentsComponent implements OnInit {
     }
     return "";
   }
-  getServiceName(id: string): string {
+  getServiceName(id: Object): string {
     let doc: Doctor = new Doctor('', "2", '', '', '', new Date(), '', '', '', '', '', new Time(1, 1), new Time(1, 1));;
     for (let obj of this.doctors) {
       if (obj._id == id) {
