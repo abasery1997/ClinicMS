@@ -4,35 +4,39 @@
     <div class="card-header">Invoices</div>
     <div class="card-body">
       <div class="table-padding">
-        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered text-center"> 
-        <thead class="table-dark">
-          <tr>
-            <th>Doctor Name</th>
-            <th>Patient Name</th>
-            <th>Clinic Service</th>
-            <th>Amount</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody>
-      
-          <tr *ngFor="let doc of doctorInvoices">
-            <td>{{doc.doctorName}}</td>
-            <td>{{doc.clinicServiceAmount}}</td>
-            <td>{{doc.doctorName}}</td>
-            <td>{{doc.doctorName}}</td>
-            <td>{{doc.clinicServiceAmount}}</td>
-          </tr>
-          <tr *ngFor="let p of patientInvoices">
-            <td>{{p.patientName}}</td>
-            <td>{{p.clinicServiceAmount}}</td>
-            <td>{{p.patientName}}</td>
-            <td>{{p.clinicServiceAmount}}</td>
-            <td>{{p.clinicServiceAmount}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+        <table
+          datatable
+          [dtOptions]="dtOptions"
+          [dtTrigger]="dtTrigger"
+          class="table table-bordered text-center"
+        >
+          <thead class="table-dark">
+            <tr>
+              <th>Doctor Name</th>
+              <th>Patient Name</th>
+              <th>Clinic Service</th>
+              <th>Amount</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let doc of doctorInvoices">
+              <td>{{ doc.doctorName }}</td>
+              <td>{{ doc.clinicServiceAmount }}</td>
+              <td>{{ doc.doctorName }}</td>
+              <td>{{ doc.doctorName }}</td>
+              <td>{{ doc.clinicServiceAmount }}</td>
+            </tr>
+            <tr *ngFor="let p of patientInvoices">
+              <td>{{ p.patientName }}</td>
+              <td>{{ p.clinicServiceAmount }}</td>
+              <td>{{ p.patientName }}</td>
+              <td>{{ p.clinicServiceAmount }}</td>
+              <td>{{ p.clinicServiceAmount }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -42,7 +46,7 @@
       <div class="chart col-12 col-lg-9">
         <canvas
           baseChart
-          [data]="calcIncomePerMonth()"
+          [data]="incomeChartData"
           [type]="incomeChartType"
           [options]="chartOptions"
         >
@@ -56,7 +60,7 @@
       <div class="chart col-8 col-lg-4">
         <canvas
           baseChart
-          [data]="show()"
+          [data]="genderChartData"
           [type]="genderChartType"
           [options]="chartOptions"
         >
