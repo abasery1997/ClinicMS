@@ -5,12 +5,12 @@ export class Invoice {
         public patientID:string,
         public _id:string,
         public employeeID:string,
-        public doctorFirstName:string,
+        public doctorName:string,
         public doctorId:string,
         public clinicServiceName:string,
         public clinicServiceId:string,
         public clinicServiceAmount:number,
-        public patientFirstName:string,
+        public patientName:string,
         public employeeName:string,
         ){}
 }

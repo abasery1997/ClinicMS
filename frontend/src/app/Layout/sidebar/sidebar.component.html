@@ -1,7 +1,7 @@
 <div
-  class="d-flex flex-column flex-shrink-0 p-1  text-white bg-dark"
+  class="d-flex flex-column flex-shrink-0 p-1 text-white bg-dark"
   style="height: 100vh"
-  [ngClass]="{ 'min-sidebar': isToggle }"
+  [ngClass]="{ 'min-sidebar': isToggle, 'max-sidebar': !isToggle }"
 >
   <a
     class="m-2 fs-5 text-decoration-none text-light"
