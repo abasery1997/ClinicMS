@@ -2,40 +2,22 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/Operators';
-import { ClinicServiceClass } from '../Components/Model/clinic-service';
+import { Appointment } from '../Components/Model/appointment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ClinicService {
+export class AppointmentService {
 
-  constructor(public http:HttpClient) { }
-
-  clinicServiceUrl:string="http://localhost:8080/clinicservice";
+  appointmentsUrl:string='http://localhost:8080/appointments';
+  constructor(private http:HttpClient) { }
+  getAllAppointments(){
+    return this.http.get<Appointment[]>(this.appointmentsUrl)
+      .pipe(catchError(this.handleError));
+  }
+ 
   
-  getAllServices(){
-    return this.http.get<ClinicServiceClass[]>(this.clinicServiceUrl)
-      .pipe(catchError(this.handleError));
-  }
-
-  AddService(ser:ClinicServiceClass){
-    return this.http.post<ClinicServiceClass>(this.clinicServiceUrl,ser)
-      .pipe(catchError(this.handleError));
-  }
-  UpdateService(ser:ClinicServiceClass){
-    return this.http.put<ClinicServiceClass>(this.clinicServiceUrl,ser)
-      .pipe(catchError(this.handleError));
-  }
-  delete(id:string){
-    return this.http.delete(this.clinicServiceUrl,{
-      body:{_id:id},
-    })
-  }
-  getOneServices(id:string){
-    return this.http.post(this.clinicServiceUrl+"/one",{
-      body:{_id:id},
-    })
-  }
+ 
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {
       // A client-side or network error occurred. Handle it accordingly.

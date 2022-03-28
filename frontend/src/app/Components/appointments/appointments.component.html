@@ -11,60 +11,43 @@
     </button>
   </div>
   <div class="card-body">
-    <table #dataTable class="table table-bordered border-dark">
-      <thead class="bg-dark text-white">
-        <tr>
-          <th>Patient Name</th>
-          <th>Doctor Name</th>
-          <th>Employee Name</th>
-          <th>Date</th>
-          <th>Time</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- <tr *ngFor="let doctor of doctors">
-            <td>
-              <a
-                target="_blank"
-                href="http://localhost:8080/images/{{ doctor.image }}"
-                ><img
-                  src="http://localhost:8080/images/{{ doctor.image }}"
-                  class="mx-auto"
-                  width="75px"
-                  height="60px"
-                  alt=""
-              /></a>
-            </td>
-            <td>{{ doctor.firstname }}</td>
-            <td>{{ doctor.lastname }}</td>
-            <td>{{ doctor.phone }}</td>
-            <td>Dermatology</td>
-            <td>{{ doctor.gender }}</td>
-            <td>35</td>
-            <td>{{ doctor.email }}</td>
-            <td class="text-capitalize">{{ doctor.attendingDays }}</td>
-            <td>{{ doctor.startTime.h }}:{{ doctor.startTime.m }}</td>
-            <td>{{ doctor.endTime.h }}:{{ doctor.endTime.m }}</td>
-            <td>
-              <button
-                data-bs-toggle="modal"
-                data-bs-target="#addForm"
-                class="btn btn-success mx-1 my-auto"
-              >
-                Edit
-              </button>
-              <button
-                data-bs-toggle="modal"
-                data-bs-target="#deleteForm"
-                class="btn btn-danger mx-1 my-auto"
-                (click)="catchDoctor(doctor)"
-              >
-                Delete
-              </button>
-            </td>
-          </tr> -->
-      </tbody>
-    </table>
+    <div class="table-padding">
+      <div class="table-padding">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered text-center"> 
+            <thead class="bg-dark mt-5 text-white">
+                <tr>
+                    <th>Doctor Name</th>
+                    <th>Patient Name</th>
+                    <th>Employee Name</th>
+                    <th>Service</th>
+                    <th>Date</th>
+                    <!-- <th>Time</th> -->
+                    <!-- <th>Actions</th> -->
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let appointment of appointments">
+                  <!-- <td>{{appointment.doctorID }}</td> -->
+                  <td>{{getName(appointment.doctorID , doctors)}}</td>
+                  <td>{{getName(appointment.patientID , patients)}}</td>
+                  <td>{{getName(appointment.employeeID , employees)}}</td>
+                  <!-- <td>{{getServiceName()}}</td> -->
+                  <td>{{getServiceName(appointment.doctorID.toString())}}</td>
+                  <td>{{appointment.appDate}}</td>
+                  <td>
+                    <button data-bs-toggle="modal" data-bs-target="#addForm"  class="btn btn-success mx-1 my-auto">
+                        Edit
+                    </button>
+                    <button data-bs-toggle="modal" data-bs-target="#deleteForm"  class="btn btn-danger mx-1 my-auto">
+                        Delete
+                    </button>
+                </td>
+              </tr>
+            </tbody>
+        </table> 
+    </div>
+  </div>
   </div>
 </div>
 <!-- End Table -->
