@@ -20,19 +20,12 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let doc of doctorInvoices">
-              <td>{{ doc.doctorName }}</td>
-              <td>{{ doc.clinicServiceAmount }}</td>
-              <td>{{ doc.doctorName }}</td>
-              <td>{{ doc.doctorName }}</td>
-              <td>{{ doc.clinicServiceAmount }}</td>
-            </tr>
-            <tr *ngFor="let p of patientInvoices">
-              <td>{{ p.patientName }}</td>
-              <td>{{ p.clinicServiceAmount }}</td>
-              <td>{{ p.patientName }}</td>
-              <td>{{ p.clinicServiceAmount }}</td>
-              <td>{{ p.clinicServiceAmount }}</td>
+            <tr *ngFor="let inv of invoices">
+              <td>{{ inv.doctorName }}</td>
+              <td>{{ inv.patientName }}</td>
+              <td>{{ inv.clinicServiceName }}</td>
+              <td>{{ inv.clinicServiceAmount }}</td>
+              <td>{{ inv.appDate|date }}</td>
             </tr>
           </tbody>
         </table>
