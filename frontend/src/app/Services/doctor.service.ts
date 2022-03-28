@@ -3,34 +3,24 @@ import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/Operators';
 import { Doctor } from '../Components/Model/doctor';
-
 @Injectable({
   providedIn: 'root'
 })
 export class DoctorService {
 
   doctorsUrl:string='http://localHost:8080/doctors';
-  constructor(private http:HttpClient) { }
-  setHeaders() {
-    return {
-      headers: {
-        authorization: this.getToken()!
-      }
-    }
-  }
-  getToken(){
-    return window.localStorage.getItem('token');
-  }
+  constructor(private http:HttpClient ) { }
+ 
   getAllDoctors(){
-    return this.http.get<Doctor[]>(this.doctorsUrl,this.setHeaders())
+    return this.http.get<Doctor[]>(this.doctorsUrl)
       .pipe(catchError(this.handleError, ));
   }
   addDoctor(doc:any){
-    return this.http.post<any>(this.doctorsUrl, doc,this.setHeaders())
+    return this.http.post<any>(this.doctorsUrl, doc,)
     .pipe(catchError(this.handleError));
   }
   updateDoctor(doc:any){
-    return this.http.put<any>(this.doctorsUrl, doc,this.setHeaders())
+    return this.http.put<any>(this.doctorsUrl, doc,)
     .pipe(catchError(this.handleError));
   }
 
@@ -42,7 +32,7 @@ export class DoctorService {
   deleteDoctor(id:string){
     return this.http.delete(this.doctorsUrl,{
       body:{_id:id},
-    },/* this.setHeaders()*/)
+    })
   }
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {
