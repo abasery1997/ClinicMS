@@ -1,12 +1,10 @@
 require("dotenv").config();
 const express = require("express");
-const body_parser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const multer = require("multer");
 const bodyParser = require('body-parser');
 const path = require("path");
-
 
 
 //routes

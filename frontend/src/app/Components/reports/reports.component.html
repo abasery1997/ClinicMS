@@ -4,25 +4,32 @@
     <div class="card-header">Invoices</div>
     <div class="card-body">
       <div class="table-padding">
-        <table datatable [dtOptions]="dtOptions"   class="table table-bordered text-center"> 
-        <thead class="table-dark">
-          <tr>
-            <th>Name</th>
-            <th>Invoice Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>ba</td>
-            <td>ac</td>
-          </tr>
-          <tr>
-            <td>cc</td>
-            <td>dd</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+        <table
+          datatable
+          [dtOptions]="dtOptions"
+          [dtTrigger]="dtTrigger"
+          class="table table-bordered text-center"
+        >
+          <thead class="table-dark">
+            <tr>
+              <th>Doctor Name</th>
+              <th>Patient Name</th>
+              <th>Clinic Service</th>
+              <th>Amount</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let inv of invoices">
+              <td>{{ inv.doctorName }}</td>
+              <td>{{ inv.patientName }}</td>
+              <td>{{ inv.clinicServiceName }}</td>
+              <td>{{ inv.clinicServiceAmount }}</td>
+              <td>{{ inv.appDate|date }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -46,7 +53,7 @@
       <div class="chart col-8 col-lg-4">
         <canvas
           baseChart
-          [data]="show()"
+          [data]="genderChartData"
           [type]="genderChartType"
           [options]="chartOptions"
         >

@@ -25,7 +25,11 @@
           <td>{{ doctor.phone }}</td>
           <td>{{getClinicService(doctor.clinicServiceID)}}</td>
           <td class="text-capitalize">
+<<<<<<< HEAD
             <span  *ngFor="let day of doctor.attendingDaysArray" class="badge bg-primary m-1">{{day}}</span>
+=======
+            <span *ngFor="let day of attendingDaysString" class="badge bg-primary m-1">{{day}}</span>
+>>>>>>> 187c2b1e8d8272ab9f01a375ba1c5b02b6ad5784
           </td>
           <td>{{parseTime(doctor.startTime)}}</td>
           <td>
