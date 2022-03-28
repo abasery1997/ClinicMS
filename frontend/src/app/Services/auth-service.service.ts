@@ -15,6 +15,16 @@ export class AuthServiceService {
     .pipe(catchError(this.handleError));
   }
 
+  setHeaders() {
+    return {
+      headers: {
+        authorization: this.getToken()!
+      }
+    }
+  }
+  getToken(){
+    return window.localStorage.getItem('token');
+  }
 
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {

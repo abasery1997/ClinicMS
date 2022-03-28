@@ -6,12 +6,12 @@ const { getDoctors, getADoctor, addDoctor, updateDoctor, deleteDoctor ,getDoctor
 
 
 //get all doctors
-router.get("",AuthRequired,DoctorAuthRequired,getDoctors);
+router.get("",AuthRequired,getDoctors);
 
 //get a doctor data
 router.get("/one",AuthRequired,getADoctor);
 
-router.post("/ClinicService", getDoctorsByClinciService);
+router.post("/ClinicService", AuthRequired,getDoctorsByClinciService);
 
 
 //add new doctor route
