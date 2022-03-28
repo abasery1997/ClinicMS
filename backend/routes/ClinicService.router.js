@@ -9,7 +9,10 @@ router.get("", getClinicServices);
 
 
 //get a Clinic Service data
-router.get("/one", getAClinicService);
+router.post("/one",[
+     body("_id").isString().withMessage("Service ID is Not Correct"),
+   
+], getAClinicService);
 
 //add new Clinic Service route
 router.post("", [
