@@ -42,8 +42,8 @@
         #Doctors
         [ngClass]="{ 'fs-5': isToggle, 'text-center': isToggle }"
       >
-        <i class="fa-solid fa-user-doctor m-1" *ngIf="type=='d'"></i>
-        <span [ngClass]="{ 'd-none': isToggle }" *ngIf="type=='d'">Doctors</span>
+        <i class="fa-solid fa-user-doctor m-1"></i>
+        <span [ngClass]="{ 'd-none': isToggle }">Doctors</span>
       </a>
     </li>
     <li *ngIf="type=='e'" class="nav-item">
