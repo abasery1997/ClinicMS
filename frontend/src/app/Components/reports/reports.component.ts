@@ -91,7 +91,7 @@ export class ReportsComponent implements OnInit {
     calcIncomePerMonth(): ChartData<'line', number[], string | string[]> {
       let income: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
       this.invoices.forEach((invoice) => {
-        let month = new Date(this.invoices[0].appDate).getMonth();
+        let month = new Date(invoice.appDate).getMonth();
         for (let i = 0; i < 12; i++) {
           if (i == month) {
             income[i] += Number(invoice.clinicServiceAmount);
