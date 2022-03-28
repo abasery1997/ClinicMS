@@ -13,12 +13,13 @@ exports.login = (req, res, next) => {
 
             break;
         case 'd':
-            Doctor.findOne({ email },{password:0,__v:0})
+            Doctor.findOne({ email },{__v:0})
                 .then(doctor => {
                     if (doctor != null) {
                         //check password
-
-                        const validPassword = bcrypt.compareSync(password, doctor.password)
+                        console.log(doctor) 
+                        const validPassword = bcrypt.compareSync(password, doctor.password);
+                         doctor.password="";
                         if (!validPassword) return res.status(400).json({ error: "Invalid Credentials" })
 
                         const user = { id: doctor._id, email, type };

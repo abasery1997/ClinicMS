@@ -6,31 +6,35 @@
                 <div class="w-100 mb-3 text-center">
                     <h1 class="">Welcome Back</h1>
                 </div>
-                <form>
+                <form [formGroup]="form">
                     <div class="mb-3">
                       <label for="email" class="form-label">Email address</label>
-                      <input type="email" class="form-control" id="email">
+                      <input type="email" class="form-control" id="email" formControlName="email"
+                      [ngStyle]="form.get('email')?.valid||form.get('email')?.untouched?{}:style"
+                      >
                     </div>
                     <div class="mb-3">
                       <label for="password" class="form-label">Password</label>
-                      <input type="password" class="form-control" id="password">
+                      <input type="password" class="form-control" id="password" formControlName="password"
+                      [ngStyle]="form.get('password')?.valid||form.get('password')?.untouched?{}:style"
+                      >
                     </div>
                    <div class="row mt-2 mb-3">
                     <div class="mb-3 col-3 offset-2 form-check">
-                        <input type="radio" class="form-check-input" value="d" name="userType">
+                        <input type="radio" class="form-check-input" value="d" name="type" formControlName="type">
                         <label class="form-check-label">Doctor</label>
                       </div>
                       <div class="mb-3 col-3 form-check">
-                        <input type="radio" class="form-check-input" value="p" name="userType">
+                        <input type="radio" class="form-check-input" value="p" name="type" formControlName="type">
                         <label class="form-check-label">Patient</label>
                       </div>
                       <div class="mb-3 col-3 form-check">
-                        <input type="radio" class="form-check-input" value="e" name="userType">
+                        <input type="radio" class="form-check-input" value="e" name="type" formControlName="type">
                         <label class="form-check-label">Employee</label>
                       </div>
                    </div>
                     <div class=" row justify-content-center ">
-                        <button type="button" (click)="goHome()" class="btn btn-primary mx-auto w-50">Submit</button>
+                        <button type="button" (click)="goHome()" class="btn btn-primary mx-auto w-50" [disabled]="form.invalid">Submit</button>
                     </div>
                   </form>
             </div>
