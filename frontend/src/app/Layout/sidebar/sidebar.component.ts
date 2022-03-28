@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
   activeElement: HTMLElement | undefined;
+
+  type :string='';
   constructor() {
   }
   ngAfterViewInit(): void {
@@ -18,12 +20,13 @@ export class SidebarComponent implements OnInit {
     //active navbar buttons
     let path = location.pathname.slice(1);
     this.active(document.getElementById((path == '') ? 'Home' : path)!);
+    this.type=JSON.parse(localStorage.getItem('userData')||'').type;
   }
   toggle(): void {
     this.isToggle = !this.isToggle;
   }
   active(element: HTMLElement) {
-    if (this.activeElement?.id != element.id) {
+    if (this.activeElement?.id != element?.id) {
       element.classList.add('active');
       if (this.activeElement != undefined) { this.activeElement.classList.remove('active'); }
       this.activeElement = element;

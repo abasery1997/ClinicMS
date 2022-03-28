@@ -69,6 +69,8 @@ export class AppointmentsComponent implements OnInit  {
     // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe();
   }
+  docTimesEnable:boolean = false;
+ 
   getName(id: Object , dataArray:any) : string {
     for (let obj of dataArray) {
       if (obj._id == id) {
