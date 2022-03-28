@@ -122,4 +122,8 @@ export class AppointmentsComponent implements OnInit  {
     });
   }
 
+  setStatus(){
+    
+  }
+
 }

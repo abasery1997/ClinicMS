@@ -36,7 +36,7 @@
                   <td>{{getServiceName(appointment.doctorID.toString())}}</td>
                   <td>{{appointment.appDate}}</td>
                   <td>
-                    <button data-bs-toggle="modal" data-bs-target="#addForm"  class="btn btn-success m-1">
+                    <button data-bs-toggle="modal" data-bs-target="#addForm"  class="btn btn-success m-1" (click)="onClick(appointment)">
                         Edit
                     </button>
                     <button data-bs-toggle="modal" data-bs-target="#paymentModal"  class="btn text-white btn-info m-1">
@@ -223,7 +223,7 @@
           aria-label="Close"
         ></button>
       </div>
-      <form action=""  method="get">
+      <form action=""  method="get"  (click)="setStatus()">
           <div class="modal-body">
             <h4>
               Are You Sure You Want to Confirm Payment For This Appointment  ?
