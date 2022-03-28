@@ -1,4 +1,3 @@
-<!-- Start Table -->
 <div class="card m-3" style="min-width: fit-content">
   <div class="card-header d-flex justify-content-between">
     <h1 class="fw-bold">Appointment Manage</h1>
@@ -11,49 +10,174 @@
     </button>
   </div>
   <div class="card-body">
+    <!-- Start Table -->
     <div class="table-padding">
-      <div class="table-padding">
-        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-bordered text-center"> 
-            <thead class="bg-dark mt-5 text-white">
-                <tr>
-                    <th>Doctor Name</th>
-                    <th>Patient Name</th>
-                    <th>Employee Name</th>
-                    <th>Service</th>
-                    <th>Date</th>
-                    <!-- <th>Time</th> -->
-                    <!-- <th>Actions</th> -->
-                    <th>Actions</th>
-                </tr>
+      <table
+        datatable
+        [dtOptions]="dtOptions"
+        [dtTrigger]="dtTrigger"
+        class="table table-bordered text-center"
+      >
+        <thead class="bg-dark mt-5 text-white">
+          <tr>
+            <th>Doctor Name</th>
+            <th>Patient Name</th>
+            <th>Employee Name</th>
+            <th>Service</th>
+            <th>Date</th>
+            <!-- <th>Time</th> -->
+            <!-- <th>Actions</th> -->
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let appointment of appointments">
+            <!-- <td>{{appointment.doctorID }}</td> -->
+            <td>{{ getName(appointment.doctorID, doctors) }}</td>
+            <td>{{ getName(appointment.patientID, patients) }}</td>
+            <td>{{ getName(appointment.employeeID, employees) }}</td>
+            <!-- <td>{{getServiceName()}}</td> -->
+            <td>{{ getServiceName(appointment.doctorID.toString()) }}</td>
+            <td>{{ appointment.appDate }}</td>
+            <td>
+              <button
+                data-bs-toggle="modal"
+                data-bs-target="#addForm"
+                class="btn btn-success mx-1 my-auto"
+              >
+                Edit
+              </button>
+              <button
+                data-bs-toggle="modal"
+                data-bs-target="#deleteForm"
+                class="btn btn-danger mx-1 my-auto"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- End Table -->
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-primary m-1 p-2">Confirm Invoice</button>
+      <button
+        data-bs-toggle="modal"
+        data-bs-target="#perceptionModal"
+        class="btn btn-primary m-1 p-2"
+      >
+        Add Perception
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Start Perception Moal -->
+<div
+  class="modal fade"
+  id="perceptionModal"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="addModalTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header px-5 bg-black text-white">
+        <h2 class="modal-title">Add Perception</h2>
+        <button
+          type="button"
+          class="btn-close bg-white"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form class="container p-3" action="#">
+        <div class="mb-3">
+          <label for="notes" class="form-label">Notes</label>
+          <textarea class="form-control" name="notes"></textarea>
+        </div>
+        <div class="mb-3">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Medicine Name</th>
+                <th>Doses</th>
+                <th class="text-center">Action</th>
+              </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let appointment of appointments; let i=index">
-                  <!-- <td>{{appointment.doctorID }}</td> -->
-                  <td>{{getName(appointment.doctorID,doctors)}}</td>
-                  <td>{{getName(appointment.patientID , patients)}}</td>
-                  <td>{{getName(appointment.employeeID , employees)}}</td>
-                  <!-- <td>{{getServiceName()}}</td> -->
-                  <td>{{getServiceName(appointment.doctorID)}}</td>
-                  <td>{{appointment.appDate}}</td>
-                  <td>
-                    <button data-bs-toggle="modal" data-bs-target="#addForm"  class="btn btn-success m-1">
+              <tr *ngFor="let dynamic of dynamicArray; let i = index">
+                <td>
+                  <input
+                    [(ngModel)]="dynamicArray[i].MedicineName"
+                    class="form-control"
+                    type="text"
+                  />
+                </td>
+                <td>
+                  <input
+                    [(ngModel)]="dynamicArray[i].Doses"
+                    class="form-control"
+                    type="text"
+                  />
+                </td>
+                <td class="text-center" (click)="deleteRow(i)">
+                  <i class="fa fa-trash m-1" style="font-size: 23px"></i>
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td class="text-center" (click)="addRow()">
+                  <i class="fa fa-plus m-1" style="font-size: 23px"></i>
+                  <tr *ngFor="let appointment of appointments; let i = index">
+                    <!-- <td>{{appointment.doctorID }}</td> -->
+                    <td>{{ getName(appointment.doctorID, doctors) }}</td>
+                    <td>{{ getName(appointment.patientID, patients) }}</td>
+                    <td>{{ getName(appointment.employeeID, employees) }}</td>
+                    <!-- <td>{{getServiceName()}}</td> -->
+                    <td>{{ getServiceName(appointment.doctorID) }}</td>
+                    <td>{{ appointment.appDate }}</td>
+                    <td>
+                      <button
+                        data-bs-toggle="modal"
+                        data-bs-target="#addForm"
+                        class="btn btn-success m-1"
+                      >
                         Edit
-                    </button>
-                    <button data-bs-toggle="modal" data-bs-target="#paymentModal"  class="btn text-white btn-info m-1">
+                      </button>
+                      <button
+                        data-bs-toggle="modal"
+                        data-bs-target="#paymentModal"
+                        class="btn text-white btn-info m-1"
+                      >
                         Payment
-                    </button>
-                    <button data-bs-toggle="modal" data-bs-target="#deleteForm"  class="btn btn-danger m-1">
+                      </button>
+                      <button
+                        data-bs-toggle="modal"
+                        data-bs-target="#deleteForm"
+                        class="btn btn-danger m-1"
+                      >
                         Delete
-                    </button>
+                      </button>
+                    </td>
+                  </tr>
                 </td>
               </tr>
             </tbody>
-        </table> 
+          </table>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button class="btn btn-success px-4 py-2">Save</button>
+        </div>
+      </form>
     </div>
   </div>
-  </div>
 </div>
-<!-- End Table -->
+<!-- End Perception Moal -->
 <!-- Start Form Modal -->
 <div
   class="modal fade"
@@ -82,49 +206,181 @@
             <div class="my-3 col-lg-6 col-md-6 col-12">
               <label for="PatientName" class="form-label">Patient Name</label>
               <select class="form-select" id="PatientName" required>
-                <option value="0" selected>Select Patient </option>
-                <option *ngFor="let patient of patients" value={{patient._id}} >{{patient.firstname}} {{patient.lastname}}</option>
+                <option value="0" selected>Select Patient</option>
+                <option
+                  *ngFor="let patient of patients"
+                  value="{{ patient._id }}"
+                >
+                  {{ patient.firstname }} {{ patient.lastname }}
+                </option>
               </select>
             </div>
             <div class="my-3 col-lg-6 col-md-6 col-12">
               <label for="DoctorName" class="form-label">Doctor Name</label>
-              <select class="form-select" (change)="docTimesEnable = true"  id="DoctorName" required>
-                <option value="0" selected>Select Doctor </option>
-                <option *ngFor="let doctor of doctors" value={{doctor._id}} >{{doctor.firstname}} {{doctor.lastname}}</option>
+              <select
+                class="form-select"
+                (change)="docTimesEnable = true"
+                id="DoctorName"
+                required
+              >
+                <option value="0" selected>Select Doctor</option>
+                <option *ngFor="let doctor of doctors" value="{{ doctor._id }}">
+                  {{ doctor.firstname }} {{ doctor.lastname }}
+                </option>
               </select>
             </div>
             <div class="docDays" *ngIf="docTimesEnable">
               <h6>Available Times</h6>
-              <input type="radio" class="btn-check" name="appointmentTime" id="1" autocomplete="off" >
-              <label class="btn btn-outline-primary m-1" for="1">Sun 7:00 PM</label>
-              <input type="radio" class="btn-check" name="appointmentTime" id="2" autocomplete="off" >
-              <label class="btn btn-outline-primary m-1" for="2">Sun 7:00 PM</label>
-              <input type="radio" class="btn-check" name="appointmentTime" id="3" autocomplete="off" >
-              <label class="btn btn-outline-primary m-1" for="3">Sun 7:00 PM</label>
-              <input type="radio" class="btn-check" name="appointmentTime" id="4" autocomplete="off" >
-              <label class="btn btn-outline-primary m-1" for="4">Sun 7:00 PM</label>
-              <input type="radio" class="btn-check" name="appointmentTime" id="5" autocomplete="off" >
-              <label class="btn btn-outline-primary m-1" for="5">Sun 7:00 PM</label>
-              <input type="radio" class="btn-check" name="appointmentTime" id="6" autocomplete="off" >
-              <label class="btn btn-outline-primary m-1" for="6">Sun 7:00 PM</label>
-              <input type="radio" class="btn-check" name="appointmentTime" id="7" autocomplete="off" >
-              <label class="btn btn-outline-primary m-1" for="7">Sun 7:00 PM</label>
-              <input type="radio" class="btn-check" name="appointmentTime" id="8" autocomplete="off" >
-              <label class="btn btn-outline-primary m-1" for="8">Sun 7:00 PM</label>
-              <input type="radio" class="btn-check" name="appointmentTime" id="9" autocomplete="off" >
-              <label class="btn btn-outline-primary m-1" for="9">Sun 7:00 PM</label>
-              <input type="radio" class="btn-check" name="appointmentTime" id="10" autocomplete="off" >
-              <label class="btn btn-outline-primary m-1" for="10">Sun 7:00 PM</label>
-              <input type="radio" class="btn-check" name="appointmentTime" id="11" autocomplete="off" >
-              <label class="btn btn-outline-primary m-1" for="11">Sun 7:00 PM</label>
-              <input type="radio" class="btn-check" name="appointmentTime" id="12" autocomplete="off" >
-              <label class="btn btn-outline-primary m-1" for="12">Sun 7:00 PM</label>
-              <input type="radio" class="btn-check" name="appointmentTime" id="13" autocomplete="off" >
-              <label class="btn btn-outline-primary m-1" for="13">Sun 7:00 PM</label>
-              <input type="radio" class="btn-check" name="appointmentTime" id="14" autocomplete="off" >
-              <label class="btn btn-outline-primary m-1" for="14">Sun 7:00 PM</label>
-              <input type="radio" class="btn-check" name="appointmentTime" id="15" autocomplete="off" >
-              <label class="btn btn-outline-primary m-1" for="15">Sun 7:00 PM</label>
+              <input
+                type="radio"
+                class="btn-check"
+                name="appointmentTime"
+                id="1"
+                autocomplete="off"
+              />
+              <label class="btn btn-outline-primary m-1" for="1"
+                >Sun 7:00 PM</label
+              >
+              <input
+                type="radio"
+                class="btn-check"
+                name="appointmentTime"
+                id="2"
+                autocomplete="off"
+              />
+              <label class="btn btn-outline-primary m-1" for="2"
+                >Sun 7:00 PM</label
+              >
+              <input
+                type="radio"
+                class="btn-check"
+                name="appointmentTime"
+                id="3"
+                autocomplete="off"
+              />
+              <label class="btn btn-outline-primary m-1" for="3"
+                >Sun 7:00 PM</label
+              >
+              <input
+                type="radio"
+                class="btn-check"
+                name="appointmentTime"
+                id="4"
+                autocomplete="off"
+              />
+              <label class="btn btn-outline-primary m-1" for="4"
+                >Sun 7:00 PM</label
+              >
+              <input
+                type="radio"
+                class="btn-check"
+                name="appointmentTime"
+                id="5"
+                autocomplete="off"
+              />
+              <label class="btn btn-outline-primary m-1" for="5"
+                >Sun 7:00 PM</label
+              >
+              <input
+                type="radio"
+                class="btn-check"
+                name="appointmentTime"
+                id="6"
+                autocomplete="off"
+              />
+              <label class="btn btn-outline-primary m-1" for="6"
+                >Sun 7:00 PM</label
+              >
+              <input
+                type="radio"
+                class="btn-check"
+                name="appointmentTime"
+                id="7"
+                autocomplete="off"
+              />
+              <label class="btn btn-outline-primary m-1" for="7"
+                >Sun 7:00 PM</label
+              >
+              <input
+                type="radio"
+                class="btn-check"
+                name="appointmentTime"
+                id="8"
+                autocomplete="off"
+              />
+              <label class="btn btn-outline-primary m-1" for="8"
+                >Sun 7:00 PM</label
+              >
+              <input
+                type="radio"
+                class="btn-check"
+                name="appointmentTime"
+                id="9"
+                autocomplete="off"
+              />
+              <label class="btn btn-outline-primary m-1" for="9"
+                >Sun 7:00 PM</label
+              >
+              <input
+                type="radio"
+                class="btn-check"
+                name="appointmentTime"
+                id="10"
+                autocomplete="off"
+              />
+              <label class="btn btn-outline-primary m-1" for="10"
+                >Sun 7:00 PM</label
+              >
+              <input
+                type="radio"
+                class="btn-check"
+                name="appointmentTime"
+                id="11"
+                autocomplete="off"
+              />
+              <label class="btn btn-outline-primary m-1" for="11"
+                >Sun 7:00 PM</label
+              >
+              <input
+                type="radio"
+                class="btn-check"
+                name="appointmentTime"
+                id="12"
+                autocomplete="off"
+              />
+              <label class="btn btn-outline-primary m-1" for="12"
+                >Sun 7:00 PM</label
+              >
+              <input
+                type="radio"
+                class="btn-check"
+                name="appointmentTime"
+                id="13"
+                autocomplete="off"
+              />
+              <label class="btn btn-outline-primary m-1" for="13"
+                >Sun 7:00 PM</label
+              >
+              <input
+                type="radio"
+                class="btn-check"
+                name="appointmentTime"
+                id="14"
+                autocomplete="off"
+              />
+              <label class="btn btn-outline-primary m-1" for="14"
+                >Sun 7:00 PM</label
+              >
+              <input
+                type="radio"
+                class="btn-check"
+                name="appointmentTime"
+                id="15"
+                autocomplete="off"
+              />
+              <label class="btn btn-outline-primary m-1" for="15"
+                >Sun 7:00 PM</label
+              >
             </div>
             <!-- <div class="my-3 col-lg-6 col-md-6 col-12">
               <label for="date" class="form-label">Date</label>
@@ -183,21 +439,19 @@
           aria-label="Close"
         ></button>
       </div>
-      <form action=""  method="get">
-          <div class="modal-body">
-            <h4>
-              Are You Sure You Want to Delete Appointment  ?
-            </h4>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-success" data-bs-dismiss="modal">
-              Cancel
-            </button>
-            <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">
-              Delete
-            </button>
-          </div>
-        </form>
+      <form action="" method="get">
+        <div class="modal-body">
+          <h4>Are You Sure You Want to Delete Appointment ?</h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">
+            Delete
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
@@ -223,12 +477,12 @@
           aria-label="Close"
         ></button>
       </div>
-      <form action=""  method="get">
-          <div class="modal-body">
-            <h4>
-              Are You Sure You Want to Confirm Payment For This Appointment  ?
-            </h4>
-            <!-- <div class="col-8 d-flex justify-content-around my-3 mx-auto">
+      <form action="" method="get">
+        <div class="modal-body">
+          <h4>
+            Are You Sure You Want to Confirm Payment For This Appointment ?
+          </h4>
+          <!-- <div class="col-8 d-flex justify-content-around my-3 mx-auto">
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
                 <label class="form-check-label" for="inlineRadio1">Cash</label>
@@ -242,16 +496,16 @@
                 <label class="form-check-label" for="inlineRadio2">Cash</label>
               </div>
             </div> -->
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-success" data-bs-dismiss="modal">
-              Cancel
-            </button>
-            <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">
-              Confirm
-            </button>
-          </div>
-        </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">
+            Confirm
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

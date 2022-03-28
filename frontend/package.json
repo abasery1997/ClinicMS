@@ -26,6 +26,7 @@
     "datatables.net-dt": "^1.11.3",
     "jquery": "^3.6.0",
     "ng2-charts": "^3.0.8",
+    "ngx-toastr": "^14.2.2",
     "node": "^17.7.1",
     "rxjs": "^6.6.7",
     "rxjs-compat": "^6.6.7",

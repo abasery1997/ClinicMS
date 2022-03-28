@@ -11,8 +11,11 @@ import { AppointmentsComponent } from './Components/appointments/appointments.co
 import { HttpClientModule ,HTTP_INTERCEPTORS} from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgChartsModule } from 'ng2-charts';
-// import { Chart } from 'chart.js';
-// import ChartDataLabels from 'chartjs-plugin-datalabels';
+
+//dynamic table
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { ReportsComponent } from './Components/reports/reports.component';
 import { PatientsComponent } from './Components/patients/patients.component';
 import { ClinicServicesComponent } from './Components/clinic-services/clinic-services.component';
@@ -42,7 +45,9 @@ import { JwtInterceptor } from './interceptor/jwt.interceptor';
     FormsModule,
     ReactiveFormsModule,
     NgChartsModule,
-    DataTablesModule
+    DataTablesModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
