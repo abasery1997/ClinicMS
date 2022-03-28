@@ -9,7 +9,7 @@ router.get("", getAllEmployees);
 
 
 //get an employee data
-router.get("/one", getAnEmployee);
+router.post("/one", getAnEmployee);
 
 //add new employee route
 router.post("", [

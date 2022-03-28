@@ -9,7 +9,7 @@ router.get("", getDoctors);
 
 
 //get a doctor data
-router.get("/one", getADoctor);
+router.post("/one", getADoctor);
 
 router.get("/ClinicService", getDoctorsByClinciService);
 

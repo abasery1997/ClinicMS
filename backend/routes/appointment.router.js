@@ -9,7 +9,7 @@ router.get("", getAppointments);
 
 
 //get a Appointment data
-router.get("/one", getAAppointment);
+router.post("/one", getAAppointment);
 
 //get a Appointments data by id
 router.get("/id", getAppointmentsById);

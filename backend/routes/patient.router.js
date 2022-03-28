@@ -9,7 +9,7 @@ router.get("", getAllPatients);
 
 
 //get a Patient data
-router.get("/one", getAPatient);
+router.post("/one", getAPatient);
 
 //add new Patient route
 router.post("", [
