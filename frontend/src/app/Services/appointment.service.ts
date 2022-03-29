@@ -16,7 +16,10 @@ export class AppointmentService {
       .pipe(catchError(this.handleError));
   }
  
-  
+  addAppointment(app:Appointment)
+  {
+    return this.http.post(this.appointmentsUrl,app).pipe(catchError(this.handleError));
+  }
  
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {

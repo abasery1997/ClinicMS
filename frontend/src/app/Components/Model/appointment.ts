@@ -1,6 +1,6 @@
 export class Appointment {
     constructor(
-        public _id:string,
+        public _id:Object,
         public doctorID:Object,
         public employeeID:Object,
         public patientID:Object,

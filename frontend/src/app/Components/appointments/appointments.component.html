@@ -34,7 +34,7 @@
                   <td>{{getName(appointment.employeeID , employees)}}</td>
                   <!-- <td>{{getServiceName()}}</td> -->
                   <td>{{getServiceName(appointment.doctorID)}}</td>
-                  <td>{{appointment.appDate}}</td>
+                  <td>{{appointment.appDate|date: 'EEEE, MMMM d, y, h:mm'}}</td>
                   <td>
                     <button data-bs-toggle="modal" data-bs-target="#addForm"  class="btn btn-success m-1">
                         Edit
@@ -73,6 +73,7 @@
           class="btn-close bg-white"
           data-bs-dismiss="modal"
           aria-label="Close"
+          (click)="closeForm()"
         ></button>
       </div>
       <form action="" method="post">
@@ -81,50 +82,32 @@
           <div class="row">
             <div class="my-3 col-lg-6 col-md-6 col-12">
               <label for="PatientName" class="form-label">Patient Name</label>
-              <select class="form-select" id="PatientName" required>
+              <select class="form-select" (change)="setPatient($event.target)" id="PatientName" required>
                 <option value="0" selected>Select Patient </option>
                 <option *ngFor="let patient of patients" value={{patient._id}} >{{patient.firstname}} {{patient.lastname}}</option>
               </select>
             </div>
             <div class="my-3 col-lg-6 col-md-6 col-12">
               <label for="DoctorName" class="form-label">Doctor Name</label>
-              <select class="form-select" (change)="docTimesEnable = true"  id="DoctorName" required>
+              <select class="form-select" (change)="showWorkinDays($event.target)"  id="DoctorName" required>
                 <option value="0" selected>Select Doctor </option>
                 <option *ngFor="let doctor of doctors" value={{doctor._id}} >{{doctor.firstname}} {{doctor.lastname}}</option>
               </select>
             </div>
-            <div class="docDays" *ngIf="docTimesEnable">
+            <div class="docDays"  *ngIf="docTimesEnable">
               <h6>Available Times</h6>
-              <input type="radio" class="btn-check" name="appointmentTime" id="1" autocomplete="off" >
-              <label class="btn btn-outline-primary m-1" for="1">Sun 7:00 PM</label>
-              <input type="radio" class="btn-check" name="appointmentTime" id="2" autocomplete="off" >
-              <label class="btn btn-outline-primary m-1" for="2">Sun 7:00 PM</label>
-              <input type="radio" class="btn-check" name="appointmentTime" id="3" autocomplete="off" >
-              <label class="btn btn-outline-primary m-1" for="3">Sun 7:00 PM</label>
-              <input type="radio" class="btn-check" name="appointmentTime" id="4" autocomplete="off" >
-              <label class="btn btn-outline-primary m-1" for="4">Sun 7:00 PM</label>
-              <input type="radio" class="btn-check" name="appointmentTime" id="5" autocomplete="off" >
-              <label class="btn btn-outline-primary m-1" for="5">Sun 7:00 PM</label>
-              <input type="radio" class="btn-check" name="appointmentTime" id="6" autocomplete="off" >
-              <label class="btn btn-outline-primary m-1" for="6">Sun 7:00 PM</label>
-              <input type="radio" class="btn-check" name="appointmentTime" id="7" autocomplete="off" >
-              <label class="btn btn-outline-primary m-1" for="7">Sun 7:00 PM</label>
-              <input type="radio" class="btn-check" name="appointmentTime" id="8" autocomplete="off" >
-              <label class="btn btn-outline-primary m-1" for="8">Sun 7:00 PM</label>
-              <input type="radio" class="btn-check" name="appointmentTime" id="9" autocomplete="off" >
-              <label class="btn btn-outline-primary m-1" for="9">Sun 7:00 PM</label>
-              <input type="radio" class="btn-check" name="appointmentTime" id="10" autocomplete="off" >
-              <label class="btn btn-outline-primary m-1" for="10">Sun 7:00 PM</label>
-              <input type="radio" class="btn-check" name="appointmentTime" id="11" autocomplete="off" >
-              <label class="btn btn-outline-primary m-1" for="11">Sun 7:00 PM</label>
-              <input type="radio" class="btn-check" name="appointmentTime" id="12" autocomplete="off" >
-              <label class="btn btn-outline-primary m-1" for="12">Sun 7:00 PM</label>
-              <input type="radio" class="btn-check" name="appointmentTime" id="13" autocomplete="off" >
-              <label class="btn btn-outline-primary m-1" for="13">Sun 7:00 PM</label>
-              <input type="radio" class="btn-check" name="appointmentTime" id="14" autocomplete="off" >
-              <label class="btn btn-outline-primary m-1" for="14">Sun 7:00 PM</label>
-              <input type="radio" class="btn-check" name="appointmentTime" id="15" autocomplete="off" >
-              <label class="btn btn-outline-primary m-1" for="15">Sun 7:00 PM</label>
+              <div class="d-inline" *ngFor="let day of doctor.attendingDaysArray;let i=index">
+                
+              <input type="radio" class="btn-check" (change)="showSelectedDay($event.target)" name={{day}} id={{i}} autocomplete="off" >
+              <label class="btn btn-outline-primary m-1" for={{i}} >{{day}}</label>
+              <div *ngIf="showTimesPerDayForDoctor">
+              <div class="d-inline" *ngFor="let time of doctor.appointmentsPerDay;let i=index">
+                
+                <input type="radio" class="btn-check"(change)="setAppointmentDateTime($event.target)" name={{time}} id={{i}} autocomplete="off" >
+                <label class="btn btn-outline-primary m-1" for={{i}} >{{time}}</label>
+                </div></div>
+              </div>
+              
             </div>
             <!-- <div class="my-3 col-lg-6 col-md-6 col-12">
               <label for="date" class="form-label">Date</label>
@@ -152,7 +135,7 @@
           <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
             Cancel
           </button>
-          <button type="submit" class="btn btn-success" data-bs-dismiss="modal">
+          <button type="submit" class="btn btn-success" (click)="addAppointmment()" data-bs-dismiss="modal">
             Add
           </button>
         </div>
@@ -244,7 +227,7 @@
             </div> -->
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+            <button type="button" (click)="closeForm()" class="btn btn-success" data-bs-dismiss="modal">
               Cancel
             </button>
             <button type="submit" class="btn btn-danger" data-bs-dismiss="modal">

@@ -223,6 +223,7 @@ export class DoctorsComponent implements OnInit {
       _id: "",
       parsedStartTime:'',
       parsedEndTime:'',
+      appointmentsPerDay:[]
     }
     this.formData = new FormData();
     this.attendingDays = [false, false, false, false, false, false, false];
