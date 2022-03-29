@@ -14,21 +14,9 @@ export class LoginComponent implements OnInit {
   email: string = ''
   password: string = '';
   type: String = '';
-
-
-
-  style = {
-    border: "2px solid red"
-  }
-
-
   ngOnInit(): void {
   }
 
-  form : FormGroup = new FormGroup({
-    email: new FormControl('', [Validators.email, Validators.required]),
-    password: new FormControl('', [Validators.required]) ,
-    type:new FormControl('', [Validators.required])});
   chooseType(e: any) {
     this.type = e.target.value;
   }
@@ -37,9 +25,10 @@ export class LoginComponent implements OnInit {
       window.localStorage.setItem('token', `${data.accessToken}`)
       window.localStorage.setItem('user', JSON.stringify(data.user))
 
-      //   let oldHref = window.location.href;
-      //  let newHref = oldHref.replace("Login", "Home");
-      //   window.location.href = newHref;
+        //need to be checked 
+        let oldHref = window.location.href;
+        let newHref = oldHref.replace("Login", "Home");
+        window.location.href = newHref;
     });
 
 

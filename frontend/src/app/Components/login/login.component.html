@@ -15,22 +15,21 @@
             <label for="password" class="form-label">Password</label>
             <input [(ngModel)]="password" type="password" class="form-control" name="password" id="password">
           </div>
-          <div class="row mt-2 mb-3 ">
-            <div class="mb-3 col-3 offset-2 form-check">
+          <div class="row mt-2 mb-3 g-0">
+            <div class="mb-3 col-lg-2 col-6 offset-lg-2 form-check">
               <input type="radio" class="form-check-input" value="d" name="userType" id="d" (change)="chooseType($event)">
               <label class="form-check-label">Doctor</label>
             </div>
-            <div class="mb-3 col-3 form-check">
+            <div class="mb-3 col-lg-2 col-6 form-check">
               <input type="radio" class="form-check-input" value="p" name="userType" id="p" (change)="chooseType($event)">
               <label class="form-check-label">Patient</label>
             </div>
-            <div class="mb-3 col-3 form-check">
+            <div class="mb-3 col-lg-2 col-6 form-check">
               <input type="radio" class="form-check-input" value="e" name="userType" id="e" (change)="chooseType($event)">
               <label class="form-check-label">Employee</label>
             </div>
-            <div class="mb-3 col-3 form-check">
+            <div class="mb-3 col-lg-2 col-6 form-check">
               <input type="radio" class="form-check-input" value="a" name="userType" id="a"(change)="chooseType($event)">
-
               <label class="form-check-label">Admin</label>
             </div>
           </div>
